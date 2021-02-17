@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Game
+comment0.text=\r\n\ be\ able\ to\ play\r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.01.20\ +\ 2021.02.08\ +\ 2021.02.09\r\n
+comment1.params=
+comment1.target=Game()
+comment1.text=\r\n\ default\ Constructor\r\n
+comment2.params=args
+comment2.target=void\ main(java.lang.String[])
+numComments=3

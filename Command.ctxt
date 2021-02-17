@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Command
+comment0.text=\r\n\ commands\r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.01.18\r\n
+comment1.params=pCommand\ pSecond
+comment1.target=Command(java.lang.String,\ java.lang.String)
+comment1.text=\r\n\ Constructor\r\n\ @param\ a\ command\r\n\ @param\ instruction\r\n
+comment2.params=
+comment2.target=java.lang.String\ getCommandWord()
+comment2.text=\r\n\ access\ to\ a\ command\r\n\ @return\ a\ command\r\n
+comment3.params=
+comment3.target=java.lang.String\ getSecondWord()
+comment3.text=\r\n\ access\ to\ the\ instruction\r\n\ @return\ the\ instruction\r\n
+comment4.params=
+comment4.target=boolean\ hasSecondWord()
+comment4.text=\r\n\ Verify\ the\ instruction\ existence\r\n\ @return\ true\ if\ there\ is\ a\ second\ instruction\r\n
+comment5.params=
+comment5.target=boolean\ isUnknown()
+comment5.text=\r\n\ Verify\ the\ command\ existence\r\n\ @return\ true\ if\ the\ command\ is\ unknown\r\n
+numComments=6

@@ -1,0 +1,17 @@
+#Tue Feb 09 11:34:37 CET 2021
+bluej.teamsettings.groupname=
+bluej.teamsettings.ignore1=.*\\.class
+bluej.teamsettings.yourName=BrendanVKM
+bluej.teamsettings.git.server=git.esiee.fr
+bluej.teamsettings.yourEmail=brendan.victoire@edu.esiee.fr
+bluej.teamsettings.git.repositoryPrefix=/victoirb/zuul.git
+bluej.teamsettings.vcs=git
+bluej.teamsettings.user=victoirb
+bluej.teamsettings.ignore3=team\\.defs
+bluej.teamsettings.ignore2=bluej\\.pkh
+bluej.teamsettings.ignore5=.*\\~
+bluej.teamsettings.ignore4=.*\\.ctxt
+bluej.teamsettings.ignore7=.*\\\#backup
+bluej.teamsettings.ignore6=.*\\\#
+bluej.teamsettings.git.protocol=https
+bluej.teamsettings.ignore8=\\.DS_Store
