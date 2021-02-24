@@ -33,6 +33,7 @@ public class Parser
     /**
      * Get a new command from the user. The command is read by
      * parsing the 'inputLine'.
+     * @param pInputLine the input line in a string format
      */
     public Command getCommand( final String pInputLine ) 
     {

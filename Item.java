@@ -1,6 +1,6 @@
 
 /**
- * item
+ * create item
  * @author Brendan VICTOIRE
  * @version 2021.012.11
  */
@@ -8,20 +8,19 @@ public class Item
 {
     private String aName;
     private String aDescription;
-    private float aWeight;
-
+    private double aWeight;
     /**
      * Constructor
-     * @param item name
-     * @param item description
-     * @param item weight 
+     * @param pName item name
+     * @param pDesc item description
+     * @param pWeight item weight 
      */
-    public Item( final String pName, final String pDesc, final float pWeight )
+    public Item( final String pName, final String pDesc, final double pWeight )
     {
         this.aName = pName;
         this.aDescription = pDesc;
         this.aWeight = pWeight;
-    } // Item()
+    } // Item(.)
 
     /**
      * @return name of the item
@@ -36,15 +35,15 @@ public class Item
     /**
      * @return weight of the item
      */
-    public float getWeight(){ return this.aWeight; } // getWeight()
+    public double getWeight(){ return this.aWeight; } // getWeight()
 
     /**
      * @return name + weight + description of the item 
      */
     public String getItemString()
     {
-        return this.aName + " ¤ " + "Weight : (" + this.aWeight +" kg)" 
-        + " ¤ " + "Description : " + this.aDescription;
+        return this.aName + " [" + "Weight : (" + this.aWeight +" kg)" 
+        + " ¤ " + "Description : " + this.aDescription +"].";
     } // getItemString()
 
 } // Item

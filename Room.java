@@ -10,31 +10,31 @@ public class Room
     private String aDescription;
     private HashMap<String, Room> aExits;
     private String aImageName;
-    private HashMap<String, Item> aItems;
+    private ItemList aItems;
     
     /**
      * Constructor
-     * @param description of the room
-     * @param image name
+     * @param pDescription description of the room
+     * @param pImage image name
      */
     public Room(final String pDescription, final String pImage)
     {
         this.aDescription = pDescription;
         this.aExits = new HashMap<String, Room>();
-        this.aItems = new HashMap<String, Item>();
+        this.aItems = new ItemList();
         this.aImageName = pImage;
-    } // Room()
+    } // Room(.)
 
     /**
      * add exit to a room
-     * @param direction of the exit
-     * @param where the exit leads 
+     * @param pDrct direction of the exit
+     * @param pNeighbor where the exit leads 
      */
     public void setExit(final String pDrct, final Room pNeighbor)
     {
         String vDrct = pDrct.toLowerCase();
         aExits.put( vDrct, pNeighbor );
-    } // setExits()
+    } // setExits(.)
 
     /**
      * access to description 
@@ -43,76 +43,55 @@ public class Room
     public String getDescription() { return this.aDescription; } // getDescription()
 
     /**
+     * access map items of the rooms  
+     * @return map items of the rooms 
+     */
+    public ItemList getItems() { return this.aItems; } // getItems()
+
+    /**
      * access to the description + the exits
      */
     public String getLongDescription()
     {
-        return "You are " + this.aDescription + "\n" + getItemString() + "\n" + getExitString() ;
+        return "You are " + this.aDescription + "\n" + this.aItems.getItemsString() + 
+                "\n" + this.getExitString() ;
     } // getLongDescription()
     
     /**
-     * @return true if the room has at least one item
+     * @return true if the room has at least one exit
      */
-    public boolean hasItem()
-    {
-        return !aItems.isEmpty() ; 
-    } // has Item;
-    
+    public boolean hasExit() { return !aExits.isEmpty() ; } // hasExit();
+
+        /**
+     * @return name of the image of the current room
+     */
+    public String getImageName(){ return this.aImageName; } // getImageName()
+
     /**
      * acces to one exit
-     * @param a direction 
+     * @param pDrct a direction 
      * @return the room where the exit leads
      */
     public Room getExit(final String pDrct)
     {
-        String vDrct = pDrct.toLowerCase();
-        return this.aExits.get(vDrct);
-    } // getExit()
-
-    public Item getItem(final String pItem)
-    {
-        if (this.hasItem() ) {
-            String vItem = pItem.toLowerCase(); 
-            return this.aItems.get(vItem);
+        if (this.hasExit() ){
+            String vDrct = pDrct.toLowerCase();
+            return this.aExits.get(vDrct);
         }
-        else return null; 
-    } // getItem()
+        else return null;
+    } // getExit(.)
     
     /**
      * @return exits under String format
      */
     public StringBuilder getExitString()
     {   
-        StringBuilder vExits = new StringBuilder( "Exits:" );
-        for ( String vExit : this.aExits.keySet() )
-            vExits.append( " " + vExit );
+        StringBuilder vExits = new StringBuilder( "" );
+        if ( this.hasExit() ){
+            vExits.append( "Exits:" );
+            for ( String vExit : this.aExits.keySet() )
+                vExits.append( " " + vExit );
+        }
         return vExits;
     } // getExitString()
-    
-    /**
-     * @return items name under String format
-     */
-    public StringBuilder getItemString()
-    {
-        if (this.hasItem() ){
-            StringBuilder vItems = new StringBuilder( "Items: " );
-            for ( String vItem : this.aItems.keySet() )
-                vItems.append( " " + vItem );
-            return vItems;
-        }
-        else return new StringBuilder( "" );
-    } // getItemString()
-    
-    /**
-     * @return name of the image of the current room
-     */
-    public String getImageName(){ return this.aImageName; } // getImageName()
-    
-    /**
-     * add an item to the room
-     * @param an item
-     */
-    public Item setItem( final String pItemName, final Item pItem ) {
-        return this.aItems.put(pItemName, pItem);
-    } // setItem
 } // Room

@@ -17,10 +17,10 @@ public class Game
         this.aGameEngine = new GameEngine();
         this.aGui = new UserInterface( this.aGameEngine );
         this.aGameEngine.setGUI( this.aGui );
-    }
+    } // Game()
 
     //Pour VSC
     public static void main(String[] args) {
         System.out.print ( new Game() );
-    }
+    } // main()
 }// Game

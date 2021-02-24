@@ -33,14 +33,15 @@ public class UserInterface implements ActionListener
     private JLabel aImage;
     private JPanel aBDrct, aBCmdL, aBCmdR;
     private JButton aBHelp, aBQuit, aBLook, aBEat;
-    private JButton aBNorth, aBSouth, aBEast, aBWest, aBUp, aBDown, aBVoid1, aBVoid2, aBVoid3;
+    private JButton aBNorth, aBSouth, aBEast, aBWest, aBUp, aBDown, aBBack;
+    private JButton aBVoid1, aBVoid2;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
      * (an object processing and executing the game commands) is
      * needed.
      * 
-     * @param gameEngine  The GameEngine object implementing the game logic.
+     * @param pGameEngine  The GameEngine object implementing the game logic.
      */
     public UserInterface( final GameEngine pGameEngine )
     {
@@ -67,6 +68,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Show an image file in the interface.
+     * @param pImageName the name of the image file
      */
     public void showImage( final String pImageName )
     {
@@ -83,6 +85,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Enable or disable input in the input field.
+     * @param pOnOff enable entry fied
      */
     public void enable( final boolean pOnOff )
     {
@@ -138,19 +141,19 @@ public class UserInterface implements ActionListener
         this.aBWest = new JButton( "West" );
         this.aBUp = new JButton( "Up" );
         this.aBDown = new JButton( "Down" );
+        this.aBBack = new JButton( "Back");
         this.aBVoid1 = new JButton( "" );
         this.aBVoid2 = new JButton( "" );
-        this.aBVoid3 = new JButton( "" );
         
         this.aBDrct.add( this.aBUp );
         this.aBDrct.add( this.aBNorth );
         this.aBDrct.add( this.aBVoid1 );
         this.aBDrct.add( this.aBWest );
-        this.aBDrct.add( this.aBVoid2 );
+        this.aBDrct.add( this.aBBack );
         this.aBDrct.add( this.aBEast );
         this.aBDrct.add( this.aBDown );
         this.aBDrct.add( this.aBSouth );
-        this.aBDrct.add( this.aBVoid3 );
+        this.aBDrct.add( this.aBVoid2 );
         
         
         this.aImage = new JLabel();
@@ -183,6 +186,7 @@ public class UserInterface implements ActionListener
         this.aBWest.addActionListener( this );
         this.aBUp.addActionListener( this );
         this.aBDown.addActionListener( this );
+        this.aBBack.addActionListener( this );
         
         // to end program when window is closed
         this.aMyFrame.addWindowListener( new WindowAdapter() {
@@ -196,7 +200,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Actionlistener interface for entry textfield.
-     * @param action
+     * @param pE an action
      */
     public void actionPerformed( final ActionEvent pE ) 
     {
@@ -222,6 +226,8 @@ public class UserInterface implements ActionListener
             this.aEngine.interpretCommand("go up");
         else if ( pE.getSource() == this.aBDown ) 
             this.aEngine.interpretCommand("go down");
+        else if ( pE.getSource() == this.aBBack)
+            this.aEngine.interpretCommand("back");
         else this.processCommand(); // never suppress this line
     } // actionPerformed(.)
 
@@ -233,7 +239,6 @@ public class UserInterface implements ActionListener
     {
         String vInput = this.aEntryField.getText();
         this.aEntryField.setText( "" );
-
         this.aEngine.interpretCommand( vInput );
     } // processCommand()
 } // UserInterface 

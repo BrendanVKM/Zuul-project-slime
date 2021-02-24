@@ -1,17 +1,19 @@
 import java.util.HashMap;
-
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 /**
  * game motor 
  * @author Brendan VICTOIRE
- * @version 2021.01.20 + 2021.02.08 + 2021.02.09
+ * @version 2021.01.20 + 2021.02.17
  */
 public class GameEngine
 {
 
-    private HashMap<Room, String> aRooms;
-    private Room aCurrentRoom;
+    private HashMap<String, Room> aRooms;
     private Parser aParser;
     private UserInterface aGui;
+    private Player aPlayer;
 
     /**
      * Default constructor 
@@ -19,30 +21,32 @@ public class GameEngine
     public GameEngine()
     {
         this.aParser = new Parser();
-        this.aRooms = new HashMap<Room, String>();
+        this.aRooms = new HashMap<String, Room>();
         this.createRooms();
     } // GameEngine()
 
     /**
      * set the GUI
+     * @param pUserInterface the user interface
      */
     public void setGUI( final UserInterface pUserInterface )
     {
         this.aGui = pUserInterface;
+        this.aPlayer.setGUI( this.aGui );
         this.printWelcome();
-    } // setGUI()
+    } // setGUI(.)
     
     /**
      * create and declare Room
      */
     private void createRooms()
     {
-        Room vSpawn = new Room( "somewhere in a cave.", "spawn.jpg" );
+        Room vSpawn = new Room( "somewhere in a cave asking yourself where is Beatrix.", "spawn.jpg" );
         Room vCave2 = new Room( "somewhere in a cave.", "cave2.jpg" );
         Room vCave5 = new Room( "somewhere in a cave.", "cave5.jpg" );
         Room vCave6 = new Room( "somewhere in a cave and your sense tells you that there is something hidden."
             , "cave6.jpg" );
-        Room vCave7 = new Room( "somewhere in a cave.", "cave7.jpg" );
+        Room vCave7 = new Room( "somewhere in a cave. Be careful if you jump, you won't be able to come back here.", "cave7.jpg" );
         Room vCave8 = new Room( "somewhere in a cave.", "cave8.jpg" );
         Room vUpFlower = new Room( "somewhere in a cave with a flower floor.", "upFlower.jpg" );
         Room vFlower2 = new Room( "somewhere in a cave with a flower floor.", "flower2.jpg");
@@ -60,77 +64,112 @@ public class GameEngine
         Room vOutside = new Room( "finally outside.", "outside.jpg" );
         Room vMeetBeatrix = new Room( "finally back to Beatrix.", "meetBreeder.jpg" ); 
         
-        this.aRooms.put( vSpawn, vSpawn.getDescription() );
-        this.aRooms.put( vCave2, vCave2.getDescription() );
-        this.aRooms.put( vCave5, vCave5.getDescription() );
-        this.aRooms.put( vCave6, vCave6.getDescription() );
-        this.aRooms.put( vCave7, vCave7.getDescription() );
-        this.aRooms.put( vCave8, vCave8.getDescription() );
-        this.aRooms.put( vUpFlower, vUpFlower.getDescription() );
-        this.aRooms.put( vFlower2, vFlower2.getDescription() );
-        this.aRooms.put( vFlowerTrail, vFlowerTrail.getDescription() );
-        this.aRooms.put( vOnMagistone, vOnMagistone.getDescription() );
-        this.aRooms.put( vBottomOfLake, vBottomOfLake.getDescription() );
-        this.aRooms.put( vSurfaceOfLake, vSurfaceOfLake.getDescription() );
-        this.aRooms.put( vLake, vLake.getDescription() );
-        this.aRooms.put( vJumpToDragon, vJumpToDragon.getDescription() );
-        this.aRooms.put( vMeetTempest, vMeetTempest.getDescription() );
-        this.aRooms.put( vSeeTheDoor, vSeeTheDoor.getDescription() );
-        this.aRooms.put( vDoor, vDoor.getDescription() );
-        this.aRooms.put( vGetOut, vGetOut.getDescription() );
-        this.aRooms.put( vOutside, vOutside.getDescription() );
-        this.aRooms.put( vMeetBeatrix, vMeetBeatrix.getDescription() );
+        Item vStone = new Item( "stone", "just a stone, what did you expect !?", 4.69);
+        Item vMagistone = new Item( "magistone", "a magic stone, can it be useful somewhere? ", 35.82 );
+        Item vFlower = new Item( "flower", "a beautiful flower", 0.026);
+        Item vDragonSoul = new Item( "dragonSoul", "the soul of Veldora", 0);
+        Item vTree = new Item( "tree", "just a tree and yes you can carry it you are a slime after all", 735);
+
+        this.aRooms.put( "spawn", vSpawn );
+        this.aRooms.put( "cave2", vCave2 );
+        this.aRooms.put( "cave5", vCave5 );
+        this.aRooms.put( "cave6", vCave6 );
+        this.aRooms.put( "cave7", vCave7 );
+        this.aRooms.put( "cave8", vCave8 );
+        this.aRooms.put( "up flower", vUpFlower );
+        this.aRooms.put( "flower2", vFlower2 );
+        this.aRooms.put( "flower trail", vFlowerTrail );
+        this.aRooms.put( "on magistone", vOnMagistone );
+        this.aRooms.put( "bottom of lake", vBottomOfLake );
+        this.aRooms.put( "surface of lake", vSurfaceOfLake );
+        this.aRooms.put( "lake", vLake );
+        this.aRooms.put( "jump to dragon", vJumpToDragon );
+        this.aRooms.put( "meet tempest", vMeetTempest );
+        this.aRooms.put( "see the door", vSeeTheDoor );
+        this.aRooms.put( "door", vDoor );
+        this.aRooms.put( "get out", vGetOut );
+        this.aRooms.put( "outside", vOutside );
+        this.aRooms.put( "meet beatrix", vMeetBeatrix );
 
         vSpawn.setExit( "south", vCave2 );
+        vSpawn.getItems().setItem( vStone );
+
         vCave2.setExit( "north", vSpawn ); 
         vCave2.setExit( "south", vUpFlower );
+        vCave2.getItems().setItem( vMagistone );
+        vCave2.getItems().setItem( vFlower );
+
         vCave5.setExit( "north", vLake );
         vCave5.setExit( "south", vSeeTheDoor );
+
         vCave6.setExit( "west", vFlowerTrail );
+        vCave6.getItems().setItem( vMagistone );
+
         vCave7.setExit( "north", vOnMagistone );
         vCave7.setExit( "south", vFlowerTrail );
         vCave7.setExit( "down", vBottomOfLake);
+
         vCave8.setExit( "down", vCave5);
+        vCave8.getItems().setItem( vMagistone );
+
         vUpFlower.setExit( "north", vCave2 );
         vUpFlower.setExit( "west", vOnMagistone );
         vUpFlower.setExit( "down", vFlower2);
+
         vFlower2.setExit( "up", vUpFlower );
+        vFlower2.getItems().setItem( vFlower );
+
         vFlowerTrail.setExit( "north", vCave7 );
         vFlowerTrail.setExit( "east", vCave6 );
         vFlowerTrail.setExit( "west", vJumpToDragon);
+        vFlowerTrail.getItems().setItem( vFlower );
+
         vOnMagistone.setExit( "south", vCave7);
         vOnMagistone.setExit( "east", vUpFlower );
+        vOnMagistone.getItems().setItem( vMagistone );
+
         vBottomOfLake.setExit( "up", vSurfaceOfLake );
+
         vSurfaceOfLake.setExit( "south", vLake);
         vSurfaceOfLake.setExit( "down", vBottomOfLake);
+
         vLake.setExit( "north", vSurfaceOfLake);
         vLake.setExit( "south", vCave5 );
+
         vJumpToDragon.setExit( "south", vMeetTempest );
         vJumpToDragon.setExit( "east", vFlowerTrail );
+
         vMeetTempest.setExit( "north", vJumpToDragon );
+        vFlowerTrail.getItems().setItem( vDragonSoul );
+
         vSeeTheDoor.setExit( "north", vCave5 );
         vSeeTheDoor.setExit( "west", vDoor );
+        vSeeTheDoor.getItems().setItem( vMagistone );
+
         vDoor.setExit( "east", vSeeTheDoor );
         vDoor.setExit( "west", vGetOut );
+
         vGetOut.setExit( "east", vDoor );
         vGetOut.setExit( "west", vOutside );
+
         vOutside.setExit( "east", vGetOut );
         vOutside.setExit( "west", vMeetBeatrix );
+        vOutside.getItems().setItem( vTree );
+
         vMeetBeatrix.setExit( "east", vOutside );
 
-        Item VMagistone = new Item( "Magistone", "a magic rock", 35 );
-        vOnMagistone.setItem( "Magistone", VMagistone ); 
-        
-        this.aCurrentRoom = vSpawn;
+        this.aPlayer = new Player();
+        this.aPlayer.setCurrentRoom(vSpawn);
+        this.aPlayer.getPreviousRooms().push( new Room( "... Wait! Where are you?", null) );
     } // createRooms()
     
     /**
      * interpret a command
-     * @param a command
+     * @param pCom a command
      */
     public void interpretCommand( final String pCom ) 
     {
-        this.aGui.println( "> " + pCom );
+        this.aGui.println( "\n" + "> " + pCom );
         Command vCom = this.aParser.getCommand( pCom );
 
         if ( vCom.isUnknown() ) {
@@ -138,22 +177,36 @@ public class GameEngine
             this.aGui.println( "" );
             return;
         }
-        String vComWord = vCom.getCommandWord().toLowerCase();
-
-        if ( vComWord.toLowerCase().equals("help") )
-            printHelp();
-        else if ( vComWord.toLowerCase().equals("go") )
-            goRoom(vCom);
-        else if ( vComWord.toLowerCase().equals("look") )
-            look(vCom);
-        else if ( vComWord.toLowerCase().equals("eat") )
-            eat(vCom);
-        else if ( vComWord.equals("quit") )
-            if ( vCom.hasSecondWord() )
-                this.aGui.println( "Quit what?" );
-            else
-                quit();
-    } // interpretCommand()
+        switch( vCom.getCommandWord().toLowerCase() ){
+            case "go":
+                this.aPlayer.goRoom(vCom);
+                break;
+            case "back":
+                this.aPlayer.goBack(vCom);
+                break;
+            case "look":
+                this.aPlayer.look(vCom);
+                break;
+            case "eat":
+                this.aPlayer.eat(vCom);
+                break;
+                case "take":
+                this.aPlayer.take(vCom);
+                break;
+            case "drop":
+                this.aPlayer.drop(vCom);
+                break;
+            case "help":
+                this.aPlayer.printHelp();
+                break;
+            case "quit":
+                this.aPlayer.quit(vCom);
+                break;
+            case "test":
+                test(vCom);
+                break;
+        }
+    } // interpretCommand(.)
     
     /**
      * print welcome message
@@ -163,87 +216,30 @@ public class GameEngine
         this.aGui.println( "Welcome to Searching for the slime breeder" );
         this.aGui.println( "Searching for the slime breeder is a new, incredibly boring adventure game." );
         this.aGui.println( "Type \' help \' if you need help. \n" );
-        printLocationInfo();
+        this.aPlayer.printLocationInfo();
+        this.aPlayer.getPreviousRooms().pop();
     } // printWelcome()
 
     /**
-     * method exected with the command word "go"
-     * @param command to move to the next
+     * Execute test 
+     * @param pCom a command
      */
-    private void goRoom(final Command pDep)
+    private void test ( final Command pCom )
     {
-        if ( !pDep.hasSecondWord() ){
-            this.aGui.println( "Go where ?" );
+        if ( !pCom.hasSecondWord() ){
+            this.aGui.println( "Test What !?" );
             return;
         }
-        else {
-            String vDrct = pDep.getSecondWord().toLowerCase(); 
-            Room vNextRoom = this.aCurrentRoom.getExit(vDrct);
-            if ( vNextRoom == null ) this.aGui.println( "There is no door ! \n" );
-            else {
-                this.aCurrentRoom = vNextRoom;
-                printLocationInfo();
+        Scanner vScanner;
+        try{
+            vScanner = new Scanner( new File( "./test/" + pCom.getSecondWord() + ".txt" ) );
+            while ( vScanner.hasNextLine() ){
+                String vLigne = vScanner.nextLine();
+                this.interpretCommand( vLigne );
             }
         }
-    } // goRoom()
-
-    /**
-     * help message
-     */
-    private void printHelp()
-    {
-        this.aGui.println( "You are lost. You are alone." );
-        this.aGui.println( "You wander around at the cave.\n" );
-        this.aGui.println( "Your command words are:" );
-        this.aGui.println( aParser.getCommandString() );
-        this.aGui.println( "" );
-    } // printHelp()
-
-    /**
-     * look 
-     * @param a command
-     */
-    private void look( final Command pCom )
-    {
-        String vSW = pCom.getSecondWord(); 
-        if ( pCom.hasSecondWord() )
-            if (vSW.equals( this.aCurrentRoom.getItem(vSW).getName() ) ) 
-            this.aGui.println( this.aCurrentRoom.getItem(vSW).toString() + "\n");
-            else this.aGui.println ( "I don't know what this is! \n" );
-        else this.aGui.println( this.aCurrentRoom.getLongDescription() + "\n" +
-                                this.aCurrentRoom.getItemString()  + "\n");
-    } // look()
-
-    /**
-     * eat
-     * @param a command
-     */
-    private void eat( final Command pCom )
-    {
-        if ( !pCom.hasSecondWord() )
-            this.aGui.println( "What do you want to eat ?" + "\n" );
-        else this.aGui.println( "You have eaten now and you are not hungry any more." + "\n");
-    } // eat()
-
-    /**
-     * print location info
-     */
-    private void printLocationInfo()
-    {
-        this.aGui.print( this.aCurrentRoom.getLongDescription() + "\n" );
-        if ( this.aCurrentRoom.getImageName() != null )
-            this.aGui.showImage( this.aCurrentRoom.getImageName() );
-        this.aGui.println("");
-    } // printLocationInfo()
-    
-    /**
-     * quit the game
-     * @param a command 
-     * @return true if the Command doesn't have a second word
-     */
-    private void quit()
-    {
-        this.aGui.println( "Thank you for playing.  Good bye." );
-        this.aGui.enable( false );
+        catch ( final FileNotFoundException pFNFE ){
+            this.aGui.println( "File not found." );
+        }
     }
 }// GameEngine

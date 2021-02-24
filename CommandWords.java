@@ -13,12 +13,13 @@ public class CommandWords
 {
     // a constant array that will hold all valid command words
     private static final String[] aValidCommands = { 
-        "go", "look", "eat", "help", "quit"
+        "go", "back", "look", "eat", "take", "drop", "help", "quit", "test"
     };
     
 
     /**
      * Check whether a given String is a valid command word. 
+     * @param pString a Command word to check
      * @return true if a given string is a valid command,
      * false if it isn't.
      */
@@ -30,7 +31,7 @@ public class CommandWords
         } // for
         // if we get here, the string was not found in the commands
         return false;
-    } // isCommand()
+    } // isCommand(.)
     
     /**
      * @return all possible command word
