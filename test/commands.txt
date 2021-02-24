@@ -1,0 +1,22 @@
+a
+test
+help
+help a
+back
+back a
+look
+look a
+look stone
+eat a
+eat
+take
+take e
+take stone
+drop 
+drop e
+drop stone
+go
+go a
+go south
+go north
+quit a
