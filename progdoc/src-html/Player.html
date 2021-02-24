@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">import java.util.Stack;</a>
+<span class="sourceLineNo">002</span><a id="line.2"></a>
+<span class="sourceLineNo">003</span><a id="line.3">public class Player {</a>
+<span class="sourceLineNo">004</span><a id="line.4">    private Room aCurrentRoom;</a>
+<span class="sourceLineNo">005</span><a id="line.5">    private Stack&lt;Room&gt; aPreviousRooms;</a>
+<span class="sourceLineNo">006</span><a id="line.6">    private ItemList aInventory;</a>
+<span class="sourceLineNo">007</span><a id="line.7">    private UserInterface aGui;</a>
+<span class="sourceLineNo">008</span><a id="line.8">    private Parser aParser;</a>
+<span class="sourceLineNo">009</span><a id="line.9"></a>
+<span class="sourceLineNo">010</span><a id="line.10">    /**</a>
+<span class="sourceLineNo">011</span><a id="line.11">     * Create the player</a>
+<span class="sourceLineNo">012</span><a id="line.12">     */</a>
+<span class="sourceLineNo">013</span><a id="line.13">    public Player()</a>
+<span class="sourceLineNo">014</span><a id="line.14">    {</a>
+<span class="sourceLineNo">015</span><a id="line.15">        this.aPreviousRooms = new Stack&lt;Room&gt;() ;</a>
+<span class="sourceLineNo">016</span><a id="line.16">        this.aInventory = new ItemList();</a>
+<span class="sourceLineNo">017</span><a id="line.17">        this.aParser = new Parser();</a>
+<span class="sourceLineNo">018</span><a id="line.18">    } // Player()</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">    /**</a>
+<span class="sourceLineNo">021</span><a id="line.21">     * set the GUI</a>
+<span class="sourceLineNo">022</span><a id="line.22">     * @param pUserInterface the user interface</a>
+<span class="sourceLineNo">023</span><a id="line.23">     */</a>
+<span class="sourceLineNo">024</span><a id="line.24">    public void setGUI( final UserInterface pUserInterface )</a>
+<span class="sourceLineNo">025</span><a id="line.25">    {</a>
+<span class="sourceLineNo">026</span><a id="line.26">        this.aGui = pUserInterface;</a>
+<span class="sourceLineNo">027</span><a id="line.27">    } // setGUI(.)</a>
+<span class="sourceLineNo">028</span><a id="line.28"></a>
+<span class="sourceLineNo">029</span><a id="line.29">    /**</a>
+<span class="sourceLineNo">030</span><a id="line.30">     * @return Current room</a>
+<span class="sourceLineNo">031</span><a id="line.31">     */</a>
+<span class="sourceLineNo">032</span><a id="line.32">    public Room getCurrentRoom(){ return this.aCurrentRoom; } // getCurrentRoom()</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">    /**</a>
+<span class="sourceLineNo">035</span><a id="line.35">     * @return Previous room</a>
+<span class="sourceLineNo">036</span><a id="line.36">     */</a>
+<span class="sourceLineNo">037</span><a id="line.37">    public Room getPreviousRoom(){ return this.aPreviousRooms.peek(); } // getPreviousRoom()</a>
+<span class="sourceLineNo">038</span><a id="line.38"></a>
+<span class="sourceLineNo">039</span><a id="line.39">    /**</a>
+<span class="sourceLineNo">040</span><a id="line.40">     * @return stack of previous rooms</a>
+<span class="sourceLineNo">041</span><a id="line.41">     */</a>
+<span class="sourceLineNo">042</span><a id="line.42">    public Stack&lt;Room&gt; getPreviousRooms(){ return this.aPreviousRooms; } // getPreviousRoom()</a>
+<span class="sourceLineNo">043</span><a id="line.43">    /**</a>
+<span class="sourceLineNo">044</span><a id="line.44">     * Set the current room</a>
+<span class="sourceLineNo">045</span><a id="line.45">     * @param pCurrentRoom the current room</a>
+<span class="sourceLineNo">046</span><a id="line.46">     */</a>
+<span class="sourceLineNo">047</span><a id="line.47">    public void setCurrentRoom(final Room pCurrentRoom)</a>
+<span class="sourceLineNo">048</span><a id="line.48">    {</a>
+<span class="sourceLineNo">049</span><a id="line.49">        this.aCurrentRoom = pCurrentRoom ;</a>
+<span class="sourceLineNo">050</span><a id="line.50">    } // setCurrentRoom(.)</a>
+<span class="sourceLineNo">051</span><a id="line.51"></a>
+<span class="sourceLineNo">052</span><a id="line.52">    /**</a>
+<span class="sourceLineNo">053</span><a id="line.53">     * @param vNextRoom next room</a>
+<span class="sourceLineNo">054</span><a id="line.54">     */</a>
+<span class="sourceLineNo">055</span><a id="line.55">    public void nextRoom( final Room pNextRoom )</a>
+<span class="sourceLineNo">056</span><a id="line.56">    {</a>
+<span class="sourceLineNo">057</span><a id="line.57">        this.aPreviousRooms.push( this.aCurrentRoom ); </a>
+<span class="sourceLineNo">058</span><a id="line.58">        this.aCurrentRoom = pNextRoom;</a>
+<span class="sourceLineNo">059</span><a id="line.59">    } // nextRoom(.)</a>
+<span class="sourceLineNo">060</span><a id="line.60"></a>
+<span class="sourceLineNo">061</span><a id="line.61">    /**</a>
+<span class="sourceLineNo">062</span><a id="line.62">     * change the list of previous rooms</a>
+<span class="sourceLineNo">063</span><a id="line.63">     */</a>
+<span class="sourceLineNo">064</span><a id="line.64">    public void previousRooms(){</a>
+<span class="sourceLineNo">065</span><a id="line.65">        nextRoom( this.aPreviousRooms.peek() );</a>
+<span class="sourceLineNo">066</span><a id="line.66">        this.aPreviousRooms.pop();</a>
+<span class="sourceLineNo">067</span><a id="line.67">    } // previousRooms(.)</a>
+<span class="sourceLineNo">068</span><a id="line.68">    </a>
+<span class="sourceLineNo">069</span><a id="line.69">    /**</a>
+<span class="sourceLineNo">070</span><a id="line.70">     * print location info</a>
+<span class="sourceLineNo">071</span><a id="line.71">     */</a>
+<span class="sourceLineNo">072</span><a id="line.72">    void printLocationInfo()</a>
+<span class="sourceLineNo">073</span><a id="line.73">    {</a>
+<span class="sourceLineNo">074</span><a id="line.74">        this.aGui.println( "You were " + this.getPreviousRoom().getDescription() );</a>
+<span class="sourceLineNo">075</span><a id="line.75">        this.aGui.println( this.aCurrentRoom.getLongDescription() );</a>
+<span class="sourceLineNo">076</span><a id="line.76">        if ( this.aInventory.hasItem() )</a>
+<span class="sourceLineNo">077</span><a id="line.77">            this.aGui.println( "" + this.aInventory.getItemsString() );</a>
+<span class="sourceLineNo">078</span><a id="line.78">        if ( this.aCurrentRoom.getImageName() != null )</a>
+<span class="sourceLineNo">079</span><a id="line.79">            this.aGui.showImage( this.aCurrentRoom.getImageName() );</a>
+<span class="sourceLineNo">080</span><a id="line.80">    } // printLocationInfo()</a>
+<span class="sourceLineNo">081</span><a id="line.81"></a>
+<span class="sourceLineNo">082</span><a id="line.82">    /**</a>
+<span class="sourceLineNo">083</span><a id="line.83">     * method exected with the command word "go"</a>
+<span class="sourceLineNo">084</span><a id="line.84">     * @param pDep command to move to the next</a>
+<span class="sourceLineNo">085</span><a id="line.85">     */</a>
+<span class="sourceLineNo">086</span><a id="line.86">    public void goRoom( final Command pDep )</a>
+<span class="sourceLineNo">087</span><a id="line.87">    {</a>
+<span class="sourceLineNo">088</span><a id="line.88">        if ( !pDep.hasSecondWord() )</a>
+<span class="sourceLineNo">089</span><a id="line.89">            this.aGui.println( "Go where ?" );</a>
+<span class="sourceLineNo">090</span><a id="line.90">        else {</a>
+<span class="sourceLineNo">091</span><a id="line.91">            String vDrct = pDep.getSecondWord().toLowerCase(); </a>
+<span class="sourceLineNo">092</span><a id="line.92">            Room vNextRoom = this.aCurrentRoom.getExit(vDrct);</a>
+<span class="sourceLineNo">093</span><a id="line.93">            if ( vNextRoom == null ) this.aGui.println( "There is no door !" );</a>
+<span class="sourceLineNo">094</span><a id="line.94">            else {</a>
+<span class="sourceLineNo">095</span><a id="line.95">                this.nextRoom( vNextRoom );</a>
+<span class="sourceLineNo">096</span><a id="line.96">                this.printLocationInfo();</a>
+<span class="sourceLineNo">097</span><a id="line.97">            }</a>
+<span class="sourceLineNo">098</span><a id="line.98">        }</a>
+<span class="sourceLineNo">099</span><a id="line.99">    } // goRoom(.)</a>
+<span class="sourceLineNo">100</span><a id="line.100"></a>
+<span class="sourceLineNo">101</span><a id="line.101">    /**</a>
+<span class="sourceLineNo">102</span><a id="line.102">     * go backward</a>
+<span class="sourceLineNo">103</span><a id="line.103">     * @param pCom a command</a>
+<span class="sourceLineNo">104</span><a id="line.104">     */</a>
+<span class="sourceLineNo">105</span><a id="line.105">    public void goBack( final Command pCom )</a>
+<span class="sourceLineNo">106</span><a id="line.106">    {</a>
+<span class="sourceLineNo">107</span><a id="line.107">        if (this.aCurrentRoom.getDescription().equals( "somewhere in a cave asking yourself where is Beatrix." )</a>
+<span class="sourceLineNo">108</span><a id="line.108">            &amp;&amp; this.aPreviousRooms.size() == 1)</a>
+<span class="sourceLineNo">109</span><a id="line.109">                this.aPreviousRooms.clear();</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">        if ( !pCom.hasSecondWord() ){</a>
+<span class="sourceLineNo">112</span><a id="line.112">            if ( this.aPreviousRooms.empty() ) </a>
+<span class="sourceLineNo">113</span><a id="line.113">                this.aGui.println( "You can't go back!" );</a>
+<span class="sourceLineNo">114</span><a id="line.114">            //if you are in the bottom of the lake you can't go back to the cave you have to go further</a>
+<span class="sourceLineNo">115</span><a id="line.115">            else if ( this.aCurrentRoom.getDescription().equals( "deep down in a lake." ) </a>
+<span class="sourceLineNo">116</span><a id="line.116">                &amp;&amp; this.getPreviousRoom().getDescription().equals( "somewhere in a cave. Be careful if you jump, you won't be able to come back here." ) )</a>
+<span class="sourceLineNo">117</span><a id="line.117">                    this.aPreviousRooms.clear();</a>
+<span class="sourceLineNo">118</span><a id="line.118">            else if ( this.aPreviousRooms.empty() ) </a>
+<span class="sourceLineNo">119</span><a id="line.119">                this.aGui.println( "That's where you wake up you can't go back anymore.");</a>
+<span class="sourceLineNo">120</span><a id="line.120">            else {</a>
+<span class="sourceLineNo">121</span><a id="line.121">                this.previousRooms();</a>
+<span class="sourceLineNo">122</span><a id="line.122">                this.printLocationInfo();</a>
+<span class="sourceLineNo">123</span><a id="line.123">            }</a>
+<span class="sourceLineNo">124</span><a id="line.124">        }</a>
+<span class="sourceLineNo">125</span><a id="line.125">        else this.aGui.println( "Back what ?!" );</a>
+<span class="sourceLineNo">126</span><a id="line.126">    } // goBack(.)</a>
+<span class="sourceLineNo">127</span><a id="line.127"></a>
+<span class="sourceLineNo">128</span><a id="line.128">    /**</a>
+<span class="sourceLineNo">129</span><a id="line.129">     * look </a>
+<span class="sourceLineNo">130</span><a id="line.130">     * @param pCom a command</a>
+<span class="sourceLineNo">131</span><a id="line.131">     */</a>
+<span class="sourceLineNo">132</span><a id="line.132">    public void look( final Command pCom )</a>
+<span class="sourceLineNo">133</span><a id="line.133">    {</a>
+<span class="sourceLineNo">134</span><a id="line.134">        if ( pCom.hasSecondWord() ){</a>
+<span class="sourceLineNo">135</span><a id="line.135">            String vSW = pCom.getSecondWord();</a>
+<span class="sourceLineNo">136</span><a id="line.136">            this.aGui.print("You are looking at ");</a>
+<span class="sourceLineNo">137</span><a id="line.137">            if ( this.aCurrentRoom.getItems().containsItem(vSW) ){</a>
+<span class="sourceLineNo">138</span><a id="line.138">                this.aGui.print( "a " + this.aCurrentRoom.getItems().getItem(vSW).getItemString() + "\n");</a>
+<span class="sourceLineNo">139</span><a id="line.139">                return;</a>
+<span class="sourceLineNo">140</span><a id="line.140">            }</a>
+<span class="sourceLineNo">141</span><a id="line.141">            this.aGui.println("... I don't know what you are looking at !");</a>
+<span class="sourceLineNo">142</span><a id="line.142">        }</a>
+<span class="sourceLineNo">143</span><a id="line.143">        else this.aGui.println( this.aCurrentRoom.getLongDescription() );</a>
+<span class="sourceLineNo">144</span><a id="line.144">    } // look(.)</a>
+<span class="sourceLineNo">145</span><a id="line.145"></a>
+<span class="sourceLineNo">146</span><a id="line.146">    /**</a>
+<span class="sourceLineNo">147</span><a id="line.147">     * eat</a>
+<span class="sourceLineNo">148</span><a id="line.148">     * @param pCom a command</a>
+<span class="sourceLineNo">149</span><a id="line.149">     */</a>
+<span class="sourceLineNo">150</span><a id="line.150">    public void eat( final Command pCom )</a>
+<span class="sourceLineNo">151</span><a id="line.151">    {</a>
+<span class="sourceLineNo">152</span><a id="line.152">        if ( !pCom.hasSecondWord() )</a>
+<span class="sourceLineNo">153</span><a id="line.153">            this.aGui.println( "What do you want to eat ?");</a>
+<span class="sourceLineNo">154</span><a id="line.154">        else this.aGui.println( "You have eaten now and you are not hungry any more.");</a>
+<span class="sourceLineNo">155</span><a id="line.155">    } // eat(.)</a>
+<span class="sourceLineNo">156</span><a id="line.156"></a>
+<span class="sourceLineNo">157</span><a id="line.157">    /**</a>
+<span class="sourceLineNo">158</span><a id="line.158">     * take an item</a>
+<span class="sourceLineNo">159</span><a id="line.159">     * @param pCom a command</a>
+<span class="sourceLineNo">160</span><a id="line.160">     */</a>
+<span class="sourceLineNo">161</span><a id="line.161">    public void take( final Command pCom )</a>
+<span class="sourceLineNo">162</span><a id="line.162">    {</a>
+<span class="sourceLineNo">163</span><a id="line.163">        if ( !pCom.hasSecondWord() )</a>
+<span class="sourceLineNo">164</span><a id="line.164">            this.aGui.println( "Take what ?");</a>
+<span class="sourceLineNo">165</span><a id="line.165">        else {</a>
+<span class="sourceLineNo">166</span><a id="line.166">            String vSW = pCom.getSecondWord();</a>
+<span class="sourceLineNo">167</span><a id="line.167">            if ( this.aCurrentRoom.getItems().containsItem(vSW) ){</a>
+<span class="sourceLineNo">168</span><a id="line.168">                this.aInventory.setItem( this.getCurrentRoom().getItems().getItem(vSW) );</a>
+<span class="sourceLineNo">169</span><a id="line.169">                this.aCurrentRoom.getItems().removeItem(vSW);</a>
+<span class="sourceLineNo">170</span><a id="line.170">                this.aGui.println( "You take " + vSW + "\n"</a>
+<span class="sourceLineNo">171</span><a id="line.171">                    + this.aCurrentRoom.getItems().getItemsString() + "\n"</a>
+<span class="sourceLineNo">172</span><a id="line.172">                    +this.aInventory.getItemsString() );</a>
+<span class="sourceLineNo">173</span><a id="line.173">            }</a>
+<span class="sourceLineNo">174</span><a id="line.174">            else this.aGui.println( "What is this ? Is it there ?" );</a>
+<span class="sourceLineNo">175</span><a id="line.175">        }</a>
+<span class="sourceLineNo">176</span><a id="line.176">    } // take(.)</a>
+<span class="sourceLineNo">177</span><a id="line.177"></a>
+<span class="sourceLineNo">178</span><a id="line.178">    /**</a>
+<span class="sourceLineNo">179</span><a id="line.179">     * drop an item</a>
+<span class="sourceLineNo">180</span><a id="line.180">     * @param pItem the name of the item</a>
+<span class="sourceLineNo">181</span><a id="line.181">     */</a>
+<span class="sourceLineNo">182</span><a id="line.182">    public void drop( final Command pCom )</a>
+<span class="sourceLineNo">183</span><a id="line.183">    {</a>
+<span class="sourceLineNo">184</span><a id="line.184">        if ( !pCom.hasSecondWord() )</a>
+<span class="sourceLineNo">185</span><a id="line.185">            this.aGui.println( "Drop what ?");</a>
+<span class="sourceLineNo">186</span><a id="line.186">        else {</a>
+<span class="sourceLineNo">187</span><a id="line.187">            String vSW = pCom.getSecondWord();</a>
+<span class="sourceLineNo">188</span><a id="line.188">            if ( this.aInventory.containsItem(vSW) ){</a>
+<span class="sourceLineNo">189</span><a id="line.189">                this.aCurrentRoom.getItems().setItem( this.aInventory.getItem(vSW) );</a>
+<span class="sourceLineNo">190</span><a id="line.190">                this.aInventory.removeItem(vSW);</a>
+<span class="sourceLineNo">191</span><a id="line.191">                this.aGui.println( "You droped " + vSW + "\n"</a>
+<span class="sourceLineNo">192</span><a id="line.192">                    + this.aCurrentRoom.getItems().getItemsString() + "\n"</a>
+<span class="sourceLineNo">193</span><a id="line.193">                    + this.aInventory.getItemsString() );</a>
+<span class="sourceLineNo">194</span><a id="line.194">            }</a>
+<span class="sourceLineNo">195</span><a id="line.195">            else this.aGui.println( "What is this ? Do you even have this ?" );</a>
+<span class="sourceLineNo">196</span><a id="line.196">        }</a>
+<span class="sourceLineNo">197</span><a id="line.197">    } // drop(.)</a>
+<span class="sourceLineNo">198</span><a id="line.198">    </a>
+<span class="sourceLineNo">199</span><a id="line.199">    /**</a>
+<span class="sourceLineNo">200</span><a id="line.200">     * help message</a>
+<span class="sourceLineNo">201</span><a id="line.201">     */</a>
+<span class="sourceLineNo">202</span><a id="line.202">    public void printHelp()</a>
+<span class="sourceLineNo">203</span><a id="line.203">    {</a>
+<span class="sourceLineNo">204</span><a id="line.204">        this.aGui.println( "You are lost. You are alone." );</a>
+<span class="sourceLineNo">205</span><a id="line.205">        this.aGui.println( "You wander around at the cave.\n" );</a>
+<span class="sourceLineNo">206</span><a id="line.206">        this.aGui.println( "Your command words are:" );</a>
+<span class="sourceLineNo">207</span><a id="line.207">        this.aGui.println( this.aParser.getCommandString() );</a>
+<span class="sourceLineNo">208</span><a id="line.208">    } // printHelp()</a>
+<span class="sourceLineNo">209</span><a id="line.209"></a>
+<span class="sourceLineNo">210</span><a id="line.210">    /**</a>
+<span class="sourceLineNo">211</span><a id="line.211">     * quit the game</a>
+<span class="sourceLineNo">212</span><a id="line.212">     * @param pCom a command </a>
+<span class="sourceLineNo">213</span><a id="line.213">     * @return true if the Command doesn't have a second word</a>
+<span class="sourceLineNo">214</span><a id="line.214">     */</a>
+<span class="sourceLineNo">215</span><a id="line.215">    public void quit( final Command pCom )</a>
+<span class="sourceLineNo">216</span><a id="line.216">    {</a>
+<span class="sourceLineNo">217</span><a id="line.217">        if ( pCom.hasSecondWord() )</a>
+<span class="sourceLineNo">218</span><a id="line.218">                this.aGui.println( "Quit what?" );</a>
+<span class="sourceLineNo">219</span><a id="line.219">        else{</a>
+<span class="sourceLineNo">220</span><a id="line.220">            this.aGui.println( "Thank you for playing.  Good bye." );</a>
+<span class="sourceLineNo">221</span><a id="line.221">            this.aGui.enable( false );</a>
+<span class="sourceLineNo">222</span><a id="line.222">        }</a>
+<span class="sourceLineNo">223</span><a id="line.223">    } // quit(.)</a>
+<span class="sourceLineNo">224</span><a id="line.224">} // Player</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
