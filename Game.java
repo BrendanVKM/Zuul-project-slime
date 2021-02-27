@@ -1,8 +1,8 @@
 
 /**
- * be able to play
+ * launch the game
  * @author Brendan VICTOIRE
- * @version 2021.01.20 + 2021.02.08 + 2021.02.09
+ * @version 2021.01.20 + 2021.02.08 + 2021.02.23
  */
 public class Game
 {
@@ -10,7 +10,7 @@ public class Game
     private GameEngine aGameEngine;
 
     /**
-     * default Constructor
+     * launch the game with BlueJ
      */
     public Game() 
     {
@@ -19,7 +19,9 @@ public class Game
         this.aGameEngine.setGUI( this.aGui );
     } // Game()
 
-    //Pour VSC
+    /**
+     * launch the game with VS code
+     */
     public static void main(String[] args) {
         System.out.print ( new Game() );
     } // main()

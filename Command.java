@@ -1,52 +1,71 @@
-
 /**
- * commands
- * @author Brendan VICTOIRE
- * @version 2021.01.18
+ * This class is part of the "World of Zuul" application. 
+ * "World of Zuul" is a very simple, text based adventure game.  
+ *
+ * This class holds information about a command that was issued by the user.
+ * A command currently consists of two parts: a CommandWord and a string
+ * (for example, if the command was "take map", then the two parts
+ * are TAKE and "map").
+ * 
+ * The way this is used is: Commands are already checked for being valid
+ * command words. If the user entered an invalid command (a word that is not
+ * known) then the CommandWord is UNKNOWN.
+ *
+ * If the command had only one word, then the second word is <null>.
+ * 
+ * @author  Michael Kolling and David J. Barnes
+ * @version 2006.03.30
  */
+
 public class Command
 {
-    private String aCommandWord;
-    private String aSecondWord;
-    
+    private CommandWord commandWord;
+    private String secondWord;
+
     /**
-     * Constructor
-     * @param a command
-     * @param instruction
+     * Create a command object. First and second words must be supplied, but
+     * the second may be null.
+     * @param commandWord The CommandWord. UNKNOWN if the command word
+     *                  was not recognised.
+     * @param secondWord The second word of the command. May be null.
      */
-    public Command(final String pCommand, final String pSecond)
+    public Command(CommandWord commandWord, String secondWord)
     {
-        this.aCommandWord = pCommand;
-        this.aSecondWord = pSecond;
-    } // Command()
-    
+        this.commandWord = commandWord;
+        this.secondWord = secondWord;
+    } //Command(.)
+
     /**
-     * access to a command
-     * @return a command
+     * Return the command word (the first word) of this command.
+     * @return The command word.
      */
-    public String getCommandWord() {return this.aCommandWord; } // getCommand()
-    
-    /**
-     * access to the instruction
-     * @return the instruction
-     */
-    public String getSecondWord() { return this.aSecondWord; } //getSecond()
-    
-    /**
-     * Verify the instruction existence
-     * @return true if there is a second instruction
-     */
-    public boolean hasSecondWord()
+    public CommandWord getCommandWord()
     {
-        return this.aSecondWord != null;
-    } // hasSecondWord()
-    
+        return commandWord;
+    } // getCommandWord()
+
     /**
-     * Verify the command existence
-     * @return true if the command is unknown
+     * @return The second word of this command. Returns null if there was no
+     * second word.
+     */
+    public String getSecondWord()
+    {
+        return secondWord;
+    } // getSecondWord()
+
+    /**
+     * @return true if this command was not understood.
      */
     public boolean isUnknown()
     {
-        return this.aCommandWord == null;
-    } // isUnknown
-} // Command
+        return (commandWord == CommandWord.UNKNOWN);
+    } // isUnknown()
+
+    /**
+     * @return true if the command has a second word.
+     */
+    public boolean hasSecondWord()
+    {
+        return (secondWord != null);
+    } // hasSecondWord()
+}

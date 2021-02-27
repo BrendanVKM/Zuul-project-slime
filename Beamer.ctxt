@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.target=Beamer
+comment0.text=\r\n\ let\ you\ teleport\ in\ a\ room\ that\ you\ have\ memorized\r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.02.26\r\n
+comment1.params=
+comment1.target=Beamer()
+comment2.params=
+comment2.target=Room\ getMemorizedRoom()
+comment2.text=\r\n\ access\ to\ the\ memorized\ room\ \r\n\ @return\ the\ memorized\ room\r\n
+comment3.params=
+comment3.target=boolean\ isCharged()
+comment3.text=\r\n\ access\ to\ aCharged\ \r\n\ @return\ true\ if\ the\ beamer\ if\ charged\r\n
+comment4.params=
+comment4.target=boolean\ isUsed()
+comment4.text=\r\n\ know\ if\ the\ beamer\ has\ already\ been\ used\ or\ not\r\n\ @return\ true\ if\ the\ beamer\ has\ been\ used\r\n
+comment5.params=pRoom
+comment5.target=void\ charge(Room)
+comment5.text=\r\n\ charge\ the\ beamer\ with\ a\ room\r\n\ @param\ pRoom\ the\ room\ that\ you\ want\ to\ memorized\r\n
+comment6.params=
+comment6.target=void\ fire()
+numComments=7

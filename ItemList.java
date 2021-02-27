@@ -1,20 +1,27 @@
 import java.util.HashMap ;
 
+/**
+ * create and modify Itemlist for Player and Room
+ * @author Brendan VICTOIRE
+ * @version 2021.01.18 + 2021.02.08
+ */
 public class ItemList {
     private HashMap<String,Item> aInventory ;
 
+    /**
+     * default constructor
+     */
     public ItemList()
     {
         this.aInventory = new HashMap<String, Item>();
     } // itemList
 
-        /**
+    /**
      * add an item to the room
      * @param pItem an item
      */
     public void setItem( final Item pItem ) 
     {
-
         this.aInventory.put(pItem.getName(), pItem);
     } // setItem(.)
 
@@ -24,21 +31,23 @@ public class ItemList {
      */
     public void removeItem( final String pItem ) 
     {
-        String vItem = pItem.toLowerCase();
-        this.aInventory.remove(vItem);
+        this.aInventory.remove(pItem);
     } // removeItem(.)
 
     /**
+     * acces to all the inventory
      * @return inventory map
      */
     public HashMap<String, Item> getIventory(){ return this.aInventory; } // getIventory()
 
     /**
+     * tells if the ItemList is empty or not
      * @return true if the room has at least one item
      */
     public boolean hasItem() { return !aInventory.isEmpty() ; } // hasItem()
     
     /**
+     * tells if the ItemList contains the item that we want
      * @param pItemName the name of the key that we want to check
      * @return true if this room has this item
      */
@@ -48,28 +57,30 @@ public class ItemList {
     } // containsItem(.)
 
     /**
+     * acces to the item that we want
      * @param pItem an item
      * @return the item
      */
     public Item getItem( final String pItem )
     {
         if ( this.hasItem() ) {
-            String vItem = pItem.toLowerCase(); 
-            return this.aInventory.get(vItem);
+            return this.aInventory.get(pItem);
         }
         else return null; 
     } // getItem(.)
+
     /**
-    * @return inventory under String format
+     * acces to the total weight of the ItemList
+     * @return the weight the player is carrying
      */
-    public StringBuilder getItemsString()
+    public double getWeightCarrying()
     {
-        StringBuilder vInventory = new StringBuilder( "" );
-        if (this.hasItem() ){
-            vInventory.append( "Iventory:" );
-            for ( String vItem : this.aInventory.keySet() )
-            vInventory.append( " " + vItem );
+        if ( this.hasItem() ){
+            double vWeight = 0;
+            for ( Item vItem : this.aInventory.values())
+                vWeight += vItem.getWeight();
+            return vWeight;
         }
-        return vInventory;
-    } // getItemString()
+        else return 0;
+    } // getWeightCarrying()
 }

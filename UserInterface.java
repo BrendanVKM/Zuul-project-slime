@@ -15,7 +15,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.net.URL;
-//import java.awt.image.*;
 
 /**
  * This class implements a simple graphical user interface with a text entry
@@ -33,14 +32,11 @@ public class UserInterface implements ActionListener
     private JLabel aImage;
     private JPanel aBDrct, aBCmdL, aBCmdR;
     private JButton aBHelp, aBQuit, aBLook, aBEat;
-    private JButton aBNorth, aBSouth, aBEast, aBWest, aBUp, aBDown, aBBack;
-    private JButton aBVoid1, aBVoid2;
-
+    private JButton aBNorth, aBSouth, aBEast, aBWest, aBUp, aBDown, aBBack, aBMemorize, aBTeleport;
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
      * (an object processing and executing the game commands) is
      * needed.
-     * 
      * @param pGameEngine  The GameEngine object implementing the game logic.
      */
     public UserInterface( final GameEngine pGameEngine )
@@ -72,7 +68,7 @@ public class UserInterface implements ActionListener
      */
     public void showImage( final String pImageName )
     {
-        String vImagePath = "./Images/" + pImageName; // to change the directory
+        String vImagePath = "./Images/" + pImageName + ".jpg"; // to change the directory
         URL vImageURL = this.getClass().getClassLoader().getResource( vImagePath );
         if ( vImageURL == null )
             System.out.println( "Image not found : " + vImagePath );
@@ -142,18 +138,18 @@ public class UserInterface implements ActionListener
         this.aBUp = new JButton( "Up" );
         this.aBDown = new JButton( "Down" );
         this.aBBack = new JButton( "Back");
-        this.aBVoid1 = new JButton( "" );
-        this.aBVoid2 = new JButton( "" );
+        this.aBTeleport = new JButton( "Teleportation" );
+        this.aBMemorize = new JButton( "Memorize" );
         
         this.aBDrct.add( this.aBUp );
         this.aBDrct.add( this.aBNorth );
-        this.aBDrct.add( this.aBVoid1 );
+        this.aBDrct.add( this.aBTeleport );
         this.aBDrct.add( this.aBWest );
         this.aBDrct.add( this.aBBack );
         this.aBDrct.add( this.aBEast );
         this.aBDrct.add( this.aBDown );
         this.aBDrct.add( this.aBSouth );
-        this.aBDrct.add( this.aBVoid2 );
+        this.aBDrct.add( this.aBMemorize );
         
         
         this.aImage = new JLabel();
@@ -187,6 +183,8 @@ public class UserInterface implements ActionListener
         this.aBUp.addActionListener( this );
         this.aBDown.addActionListener( this );
         this.aBBack.addActionListener( this );
+        this.aBMemorize.addActionListener( this );
+        this.aBTeleport.addActionListener( this );
         
         // to end program when window is closed
         this.aMyFrame.addWindowListener( new WindowAdapter() {
@@ -206,15 +204,7 @@ public class UserInterface implements ActionListener
     {
         // no need to check the type of action at the moment
         // because there is only one possible action (text input) :
-        if ( pE.getSource() == this.aBLook ) 
-            this.aEngine.interpretCommand("look");
-        else if ( pE.getSource() == this.aBEat ) 
-            this.aEngine.interpretCommand("eat");
-        else if ( pE.getSource() == this.aBHelp ) 
-            this.aEngine.interpretCommand("help");
-        else if ( pE.getSource() == this.aBQuit ) 
-            this.aEngine.interpretCommand("quit");
-        else if ( pE.getSource() == this.aBNorth ) 
+        if ( pE.getSource() == this.aBNorth ) 
             this.aEngine.interpretCommand("go north");
         else if ( pE.getSource() == this.aBSouth ) 
             this.aEngine.interpretCommand("go south");
@@ -226,8 +216,20 @@ public class UserInterface implements ActionListener
             this.aEngine.interpretCommand("go up");
         else if ( pE.getSource() == this.aBDown ) 
             this.aEngine.interpretCommand("go down");
+        else if ( pE.getSource() == this.aBMemorize ) 
+            this.aEngine.interpretCommand("memorize");
+        else if ( pE.getSource() == this.aBTeleport ) 
+            this.aEngine.interpretCommand("teleport");
         else if ( pE.getSource() == this.aBBack)
             this.aEngine.interpretCommand("back");
+        else if ( pE.getSource() == this.aBLook ) 
+            this.aEngine.interpretCommand("look");
+        else if ( pE.getSource() == this.aBEat ) 
+            this.aEngine.interpretCommand("eat");
+        else if ( pE.getSource() == this.aBHelp ) 
+            this.aEngine.interpretCommand("help");
+        else if ( pE.getSource() == this.aBQuit ) 
+            this.aEngine.interpretCommand("quit");
         else this.processCommand(); // never suppress this line
     } // actionPerformed(.)
 

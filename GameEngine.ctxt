@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=GameEngine
-comment0.text=\r\n\ game\ motor\ \r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.01.20\ +\ 2021.02.17\r\n
+comment0.text=\r\n\ game\ motor\ \r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.01.20\ +\ 2021.02.17\ +\ 2021.02.26\r\n
 comment1.params=
 comment1.target=GameEngine()
 comment1.text=\r\n\ Default\ constructor\ \r\n
@@ -9,10 +9,10 @@ comment2.target=void\ setGUI(UserInterface)
 comment2.text=\r\n\ set\ the\ GUI\r\n\ @param\ pUserInterface\ the\ user\ interface\r\n
 comment3.params=
 comment3.target=void\ createRooms()
-comment3.text=\r\n\ create\ and\ declare\ Room\r\n
+comment3.text=\r\n\ create\ and\ declare\ Rooms\ and\ Items\r\n
 comment4.params=pCom
 comment4.target=void\ interpretCommand(java.lang.String)
-comment4.text=\r\n\ interpret\ a\ command\r\n\ @param\ pCom\ a\ command\r\n
+comment4.text=\r\n\ interpret\ commands\r\n\ stop\ the\ game\ if\ you\ have\ executed\ to\ much\ command\r\n\ @param\ pCom\ a\ command\r\n
 comment5.params=
 comment5.target=void\ printWelcome()
 comment5.text=\r\n\ print\ welcome\ message\r\n

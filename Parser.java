@@ -14,20 +14,20 @@ import java.util.StringTokenizer;
  * returns a command object that is marked as an unknown command.
  * 
  * @author  Michael Kolling and David J. Barnes
- * @version 2.0 (Jan 2003) DB edited (2019)
+ * @version 2.0 (Jan 2003) DB edited (2019) + BV (feb 2021)
  */
 
 public class Parser 
 {
 
-    private CommandWords aCommandWords;  // holds all valid command words
+    private CommandWords aCW;  // holds all valid command words
 
     /**
      * Create a new Parser.
      */
     public Parser() 
     {
-        this.aCommandWords = new CommandWords();
+        this.aCW = new CommandWords();
     } // Parser()
 
     /**
@@ -37,38 +37,29 @@ public class Parser
      */
     public Command getCommand( final String pInputLine ) 
     {
-        String vWord1;
-        String vWord2;
+        String vWord1 = null;
+        String vWord2 = null;
 
-        StringTokenizer tokenizer = new StringTokenizer( pInputLine );
-
-        if ( tokenizer.hasMoreTokens() )
+        // Find up to two words on the line.
+        StringTokenizer tokenizer = new StringTokenizer(pInputLine);
+        if(tokenizer.hasMoreTokens()) {
             vWord1 = tokenizer.nextToken();      // get first word
-        else
-            vWord1 = null;
+            if(tokenizer.hasMoreTokens()) {
+                vWord2 = tokenizer.nextToken();      // get second word
+                // note: we just ignore the rest of the input line.
+            }
+        }
 
-        if ( tokenizer.hasMoreTokens() )
-            vWord2 = tokenizer.nextToken();      // get second word
-        else
-            vWord2 = null;
-
-        // note: we just ignore the rest of the input line.
-
-        // Now check whether this word is known. If so, create a command
-        // with it. If not, create a "null" command (for unknown command).
-
-        if ( this.aCommandWords.isCommand( vWord1 ) )
-            return new Command( vWord1, vWord2 );
-        else
-            return new Command( null, vWord2 );
+        return new Command( this.aCW.getCommandWord(vWord1), vWord2 );
     } // getCommand(.)
 
     /**
-     * @return all possible command word
+     * access to all possible command words
+     * @return all possible command words
      */
     public String getCommandString() // was showCommands()
     {
-        return this.aCommandWords.getCommandList();
+        return this.aCW.getCommandList();
     } // getCommandString()
 
 } // Parser

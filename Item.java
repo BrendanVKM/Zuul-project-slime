@@ -23,21 +23,25 @@ public class Item
     } // Item(.)
 
     /**
+     * acces to the name of the item
      * @return name of the item
      */
-    public String getName(){ return this.aName.toLowerCase(); } // getName()
+    public String getName(){ return this.aName; } // getName()
 
     /**
+     * acces to the description of the item
      * @return description of the item
      */
     public String getDescription(){ return this.aDescription; } // getDescription()
 
     /**
+     * acces to the weight of the item
      * @return weight of the item
      */
     public double getWeight(){ return this.aWeight; } // getWeight()
 
     /**
+     * acces to all the information of the item
      * @return name + weight + description of the item 
      */
     public String getItemString()
@@ -45,5 +49,4 @@ public class Item
         return this.aName + " [" + "Weight : (" + this.aWeight +" kg)" 
         + " ¤ " + "Description : " + this.aDescription +"].";
     } // getItemString()
-
 } // Item

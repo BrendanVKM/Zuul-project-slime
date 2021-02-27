@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 /**
  * game motor 
  * @author Brendan VICTOIRE
- * @version 2021.01.20 + 2021.02.17
+ * @version 2021.01.20 + 2021.02.17 + 2021.02.26
  */
 public class GameEngine
 {
@@ -37,38 +37,43 @@ public class GameEngine
     } // setGUI(.)
     
     /**
-     * create and declare Room
+     * create and declare Rooms and Items
      */
     private void createRooms()
     {
-        Room vSpawn = new Room( "somewhere in a cave asking yourself where is Beatrix.", "spawn.jpg" );
-        Room vCave2 = new Room( "somewhere in a cave.", "cave2.jpg" );
-        Room vCave5 = new Room( "somewhere in a cave.", "cave5.jpg" );
+        Room vSpawn = new Room( "somewhere in a cave asking yourself where is Beatrix.", "spawn" );
+        Room vCave2 = new Room( "somewhere in a cave.", "cave2" );
+        Room vCave5 = new Room( "somewhere in a cave. You see a corridor that you can't reach", "cave5" );
         Room vCave6 = new Room( "somewhere in a cave and your sense tells you that there is something hidden."
-            , "cave6.jpg" );
-        Room vCave7 = new Room( "somewhere in a cave. Be careful if you jump, you won't be able to come back here.", "cave7.jpg" );
-        Room vCave8 = new Room( "somewhere in a cave.", "cave8.jpg" );
-        Room vUpFlower = new Room( "somewhere in a cave with a flower floor.", "upFlower.jpg" );
-        Room vFlower2 = new Room( "somewhere in a cave with a flower floor.", "flower2.jpg");
-        Room vFlowerTrail = new Room( "somewhere in a cave with a flower floor.", "flowerTrail.jpg" );
-        Room vOnMagistone = new Room( "somewhere in a cave on a Magistone.", "onMagistone.jpg" );
-        Room vBottomOfLake = new Room( "deep down in a lake.", "bottomOfLake.jpg" );
-        Room vSurfaceOfLake = new Room( "swimming on the surface of a lake.", "surfaceOfLake.jpg" );
-        Room vLake = new Room( "on the surface of a lake.", "lake.jpg" );
+            , "cave6" );
+        Room vCave7 = new Room( "somewhere in a cave. Be careful if you jump, you won't be able to come back here.", "cave7" );
+        Room vCave8 = new Room( "somewhere in a cave. You have crossed the secret path.", "cave8" );
+        Room vUpFlower = new Room( "somewhere in a cave with a flower floor.", "upFlower" );
+        Room vFlower2 = new Room( "somewhere in a cave with a flower floor.", "flower2");
+        Room vFlowerTrail = new Room( "somewhere in a cave with a flower floor.", "flowerTrail" );
+        Room vOnMagistone = new Room( "somewhere in a cave on a Magistone.", "onMagistone" );
+        Room vBottomOfLake = new Room( "deep down in a lake.", "bottomOfLake" );
+        Room vSurfaceOfLake = new Room( "swimming on the surface of a lake.", "surfaceOfLake" );
+        Room vLake = new Room( "on the surface of a lake.", "lake" );
         Room vJumpToDragon = new Room( "somewhere in a cave asking yourself if you should jump."
-            , "jumpToDragon.jpg" );
-        Room vMeetTempest = new Room( "somewhere in a cave you met Veldora.", "meetTempest.jpg" );
-        Room vSeeTheDoor = new Room( "somewhere in a cave and you see a door.", "seeTheDoor.jpg" );
-        Room vDoor = new Room( "looking at the door.", "door.jpg" );
-        Room vGetOut = new Room( "opening the door.", "getOut.jpg" );
-        Room vOutside = new Room( "finally outside.", "outside.jpg" );
-        Room vMeetBeatrix = new Room( "finally back to Beatrix.", "meetBreeder.jpg" ); 
+            , "jumpToDragon" );
+        Room vMeetTempest = new Room( "somewhere in a cave you met Veldora.", "meetTempest" );
+        Room vSeeTheDoor = new Room( "somewhere in a cave and you see a door.", "seeTheDoor" );
+        Room vDoor = new Room( "looking at the door.", "door" );
+        Room vGetOut = new Room( "opening the door.", "getOut" );
+        Room vOutside = new Room( "finally outside.", "outside" );
+        Room vMeetBeatrix = new Room( "finally back to Beatrix.", "meetBreeder" ); 
         
         Item vStone = new Item( "stone", "just a stone, what did you expect !?", 4.69);
         Item vMagistone = new Item( "magistone", "a magic stone, can it be useful somewhere? ", 35.82 );
         Item vFlower = new Item( "flower", "a beautiful flower", 0.026);
-        Item vDragonSoul = new Item( "dragonSoul", "the soul of Veldora", 0);
+        Item vDragonSoul = new Item( "dragonSoul", "the soul of Veldora", 10E-100);
         Item vTree = new Item( "tree", "just a tree and yes you can carry it you are a slime after all", 735);
+        
+        Beamer vBeamer = new Beamer();
+
+        Door vSecretPassage = new Door( vDragonSoul, false);
+        Door vPassTheDoor = new Door( vDragonSoul, false);
 
         this.aRooms.put( "spawn", vSpawn );
         this.aRooms.put( "cave2", vCave2 );
@@ -92,41 +97,46 @@ public class GameEngine
         this.aRooms.put( "meet beatrix", vMeetBeatrix );
 
         vSpawn.setExit( "south", vCave2 );
-        vSpawn.getItems().setItem( vStone );
+        vSpawn.setItem( vStone );
+        vSpawn.setItem( vBeamer );
 
         vCave2.setExit( "north", vSpawn ); 
         vCave2.setExit( "south", vUpFlower );
-        vCave2.getItems().setItem( vMagistone );
-        vCave2.getItems().setItem( vFlower );
+        vCave2.setItem( vMagistone );
+        vCave2.setItem( vFlower );
 
         vCave5.setExit( "north", vLake );
         vCave5.setExit( "south", vSeeTheDoor );
 
         vCave6.setExit( "west", vFlowerTrail );
-        vCave6.getItems().setItem( vMagistone );
+        vCave6.setDoors( "south", vSecretPassage );
+        vCave6.setExit( "south", vCave8);
+        vCave6.setItem( vMagistone );
 
         vCave7.setExit( "north", vOnMagistone );
         vCave7.setExit( "south", vFlowerTrail );
         vCave7.setExit( "down", vBottomOfLake);
 
         vCave8.setExit( "down", vCave5);
-        vCave8.getItems().setItem( vMagistone );
+        vCave8.setDoors( "north", vSecretPassage );
+        vCave8.setExit( "north", vCave6);
+        vCave8.setItem( vMagistone );
 
         vUpFlower.setExit( "north", vCave2 );
         vUpFlower.setExit( "west", vOnMagistone );
         vUpFlower.setExit( "down", vFlower2);
 
         vFlower2.setExit( "up", vUpFlower );
-        vFlower2.getItems().setItem( vFlower );
+        vFlower2.setItem( vFlower );
 
         vFlowerTrail.setExit( "north", vCave7 );
         vFlowerTrail.setExit( "east", vCave6 );
         vFlowerTrail.setExit( "west", vJumpToDragon);
-        vFlowerTrail.getItems().setItem( vFlower );
+        vFlowerTrail.setItem( vFlower );
 
         vOnMagistone.setExit( "south", vCave7);
         vOnMagistone.setExit( "east", vUpFlower );
-        vOnMagistone.getItems().setItem( vMagistone );
+        vOnMagistone.setItem( vMagistone );
 
         vBottomOfLake.setExit( "up", vSurfaceOfLake );
 
@@ -140,70 +150,87 @@ public class GameEngine
         vJumpToDragon.setExit( "east", vFlowerTrail );
 
         vMeetTempest.setExit( "north", vJumpToDragon );
-        vFlowerTrail.getItems().setItem( vDragonSoul );
+        vMeetTempest.setItem( vDragonSoul );
 
         vSeeTheDoor.setExit( "north", vCave5 );
         vSeeTheDoor.setExit( "west", vDoor );
-        vSeeTheDoor.getItems().setItem( vMagistone );
+        vSeeTheDoor.setItem( vMagistone );
 
         vDoor.setExit( "east", vSeeTheDoor );
+        vDoor.setDoors("west", vPassTheDoor);
         vDoor.setExit( "west", vGetOut );
 
+        vGetOut.setDoors("east", vPassTheDoor);
         vGetOut.setExit( "east", vDoor );
         vGetOut.setExit( "west", vOutside );
 
         vOutside.setExit( "east", vGetOut );
         vOutside.setExit( "west", vMeetBeatrix );
-        vOutside.getItems().setItem( vTree );
+        vOutside.setItem( vTree );
 
         vMeetBeatrix.setExit( "east", vOutside );
 
         this.aPlayer = new Player();
         this.aPlayer.setCurrentRoom(vSpawn);
-        this.aPlayer.getPreviousRooms().push( new Room( "... Wait! Where are you?", null) );
+        this.aPlayer.getPreviousRooms().push( new Room( "... Wait! Where are you?", "") );
     } // createRooms()
-    
+
     /**
-     * interpret a command
+     * interpret commands
+     * stop the game if you have executed to much command
      * @param pCom a command
      */
     public void interpretCommand( final String pCom ) 
     {
         this.aGui.println( "\n" + "> " + pCom );
         Command vCom = this.aParser.getCommand( pCom );
+        CommandWord vCW = vCom.getCommandWord();
 
-        if ( vCom.isUnknown() ) {
-            this.aGui.println( "I don't know what you mean..." );
-            this.aGui.println( "" );
+        if ( this.aPlayer.commandCounter() ){
+            this.aGui.println( "You are too tired to continue.");
+            this.aPlayer.quit( new Command( CommandWord.QUIT, null ) );
             return;
         }
-        switch( vCom.getCommandWord().toLowerCase() ){
-            case "go":
+
+        switch ( vCW ){
+            case UNKNOWN : 
+                this.aGui.println("I don't know what you mean...");
+                break;
+            case GO:
                 this.aPlayer.goRoom(vCom);
                 break;
-            case "back":
+            case BACK:
                 this.aPlayer.goBack(vCom);
                 break;
-            case "look":
+            case MEMORIZE:
+                this.aPlayer.memorize(vCom);
+                break;
+            case TELEPORT:
+                this.aPlayer.teleport(vCom);
+                break;
+            case LOOK:
                 this.aPlayer.look(vCom);
                 break;
-            case "eat":
-                this.aPlayer.eat(vCom);
+            case ITEMS:
+                this.aPlayer.Items(vCom);
                 break;
-                case "take":
+            case TAKE:
                 this.aPlayer.take(vCom);
                 break;
-            case "drop":
+            case EAT:
+                this.aPlayer.eat(vCom);
+                break;
+            case DROP:
                 this.aPlayer.drop(vCom);
                 break;
-            case "help":
+            case HELP:
                 this.aPlayer.printHelp();
                 break;
-            case "quit":
+            case QUIT:
                 this.aPlayer.quit(vCom);
                 break;
-            case "test":
-                test(vCom);
+            case TEST:
+                this.test(vCom);
                 break;
         }
     } // interpretCommand(.)
@@ -215,9 +242,8 @@ public class GameEngine
     {
         this.aGui.println( "Welcome to Searching for the slime breeder" );
         this.aGui.println( "Searching for the slime breeder is a new, incredibly boring adventure game." );
-        this.aGui.println( "Type \' help \' if you need help. \n" );
+        this.aGui.println( "Type \' " + CommandWord.HELP + " \' if you need help. \n" );
         this.aPlayer.printLocationInfo();
-        this.aPlayer.getPreviousRooms().pop();
     } // printWelcome()
 
     /**
@@ -241,5 +267,5 @@ public class GameEngine
         catch ( final FileNotFoundException pFNFE ){
             this.aGui.println( "File not found." );
         }
-    }
+    } // test(.)
 }// GameEngine
