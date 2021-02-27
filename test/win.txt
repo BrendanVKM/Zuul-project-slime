@@ -1,10 +1,13 @@
 go south
 go south
+go down
+go up
 go west
 go south
 go south
 go west
 go south
+take dragonSoul
 go north
 go east
 go north

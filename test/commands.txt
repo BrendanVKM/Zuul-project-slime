@@ -7,16 +7,27 @@ back a
 look
 look a
 look stone
-eat a
-eat
+items
 take
-take e
+take a
 take stone
+take teleportation
+memorize
+memorize a
+items
 drop 
-drop e
+drop a
 drop stone
+take stone
+eat
+eat a
+eat stone
 go
 go a
 go south
-go north
+go south
+teleport a
+teleport
+teleport
+go south
 quit a

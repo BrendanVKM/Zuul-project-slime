@@ -12,13 +12,7 @@ go north
 go east
 go east
 go south
-go north
-go west
-go north
 go down
-go up
-go south
-go south
 go south
 go west
 go west
