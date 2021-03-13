@@ -15,7 +15,7 @@ take teleportation
 memorize
 memorize a
 items
-drop 
+drop
 drop a
 drop stone
 take stone
