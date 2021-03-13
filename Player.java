@@ -10,9 +10,8 @@ public class Player {
     private Stack<Room> aPreviousRooms;
     private ItemList aInventory;
     private UserInterface aGui;
-    private Parser aParser;
     private Beamer aBeamer;
-    private int ENTERED_COMMAND = 35;
+    private int ENTERED_COMMAND = 2500;
     private double MAX_WEIGHT = 1e10; // a slime can carry anything
 
     /**
@@ -23,7 +22,6 @@ public class Player {
     {
         this.aPreviousRooms = new Stack<Room>() ;
         this.aInventory = new ItemList();
-        this.aParser = new Parser();
         this.aBeamer = new Beamer();
     } // Player()
 
@@ -56,18 +54,46 @@ public class Player {
     public Stack<Room> getPreviousRooms(){ return this.aPreviousRooms; } // getPreviousRoom()
     
     /**
+     * access to the player inventory
+     * @return the player inventory
+     */
+    public ItemList getInventory(){ return this.aInventory; } // getInventory()
+
+    /**
+     * acces to the beamer
+     * @return the beamer
+     */
+    public Beamer getBeamer(){ return this.aBeamer; } // getBeamer()
+
+    /**
+     * acces to the total weight of the ItemList
+     * @return the weight the player is carrying
+     */
+    public double getWeightCarrying()
+    {
+        if ( this.aInventory.hasItem() ){
+            double vWeight = 0;
+            for ( Item vItem : this.aInventory.getIventory().values())
+                vWeight += vItem.getWeight();
+            return vWeight;
+        }
+        else return 0;
+    } // getWeightCarrying()
+
+    /**
      * print the content of the invetory
      * @return inventory under String format
      */
     public StringBuilder getInventoryString()
     {
-        StringBuilder vInventory = new StringBuilder( "" );
-        if (this.aInventory.hasItem() ){
-            vInventory.append( "Iventory:" );
-            for ( String vItem : this.aInventory.getIventory().keySet() )
-            vInventory.append( " " + vItem );
-        }
-        return vInventory;
+        StringBuilder vInventory = new StringBuilder( " " );
+                if (this.aInventory.hasItem() ){
+                    vInventory.append( "Iventory:" );
+                for ( String vItem : this.aInventory.getIventory().keySet() )
+                    vInventory.append( " " + vItem + " (" + this.aInventory.getItem(vItem).getWeight() + ")" );
+                return vInventory.append( "\nfor a total of "+ this.getWeightCarrying() + "kg" );
+            }
+            return vInventory;
     } // getInventoryString()
 
     /**
@@ -101,7 +127,7 @@ public class Player {
     /**
      * print location info (current room description + inventory of this player)
      */
-    void printLocationInfo()
+    public void printLocationInfo()
     {
         this.aGui.println( "You were " + this.getPreviousRoom().getDescription() );
         this.aGui.println( this.aCurrentRoom.getLongDescription() );
@@ -110,7 +136,7 @@ public class Player {
         if ( this.aCurrentRoom.getImageName() != "" )
             this.aGui.showImage( this.aCurrentRoom.getImageName() );
     } // printLocationInfo()
-
+    
     /**
      * limit the number of command that a player can type before force ending
      * @return true if the limit is reached
@@ -119,245 +145,149 @@ public class Player {
     {
         this.ENTERED_COMMAND--;
         return this.ENTERED_COMMAND < 0;
-    }
+    } // commandCounter()
+
     /**
-     * method executed with the command word "go"
-     * let you go forward
-     * @param pDep command to move to the next
+     * go method
+     * @param pDrct the direction
      */
-    public void goRoom( final Command pDep )
+    public int goRoom( final String pDrct )
     {
-        if ( !pDep.hasSecondWord() )
-            this.aGui.println( "Go where ?" );
-        else {
-            String vDrct = pDep.getSecondWord(); 
-            Room vNextRoom = this.aCurrentRoom.getExit(vDrct);
-            Door vDoor = this.getCurrentRoom().getDoors(vDrct);
-            if ( vNextRoom == null ) this.aGui.println( "There is no corridor !" );
+            Room vNextRoom = this.aCurrentRoom.getExit(pDrct);
+            Door vDoor = this.getCurrentRoom().getDoors(pDrct);
+            int vNumber = 2;
+            if ( vNextRoom == null ) 
+                vNumber = 0; 
             else {
                 if ( vDoor != null && !vDoor.isOpen()){
                     if ( !this.aInventory.containsItem("dragonSoul") ){
-                        this.aGui.println( "You can't pass without the dragonSoul");
-                        return;
+                        return 1;
                     }
                     vDoor.setOpen(true);
                 }
                 this.setNextRoom( vNextRoom );
                 this.printLocationInfo();
             }
-        }
+            return vNumber;
     } // goRoom(.)
 
     /**
-     * method executed with the command word "back"
-     * let you go backward
-     * @param pCom a command
+     * back method 
      */
-    public void goBack( final Command pCom )
+    public void goBack()
     {
-        if ( !pCom.hasSecondWord() ){
-            if ( this.getPreviousRoom().getImageName().equals( "" )) 
-                this.aGui.println( "You were" + this.getPreviousRoom().getDescription() );
-            //if you are in the bottom of the lake you can't go back to the cave you have to go further
-            else if ( this.aCurrentRoom.getImageName().equals( "bottomOfLake" ) 
-                && this.getPreviousRoom().getImageName().equals( "cave7" ) ){
-                    this.aPreviousRooms.clear();
-                    this.aGui.println( "You were warned, you can't go back after jumping here." );
-                }
-            else if ( this.aCurrentRoom.getImageName().equals( "cave5" ) 
-                && this.getPreviousRoom().getImageName().equals( "cave8" ) ){
-                    this.aPreviousRooms.clear();
-                    this.aGui.println( "You can't go back after falling here." );
-                }
-            else {
-                this.setPreviousRooms();
-                this.printLocationInfo();
-            }
-        }
-        else this.aGui.println( "Back what ?!" );
+        this.setPreviousRooms();
+        this.printLocationInfo();
     } // goBack(.)
 
     /**
-     * charged the beamer with the current room
-     * @param pCom a command
+     * memorize method 
+     * @return true if the beamer has been used, false otherwise
      */
-    public void memorize( final Command pCom )
+    public boolean memorize()
     {
-        if ( this.aInventory.containsItem("teleportation") ){
-            if ( !pCom.hasSecondWord() ){
-                    if ( this.aBeamer.isUsed() )
-                        this.aGui.println( "You already used teleport!" );
-                    else {
-                        this.aBeamer.charge( this.aCurrentRoom );
-                        this.aGui.println( "Room memorized.");
-                    }
-            }
-            else this.aGui.println( "You can only memorize your current room" );
-        }
-        else this.aGui.println( "You cannot use that at the moment");
+        if ( this.aBeamer.isUsed() )
+            return true;
+        this.aBeamer.charge( this.aCurrentRoom );
+        return false;
     } // memorize(.)
 
     /**
      * teleport the player to the memorized room
-     * @param pCom a command
+     * @return true if the beamer is charged, false otherwise
      */
-    public void teleport( final Command pCom )
+    public boolean teleport()
     {
-        if ( this.aInventory.containsItem("teleportation") ){
-            if ( !pCom.hasSecondWord() ){
-                    if ( this.aBeamer.isUsed() )
-                        this.aGui.println( "You already used it");
-                    else {
-                        if ( this.aBeamer.isCharged() ){
-                            this.aCurrentRoom = this.aBeamer.getMemorizedRoom();
-                            this.aBeamer.fire();
-                            this.printLocationInfo();
-                        }
-                        else this.aGui.println( "You need to memorize a room" );
-                    }
-            }
-            else this.aGui.println( "You can only teleport to your memorized room" );
+        if ( this.aBeamer.isCharged() ){
+            this.aCurrentRoom = this.aBeamer.getMemorizedRoom();
+            this.aBeamer.fire();
+            this.printLocationInfo();
+            return true;
         }
-        else this.aGui.println( "You cannot use that at the moment" );
+        return false; 
     } // teleport(.)
 
     /**
-     * method executed with the command word "look"
-     * print all the information of the room or the item that you are looking at
-     * @param pCom a command
+     * look method
+     * @param pSW the name of the item
+     * @return true if the item is in the room, false otherwise
      */
-    public void look( final Command pCom )
+    public boolean look( final String pSW )
     {
-        if ( pCom.hasSecondWord() ){
-            String vSW = pCom.getSecondWord();
-            this.aGui.print("You are looking at ");
-            if ( this.aCurrentRoom.getItems().containsItem(vSW) ){
-                this.aGui.print( "a " + this.aCurrentRoom.getItems().getItem(vSW).getItemString() + "\n");
-                return;
-            }
-            this.aGui.println("... I don't know what you are looking at !");
-        }
-        else this.aGui.println( this.aCurrentRoom.getLongDescription() );
+        return this.aCurrentRoom.containsItem(pSW);
     } // look(.)
 
     /**
-     * method executed with the command word "eat"
-     * if possible eat an item from your inventory
-     * @param pCom a command
+     * eat method
+     * @param pSW the name of the item
+     * @return 0, 1 or 2 depending on the situation 
      */
-    public void eat( final Command pCom )
+    public int eat( final String pSW )
     {
-        if ( !pCom.hasSecondWord() )
-            this.aGui.println( "What do you want to eat ?");
-        else {
-            String vSW = pCom.getSecondWord();
-            if ( this.aInventory.containsItem(vSW) ){
-                if ( vSW.equals("dragonSoul") ){
-                    this.aGui.println( "You have eaten the Veldora's soul. Now you can carry more items." );
-                    this.MAX_WEIGHT *= 1e10;
-                }
-                else this.aGui.println( "You have eaten now and you are not hungry any more.");
-            this.aInventory.removeItem(vSW);
+        int vNumber = 2;
+        if ( this.aInventory.containsItem(pSW) ){
+            if ( pSW.equals("dragonSoul") ){
+                this.MAX_WEIGHT *= 1e10;
+                vNumber = 0;
             }
-            else this.aGui.println( "You don't carry this ");
+            else vNumber = 1;
+            this.MAX_WEIGHT -= aInventory.getItem(pSW).getWeight();
+            this.aInventory.removeItem(pSW);
         }
+        return vNumber;
     } // eat(.)
 
     /**
-     * method executed with the command word "items" 
-     * print a list of the item carried by the player
-     * @param pCom a command
+     * items method
+     * @return the inventory in string format
      */
-    public void Items( final Command pCom )
+    public String Items()
     {
-        if ( pCom.hasSecondWord())
-            this.aGui.println( "Items what?" );
-        else if ( this.aInventory.hasItem()){
+        if ( this.aInventory.hasItem()){
             StringBuilder vInventory = new StringBuilder( " " );
             if (this.aInventory.hasItem() ){
                 vInventory.append( "Iventory:" );
                 for ( String vItem : this.aInventory.getIventory().keySet() )
                     vInventory.append( " " + vItem + " (" + this.aInventory.getItem(vItem).getWeight() + ")" );
-                this.aGui.println( "" + vInventory + " for a total of "+ this.aInventory.getWeightCarrying() + "kg" );
+                return vInventory.append( " for a total of "+ this.getWeightCarrying() + "kg" ).toString();
             }
-            else this.aGui.println( "" + vInventory );
+            else vInventory.toString();
         }
-        else this.aGui.println( "You aren't carrying anything." );
+        return "You aren't carrying anything.";
     } // Items()
 
     /**
-     * method executed with the command word "take" 
-     * if possible take an item and put it in the inventory of the player
-     * @param pCom a command
+     * take method
+     * @param pSW the name of the item
+     * @return 0, 1 or 2 depending on the situation 
      */
-    public void take( final Command pCom )
+    public int take( final String pSW )
     {
-        if ( !pCom.hasSecondWord() )
-            this.aGui.println( "Take what ?");
-        else {
-            String vSW = pCom.getSecondWord();
-            if ( this.aCurrentRoom.getItems().containsItem(vSW) ){
-                if ( this.aInventory.getWeightCarrying() < this.MAX_WEIGHT)
-                    if ( ( this.aInventory.getWeightCarrying() + this.aCurrentRoom.getItems().getItem(vSW).getWeight() ) > this.MAX_WEIGHT )
-                        this.aGui.println( "You don't have enough space to take this");
+            if ( this.aCurrentRoom.containsItem(pSW) ){
+                if ( this.getWeightCarrying() < this.MAX_WEIGHT)
+                    if ( ( this.getWeightCarrying() + this.aCurrentRoom.getItems().getItem(pSW).getWeight() ) > this.MAX_WEIGHT )
+                        return 0;
                     else {
-                        this.aInventory.setItem( this.getCurrentRoom().getItems().getItem(vSW) );
-                        this.aCurrentRoom.getItems().removeItem(vSW);
-                        this.aGui.println( "You take " + vSW + "\n"
-                            + this.aCurrentRoom.getItemsString() + "\n"
-                            +this.getInventoryString() );
+                        this.aInventory.setItem( this.getCurrentRoom().getItems().getItem(pSW) );
+                        this.aCurrentRoom.getItems().removeItem(pSW);
+                        return 1;
                     }
             }
-            else this.aGui.println( "What is this ? Is it there ?" );
-        }
+            return 2;
     } // take(.)
 
     /**
-     * method executed with the command word "drop" 
-     * if possible drop an item on the floor of the room
-     * @param pItem the name of the item
+     * drop method 
+     * @param pSW the name of the item
+     * @return true if the item is in the inventory of the player, false otherwise
      */
-    public void drop( final Command pCom )
+    public boolean drop( final String pSW )
     {
-        if ( !pCom.hasSecondWord() )
-            this.aGui.println( "Drop what ?");
-        else {
-            String vSW = pCom.getSecondWord();
-            if ( this.aInventory.containsItem(vSW) ){
-                this.aCurrentRoom.getItems().setItem( this.aInventory.getItem(vSW) );
-                this.aInventory.removeItem(vSW);
-                this.aGui.println( "You droped " + vSW + "\n"
-                    + this.aCurrentRoom.getItemsString() + "\n"
-                    + this.getInventoryString() );
+            if ( this.aInventory.containsItem(pSW) ){
+                this.aCurrentRoom.getItems().setItem( this.aInventory.getItem(pSW) );
+                this.aInventory.removeItem(pSW);
+                return true;
             }
-            else this.aGui.println( "What is this ? Do you even have this ?" );
-        }
+            return false;
     } // drop(.)
-    
-    /**
-     * method executed with the command word "help" 
-     * print help message
-     */
-    public void printHelp()
-    {
-        this.aGui.println( "You are lost. You are alone." );
-        this.aGui.println( "You wander around at the cave.\n" );
-        this.aGui.println( "Your command words are:" );
-        this.aGui.println( this.aParser.getCommandString() );
-    } // printHelp()
-
-    /**
-     * method executed with the command word "quit" 
-     * if right executed quit the game
-     * @param pCom a command 
-     */
-    public void quit( final Command pCom )
-    {
-        if ( pCom.hasSecondWord() )
-                this.aGui.println( "Quit what?" );
-        else{
-            this.aGui.println( "Thank you for playing.  Good bye." );
-            this.aGui.enable( false );
-        }
-    } // quit(.)
 } // Player

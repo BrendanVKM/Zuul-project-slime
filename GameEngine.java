@@ -188,7 +188,7 @@ public class GameEngine
 
         if ( this.aPlayer.commandCounter() ){
             this.aGui.println( "You are too tired to continue.");
-            this.aPlayer.quit( new Command( CommandWord.QUIT, null ) );
+            this.quit( new Command( CommandWord.QUIT, null ) );
             return;
         }
 
@@ -197,37 +197,37 @@ public class GameEngine
                 this.aGui.println("I don't know what you mean...");
                 break;
             case GO:
-                this.aPlayer.goRoom(vCom);
+                this.goRoom(vCom);
                 break;
             case BACK:
-                this.aPlayer.goBack(vCom);
+                this.goBack(vCom);
                 break;
             case MEMORIZE:
-                this.aPlayer.memorize(vCom);
+                this.memorize(vCom);
                 break;
             case TELEPORT:
-                this.aPlayer.teleport(vCom);
+                this.teleport(vCom);
                 break;
             case LOOK:
-                this.aPlayer.look(vCom);
-                break;
-            case ITEMS:
-                this.aPlayer.Items(vCom);
-                break;
-            case TAKE:
-                this.aPlayer.take(vCom);
+                this.look(vCom);
                 break;
             case EAT:
-                this.aPlayer.eat(vCom);
+                this.eat(vCom);
+                break;
+            case ITEMS:
+                this.Items(vCom);
+                break;
+            case TAKE:
+                this.take(vCom);
                 break;
             case DROP:
-                this.aPlayer.drop(vCom);
+                this.drop(vCom);
                 break;
             case HELP:
-                this.aPlayer.printHelp();
+                this.printHelp();
                 break;
             case QUIT:
-                this.aPlayer.quit(vCom);
+                this.quit(vCom);
                 break;
             case TEST:
                 this.test(vCom);
@@ -245,6 +245,215 @@ public class GameEngine
         this.aGui.println( "Type \' " + CommandWord.HELP + " \' if you need help. \n" );
         this.aPlayer.printLocationInfo();
     } // printWelcome()
+
+    /**
+     * method executed with the command word "go"
+     * let you go forward
+     * @param pDep command to move to the next
+     */
+    public void goRoom( final Command pDep )
+    {
+        if ( !pDep.hasSecondWord() )
+            this.aGui.println( "Go where ?" );
+        else {
+            String vDrct = pDep.getSecondWord(); 
+            int vNumber = this.aPlayer.goRoom(vDrct);
+            if ( vNumber == 0 ) this.aGui.println( "There is no corridor !" );
+            else if ( vNumber == 1 ){
+                this.aPlayer.goRoom(vDrct);
+                this.aGui.println( "You can't pass without the dragonSoul");
+            }
+        }
+    } // goRoom(.)
+
+    /**
+     * method executed with the command word "back"
+     * let you go backward
+     * @param pCom a command
+     */
+    public void goBack( final Command pCom )
+    {
+        if ( !pCom.hasSecondWord() ){
+            if ( this.aPlayer.getPreviousRoom().getImageName().equals( "" )) 
+                this.aGui.println( "You were" + this.aPlayer.getPreviousRoom().getDescription() );
+            //if you are in the bottom of the lake you can't go back to the cave you have to go further
+            else if ( this.aPlayer.getCurrentRoom().getImageName().equals( "bottomOfLake" ) 
+                && this.aPlayer.getPreviousRoom().getImageName().equals( "cave7" ) ){
+                    this.aPlayer.getPreviousRooms().clear();
+                    this.aGui.println( "You were warned, you can't go back after jumping here." );
+                }
+            else if ( this.aPlayer.getCurrentRoom().equals( this.aRooms.get( "cave5" ) ) 
+                && this.aPlayer.getPreviousRoom().equals( this.aRooms.get( "cave8" ) ) ) {
+                    this.aPlayer.getPreviousRooms().clear();
+                    this.aGui.println( "You can't go back after falling here." );
+                }
+            else {
+                this.aPlayer.goBack();
+            }
+        }
+        else this.aGui.println( "Back what ?!" );
+    } // goBack(.)
+
+    /**
+     * charged the beamer with the current room
+     * @param pCom a command
+     */
+    public void memorize( final Command pCom )
+    {
+        if ( this.aPlayer.getInventory().containsItem("teleportation") )
+            if ( !pCom.hasSecondWord() ){
+                    if ( this.aPlayer.memorize() )
+                        this.aGui.println( "You already used teleport!" );
+                    else {
+                        this.aPlayer.memorize();
+                        this.aGui.println( "Room memorized.");
+                    }
+            }
+            else this.aGui.println( "You can only memorize your current room" );
+        else this.aGui.println( "You cannot use that at the moment");
+    } // memorize(.)
+
+    /**
+     * teleport the player to the memorized room
+     * @param pCom a command
+     */
+    public void teleport( final Command pCom )
+    {
+        if ( this.aPlayer.getInventory().containsItem("teleportation") ){
+            if ( !pCom.hasSecondWord() ){
+                    if ( this.aPlayer.getBeamer().isUsed() )
+                        this.aGui.println( "You already used it");
+                    else {
+                        if ( this.aPlayer.teleport() )
+                            this.aPlayer.teleport();
+                        else this.aGui.println( "You need to memorize a room" );
+                    }
+            }
+            else this.aGui.println( "You can only teleport to your memorized room" );
+        }
+        else this.aGui.println( "You cannot use that at the moment" );
+    } // teleport(.)
+
+    /**
+     * method executed with the command word "look"
+     * print all the information of the room or the item that you are looking at
+     * @param pCom a command
+     */
+    public void look( final Command pCom )
+    {
+        if ( pCom.hasSecondWord() ){
+            String vSW = pCom.getSecondWord();
+            this.aGui.print( "You are looking at " );
+            if ( this.aPlayer.look(vSW) )
+                this.aGui.print( "a " + this.aPlayer.getCurrentRoom().getItems().getItem(vSW).getItemString() + "\n" );
+            else this.aGui.println( "... I don't know what you are looking at! Is this in here?" );
+        }
+        else this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
+    } // look(.)
+
+    /**
+     * method executed with the command word "eat"
+     * if possible eat an item from your inventory
+     * @param pCom a command
+     */
+    public void eat( final Command pCom )
+    {
+        if ( !pCom.hasSecondWord() )
+            this.aGui.println( "What do you want to eat ?");
+        else {
+            String vSW = pCom.getSecondWord();
+            int vNumber = this.aPlayer.eat(vSW);
+            if ( vNumber == 0 )
+                    this.aGui.println( "You have eaten the Veldora's soul. Now you can carry more items." );
+            else if ( vNumber == 1 ) 
+                this.aGui.println( "You have eaten now and you are not hungry any more.");
+            else this.aGui.println( "You don't carry this... if this exist.");
+        }
+    } // eat(.)
+
+    /**
+     * method executed with the command word "items" 
+     * print a list of the item carried by the player
+     * @param pCom a command
+     */
+    public void Items( final Command pCom )
+    {
+        if ( pCom.hasSecondWord())
+            this.aGui.println( "Items what?" );
+        else this.aGui.println( this.aPlayer.Items() );
+    } // Items()
+
+    /**
+     * method executed with the command word "take" 
+     * if possible take an item and put it in the inventory of the player
+     * @param pCom a command
+     */
+    public void take( final Command pCom )
+    {
+        if ( !pCom.hasSecondWord() )
+            this.aGui.println( "Take what ?");
+        else {
+            String vSW = pCom.getSecondWord();
+            int vNumber = this.aPlayer.take( vSW );
+            if ( vNumber == 0 )
+                        this.aGui.println( "You don't have enough space to take this."); 
+            else if ( vNumber == 1 ){
+                this.aGui.println( "You take " + vSW + "\n"
+                    + this.aPlayer.getCurrentRoom().getItemsString() + "\n"
+                    +this.aPlayer.getInventoryString() );
+                this.aPlayer.take( vSW );
+            }
+            else this.aGui.println( "What is this ? Is it there ?" );
+        }
+    } // take(.)
+
+    /**
+     * method executed with the command word "drop" 
+     * if possible drop an item on the floor of the room
+     * @param pCom a command
+     */
+    public void drop( final Command pCom )
+    {
+        if ( !pCom.hasSecondWord() )
+            this.aGui.println( "Drop what ?");
+        else {
+            String vSW = pCom.getSecondWord();
+            if ( this.aPlayer.drop(vSW) ){
+                this.aPlayer.drop(vSW);
+                this.aGui.println( "You droped " + vSW + "\n"
+                    + this.aPlayer.getCurrentRoom().getItemsString() + "\n"
+                    + this.aPlayer.getInventoryString() );
+            }
+            else this.aGui.println( "What is this ? Do you even have this ?" );
+        }
+    } // drop(.)
+    
+    /**
+     * method executed with the command word "help" 
+     * print help message
+     */
+    public void printHelp()
+    {
+        this.aGui.println( "You are lost. You are alone." );
+        this.aGui.println( "You wander around at the cave.\n" );
+        this.aGui.println( "Your command words are:" );
+        this.aGui.println( this.aParser.getCommandString() );
+    } // printHelp()
+
+    /**
+     * method executed with the command word "quit" 
+     * if right executed quit the game
+     * @param pCom a command
+     */
+    public void quit( final Command pCom )
+    {
+        if ( pCom.hasSecondWord() )
+                this.aGui.println( "Quit what?" );
+        else{
+            this.aGui.println( "Thank you for playing. Good bye." );
+            this.aGui.enable( false );
+        }
+    } // quit(.)
 
     /**
      * Execute test 

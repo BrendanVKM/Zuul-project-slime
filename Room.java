@@ -139,4 +139,14 @@ public class Room
         }
         return vInventory;
     } // getItemsString()
+
+    /**
+     * tells if the ItemList contains the item that we want
+     * @param pItemName the name of the key that we want to check
+     * @return true if this room has this item
+     */
+    public boolean containsItem( final String pItemName )
+    {
+        return this.aItems.containsItem( pItemName );
+    } // containsItem(.)
 } // Room

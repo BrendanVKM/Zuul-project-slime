@@ -69,18 +69,5 @@ public class ItemList {
         else return null; 
     } // getItem(.)
 
-    /**
-     * acces to the total weight of the ItemList
-     * @return the weight the player is carrying
-     */
-    public double getWeightCarrying()
-    {
-        if ( this.hasItem() ){
-            double vWeight = 0;
-            for ( Item vItem : this.aInventory.values())
-                vWeight += vItem.getWeight();
-            return vWeight;
-        }
-        else return 0;
-    } // getWeightCarrying()
+    
 }
