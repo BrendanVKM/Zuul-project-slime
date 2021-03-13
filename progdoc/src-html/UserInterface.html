@@ -41,159 +41,159 @@
 <span class="sourceLineNo">032</span><a id="line.32">    private JLabel aImage;</a>
 <span class="sourceLineNo">033</span><a id="line.33">    private JPanel aBDrct, aBCmdL, aBCmdR;</a>
 <span class="sourceLineNo">034</span><a id="line.34">    private JButton aBHelp, aBQuit, aBLook, aBEat;</a>
-<span class="sourceLineNo">035</span><a id="line.35">    private JButton aBNorth, aBSouth, aBEast, aBWest, aBUp, aBDown, aBBack;</a>
-<span class="sourceLineNo">036</span><a id="line.36">    private JButton aBVoid1, aBVoid2;</a>
-<span class="sourceLineNo">037</span><a id="line.37"></a>
-<span class="sourceLineNo">038</span><a id="line.38">    /**</a>
-<span class="sourceLineNo">039</span><a id="line.39">     * Construct a UserInterface. As a parameter, a Game Engine</a>
-<span class="sourceLineNo">040</span><a id="line.40">     * (an object processing and executing the game commands) is</a>
-<span class="sourceLineNo">041</span><a id="line.41">     * needed.</a>
-<span class="sourceLineNo">042</span><a id="line.42">     * @param pGameEngine  The GameEngine object implementing the game logic.</a>
-<span class="sourceLineNo">043</span><a id="line.43">     */</a>
-<span class="sourceLineNo">044</span><a id="line.44">    public UserInterface( final GameEngine pGameEngine )</a>
-<span class="sourceLineNo">045</span><a id="line.45">    {</a>
-<span class="sourceLineNo">046</span><a id="line.46">        this.aEngine = pGameEngine;</a>
-<span class="sourceLineNo">047</span><a id="line.47">        this.createGUI();</a>
-<span class="sourceLineNo">048</span><a id="line.48">    } // UserInterface(.)</a>
-<span class="sourceLineNo">049</span><a id="line.49"></a>
-<span class="sourceLineNo">050</span><a id="line.50">    /**</a>
-<span class="sourceLineNo">051</span><a id="line.51">     * Print out some text into the text area.</a>
-<span class="sourceLineNo">052</span><a id="line.52">     */</a>
-<span class="sourceLineNo">053</span><a id="line.53">    public void print( final String pText )</a>
-<span class="sourceLineNo">054</span><a id="line.54">    {</a>
-<span class="sourceLineNo">055</span><a id="line.55">        this.aLog.append( pText );</a>
-<span class="sourceLineNo">056</span><a id="line.56">        this.aLog.setCaretPosition( this.aLog.getDocument().getLength() );</a>
-<span class="sourceLineNo">057</span><a id="line.57">    } // print(.)</a>
-<span class="sourceLineNo">058</span><a id="line.58"></a>
-<span class="sourceLineNo">059</span><a id="line.59">    /**</a>
-<span class="sourceLineNo">060</span><a id="line.60">     * Print out some text into the text area, followed by a line break.</a>
-<span class="sourceLineNo">061</span><a id="line.61">     */</a>
-<span class="sourceLineNo">062</span><a id="line.62">    public void println( final String pText )</a>
-<span class="sourceLineNo">063</span><a id="line.63">    {</a>
-<span class="sourceLineNo">064</span><a id="line.64">        this.print( pText + "\n" );</a>
-<span class="sourceLineNo">065</span><a id="line.65">    } // println(.)</a>
-<span class="sourceLineNo">066</span><a id="line.66"></a>
-<span class="sourceLineNo">067</span><a id="line.67">    /**</a>
-<span class="sourceLineNo">068</span><a id="line.68">     * Show an image file in the interface.</a>
-<span class="sourceLineNo">069</span><a id="line.69">     * @param pImageName the name of the image file</a>
-<span class="sourceLineNo">070</span><a id="line.70">     */</a>
-<span class="sourceLineNo">071</span><a id="line.71">    public void showImage( final String pImageName )</a>
-<span class="sourceLineNo">072</span><a id="line.72">    {</a>
-<span class="sourceLineNo">073</span><a id="line.73">        String vImagePath = "./Images/" + pImageName + ".jpg"; // to change the directory</a>
-<span class="sourceLineNo">074</span><a id="line.74">        URL vImageURL = this.getClass().getClassLoader().getResource( vImagePath );</a>
-<span class="sourceLineNo">075</span><a id="line.75">        if ( vImageURL == null )</a>
-<span class="sourceLineNo">076</span><a id="line.76">            System.out.println( "Image not found : " + vImagePath );</a>
-<span class="sourceLineNo">077</span><a id="line.77">        else {</a>
-<span class="sourceLineNo">078</span><a id="line.78">            ImageIcon vIcon = new ImageIcon( vImageURL );</a>
-<span class="sourceLineNo">079</span><a id="line.79">            this.aImage.setIcon( vIcon );</a>
-<span class="sourceLineNo">080</span><a id="line.80">            this.aMyFrame.pack();</a>
-<span class="sourceLineNo">081</span><a id="line.81">        }</a>
-<span class="sourceLineNo">082</span><a id="line.82">    } // showImage(.)</a>
-<span class="sourceLineNo">083</span><a id="line.83"></a>
-<span class="sourceLineNo">084</span><a id="line.84">    /**</a>
-<span class="sourceLineNo">085</span><a id="line.85">     * Enable or disable input in the input field.</a>
-<span class="sourceLineNo">086</span><a id="line.86">     * @param pOnOff enable entry fied</a>
-<span class="sourceLineNo">087</span><a id="line.87">     */</a>
-<span class="sourceLineNo">088</span><a id="line.88">    public void enable( final boolean pOnOff )</a>
-<span class="sourceLineNo">089</span><a id="line.89">    {</a>
-<span class="sourceLineNo">090</span><a id="line.90">        this.aEntryField.setEditable( pOnOff ); // enable/disable</a>
-<span class="sourceLineNo">091</span><a id="line.91">        if ( ! pOnOff ) { // disable</a>
-<span class="sourceLineNo">092</span><a id="line.92">            this.aEntryField.getCaret().setBlinkRate( 0 ); // cursor won't blink</a>
-<span class="sourceLineNo">093</span><a id="line.93">            this.aEntryField.removeActionListener( this ); // won't react to entry</a>
-<span class="sourceLineNo">094</span><a id="line.94">        }</a>
-<span class="sourceLineNo">095</span><a id="line.95">    } // enable(.)</a>
-<span class="sourceLineNo">096</span><a id="line.96"></a>
-<span class="sourceLineNo">097</span><a id="line.97">    /**</a>
-<span class="sourceLineNo">098</span><a id="line.98">     * Set up graphical user interface.</a>
-<span class="sourceLineNo">099</span><a id="line.99">     */</a>
-<span class="sourceLineNo">100</span><a id="line.100">    private void createGUI()</a>
-<span class="sourceLineNo">101</span><a id="line.101">    {</a>
-<span class="sourceLineNo">102</span><a id="line.102">        this.aMyFrame = new JFrame( "Zork" ); // change the title</a>
-<span class="sourceLineNo">103</span><a id="line.103">        this.aEntryField = new JTextField( 34 );</a>
-<span class="sourceLineNo">104</span><a id="line.104"></a>
-<span class="sourceLineNo">105</span><a id="line.105">        this.aLog = new JTextArea();</a>
-<span class="sourceLineNo">106</span><a id="line.106">        this.aLog.setEditable( false );</a>
-<span class="sourceLineNo">107</span><a id="line.107">        JScrollPane vListScroller = new JScrollPane( this.aLog );</a>
-<span class="sourceLineNo">108</span><a id="line.108">        vListScroller.setPreferredSize( new Dimension(200, 200) );</a>
-<span class="sourceLineNo">109</span><a id="line.109">        vListScroller.setMinimumSize( new Dimension(100,100) );</a>
-<span class="sourceLineNo">110</span><a id="line.110"></a>
-<span class="sourceLineNo">111</span><a id="line.111">        JPanel vPanel1 = new JPanel();</a>
-<span class="sourceLineNo">112</span><a id="line.112">        JPanel vPanel2 = new JPanel();</a>
-<span class="sourceLineNo">113</span><a id="line.113"></a>
-<span class="sourceLineNo">114</span><a id="line.114">        this.aBCmdR = new JPanel(); </a>
-<span class="sourceLineNo">115</span><a id="line.115">        this.aBCmdR.setLayout( new GridLayout(2,1) );</a>
-<span class="sourceLineNo">116</span><a id="line.116"></a>
-<span class="sourceLineNo">117</span><a id="line.117">        this.aBLook = new JButton( "Look" );</a>
-<span class="sourceLineNo">118</span><a id="line.118">        this.aBEat = new JButton( "Eat" );</a>
-<span class="sourceLineNo">119</span><a id="line.119"></a>
-<span class="sourceLineNo">120</span><a id="line.120">        this.aBCmdR.add( this.aBLook );</a>
-<span class="sourceLineNo">121</span><a id="line.121">        this.aBCmdR.add( this.aBEat );</a>
-<span class="sourceLineNo">122</span><a id="line.122"></a>
-<span class="sourceLineNo">123</span><a id="line.123">        this.aBCmdL = new JPanel(); </a>
-<span class="sourceLineNo">124</span><a id="line.124">        this.aBCmdL.setLayout( new GridLayout(2,1) );</a>
-<span class="sourceLineNo">125</span><a id="line.125"></a>
-<span class="sourceLineNo">126</span><a id="line.126">        this.aBHelp = new JButton( "Help" );</a>
-<span class="sourceLineNo">127</span><a id="line.127">        this.aBQuit = new JButton( "Quit" );</a>
-<span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">        this.aBCmdL.add( this.aBHelp );</a>
-<span class="sourceLineNo">130</span><a id="line.130">        this.aBCmdL.add( this.aBQuit );</a>
-<span class="sourceLineNo">131</span><a id="line.131"></a>
-<span class="sourceLineNo">132</span><a id="line.132">        </a>
-<span class="sourceLineNo">133</span><a id="line.133">        this.aBDrct = new JPanel(); </a>
-<span class="sourceLineNo">134</span><a id="line.134">        this.aBDrct.setLayout( new GridLayout(3,3) );</a>
-<span class="sourceLineNo">135</span><a id="line.135"></a>
-<span class="sourceLineNo">136</span><a id="line.136">        this.aBNorth = new JButton( "North" );</a>
-<span class="sourceLineNo">137</span><a id="line.137">        this.aBSouth = new JButton( "South" );</a>
-<span class="sourceLineNo">138</span><a id="line.138">        this.aBEast = new JButton( "East" );</a>
-<span class="sourceLineNo">139</span><a id="line.139">        this.aBWest = new JButton( "West" );</a>
-<span class="sourceLineNo">140</span><a id="line.140">        this.aBUp = new JButton( "Up" );</a>
-<span class="sourceLineNo">141</span><a id="line.141">        this.aBDown = new JButton( "Down" );</a>
-<span class="sourceLineNo">142</span><a id="line.142">        this.aBBack = new JButton( "Back");</a>
-<span class="sourceLineNo">143</span><a id="line.143">        this.aBVoid1 = new JButton( "" );</a>
-<span class="sourceLineNo">144</span><a id="line.144">        this.aBVoid2 = new JButton( "" );</a>
-<span class="sourceLineNo">145</span><a id="line.145">        </a>
-<span class="sourceLineNo">146</span><a id="line.146">        this.aBDrct.add( this.aBUp );</a>
-<span class="sourceLineNo">147</span><a id="line.147">        this.aBDrct.add( this.aBNorth );</a>
-<span class="sourceLineNo">148</span><a id="line.148">        this.aBDrct.add( this.aBVoid1 );</a>
-<span class="sourceLineNo">149</span><a id="line.149">        this.aBDrct.add( this.aBWest );</a>
-<span class="sourceLineNo">150</span><a id="line.150">        this.aBDrct.add( this.aBBack );</a>
-<span class="sourceLineNo">151</span><a id="line.151">        this.aBDrct.add( this.aBEast );</a>
-<span class="sourceLineNo">152</span><a id="line.152">        this.aBDrct.add( this.aBDown );</a>
-<span class="sourceLineNo">153</span><a id="line.153">        this.aBDrct.add( this.aBSouth );</a>
-<span class="sourceLineNo">154</span><a id="line.154">        this.aBDrct.add( this.aBVoid2 );</a>
-<span class="sourceLineNo">155</span><a id="line.155">        </a>
-<span class="sourceLineNo">156</span><a id="line.156">        </a>
-<span class="sourceLineNo">157</span><a id="line.157">        this.aImage = new JLabel();</a>
-<span class="sourceLineNo">158</span><a id="line.158"></a>
-<span class="sourceLineNo">159</span><a id="line.159">        vPanel1.setLayout( new BorderLayout() ); // ==&gt; only five places</a>
-<span class="sourceLineNo">160</span><a id="line.160">        vPanel1.add( this.aImage, BorderLayout.NORTH );</a>
-<span class="sourceLineNo">161</span><a id="line.161">        vPanel1.add( vListScroller, BorderLayout.CENTER );</a>
-<span class="sourceLineNo">162</span><a id="line.162">        vPanel1.add( this.aEntryField, BorderLayout.SOUTH );</a>
-<span class="sourceLineNo">163</span><a id="line.163">        </a>
-<span class="sourceLineNo">164</span><a id="line.164">        vPanel2.setLayout( new BorderLayout() );</a>
-<span class="sourceLineNo">165</span><a id="line.165">        vPanel2.add( this.aBCmdL, BorderLayout.WEST );</a>
-<span class="sourceLineNo">166</span><a id="line.166">        vPanel2.add( this.aBDrct, BorderLayout.CENTER );</a>
-<span class="sourceLineNo">167</span><a id="line.167">        vPanel2.add( this.aBCmdR, BorderLayout.EAST );</a>
-<span class="sourceLineNo">168</span><a id="line.168"></a>
-<span class="sourceLineNo">169</span><a id="line.169">        this.aMyFrame.getContentPane().add( vPanel1, BorderLayout.CENTER );</a>
-<span class="sourceLineNo">170</span><a id="line.170">        this.aMyFrame.getContentPane().add( vPanel2, BorderLayout.SOUTH );</a>
-<span class="sourceLineNo">171</span><a id="line.171"></a>
-<span class="sourceLineNo">172</span><a id="line.172">        // add some event listeners to some components</a>
-<span class="sourceLineNo">173</span><a id="line.173">        this.aEntryField.addActionListener( this );</a>
-<span class="sourceLineNo">174</span><a id="line.174">            // aBCmdL</a>
-<span class="sourceLineNo">175</span><a id="line.175">        this.aBLook.addActionListener( this );</a>
-<span class="sourceLineNo">176</span><a id="line.176">        this.aBEat.addActionListener( this );</a>
-<span class="sourceLineNo">177</span><a id="line.177">            // aBCmdL</a>
-<span class="sourceLineNo">178</span><a id="line.178">        this.aBHelp.addActionListener( this );</a>
-<span class="sourceLineNo">179</span><a id="line.179">        this.aBQuit.addActionListener( this );</a>
-<span class="sourceLineNo">180</span><a id="line.180">            // aBDrct</a>
-<span class="sourceLineNo">181</span><a id="line.181">        this.aBNorth.addActionListener( this );</a>
-<span class="sourceLineNo">182</span><a id="line.182">        this.aBSouth.addActionListener( this );</a>
-<span class="sourceLineNo">183</span><a id="line.183">        this.aBEast.addActionListener( this );</a>
-<span class="sourceLineNo">184</span><a id="line.184">        this.aBWest.addActionListener( this );</a>
-<span class="sourceLineNo">185</span><a id="line.185">        this.aBUp.addActionListener( this );</a>
-<span class="sourceLineNo">186</span><a id="line.186">        this.aBDown.addActionListener( this );</a>
-<span class="sourceLineNo">187</span><a id="line.187">        this.aBBack.addActionListener( this );</a>
+<span class="sourceLineNo">035</span><a id="line.35">    private JButton aBNorth, aBSouth, aBEast, aBWest, aBUp, aBDown, aBBack, aBMemorize, aBTeleport;</a>
+<span class="sourceLineNo">036</span><a id="line.36">    /**</a>
+<span class="sourceLineNo">037</span><a id="line.37">     * Construct a UserInterface. As a parameter, a Game Engine</a>
+<span class="sourceLineNo">038</span><a id="line.38">     * (an object processing and executing the game commands) is</a>
+<span class="sourceLineNo">039</span><a id="line.39">     * needed.</a>
+<span class="sourceLineNo">040</span><a id="line.40">     * @param pGameEngine  The GameEngine object implementing the game logic.</a>
+<span class="sourceLineNo">041</span><a id="line.41">     */</a>
+<span class="sourceLineNo">042</span><a id="line.42">    public UserInterface( final GameEngine pGameEngine )</a>
+<span class="sourceLineNo">043</span><a id="line.43">    {</a>
+<span class="sourceLineNo">044</span><a id="line.44">        this.aEngine = pGameEngine;</a>
+<span class="sourceLineNo">045</span><a id="line.45">        this.createGUI();</a>
+<span class="sourceLineNo">046</span><a id="line.46">    } // UserInterface(.)</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">    /**</a>
+<span class="sourceLineNo">049</span><a id="line.49">     * Print out some text into the text area.</a>
+<span class="sourceLineNo">050</span><a id="line.50">     */</a>
+<span class="sourceLineNo">051</span><a id="line.51">    public void print( final String pText )</a>
+<span class="sourceLineNo">052</span><a id="line.52">    {</a>
+<span class="sourceLineNo">053</span><a id="line.53">        this.aLog.append( pText );</a>
+<span class="sourceLineNo">054</span><a id="line.54">        this.aLog.setCaretPosition( this.aLog.getDocument().getLength() );</a>
+<span class="sourceLineNo">055</span><a id="line.55">    } // print(.)</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">    /**</a>
+<span class="sourceLineNo">058</span><a id="line.58">     * Print out some text into the text area, followed by a line break.</a>
+<span class="sourceLineNo">059</span><a id="line.59">     */</a>
+<span class="sourceLineNo">060</span><a id="line.60">    public void println( final String pText )</a>
+<span class="sourceLineNo">061</span><a id="line.61">    {</a>
+<span class="sourceLineNo">062</span><a id="line.62">        this.print( pText + "\n" );</a>
+<span class="sourceLineNo">063</span><a id="line.63">    } // println(.)</a>
+<span class="sourceLineNo">064</span><a id="line.64"></a>
+<span class="sourceLineNo">065</span><a id="line.65">    /**</a>
+<span class="sourceLineNo">066</span><a id="line.66">     * Show an image file in the interface.</a>
+<span class="sourceLineNo">067</span><a id="line.67">     * @param pImageName the name of the image file</a>
+<span class="sourceLineNo">068</span><a id="line.68">     */</a>
+<span class="sourceLineNo">069</span><a id="line.69">    public void showImage( final String pImageName )</a>
+<span class="sourceLineNo">070</span><a id="line.70">    {</a>
+<span class="sourceLineNo">071</span><a id="line.71">        String vImagePath = "./Images/" + pImageName + ".jpg"; // to change the directory</a>
+<span class="sourceLineNo">072</span><a id="line.72">        URL vImageURL = this.getClass().getClassLoader().getResource( vImagePath );</a>
+<span class="sourceLineNo">073</span><a id="line.73">        if ( vImageURL == null )</a>
+<span class="sourceLineNo">074</span><a id="line.74">            System.out.println( "Image not found : " + vImagePath );</a>
+<span class="sourceLineNo">075</span><a id="line.75">        else {</a>
+<span class="sourceLineNo">076</span><a id="line.76">            ImageIcon vIcon = new ImageIcon( vImageURL );</a>
+<span class="sourceLineNo">077</span><a id="line.77">            this.aImage.setIcon( vIcon );</a>
+<span class="sourceLineNo">078</span><a id="line.78">            this.aMyFrame.pack();</a>
+<span class="sourceLineNo">079</span><a id="line.79">        }</a>
+<span class="sourceLineNo">080</span><a id="line.80">    } // showImage(.)</a>
+<span class="sourceLineNo">081</span><a id="line.81"></a>
+<span class="sourceLineNo">082</span><a id="line.82">    /**</a>
+<span class="sourceLineNo">083</span><a id="line.83">     * Enable or disable input in the input field.</a>
+<span class="sourceLineNo">084</span><a id="line.84">     * @param pOnOff enable entry fied</a>
+<span class="sourceLineNo">085</span><a id="line.85">     */</a>
+<span class="sourceLineNo">086</span><a id="line.86">    public void enable( final boolean pOnOff )</a>
+<span class="sourceLineNo">087</span><a id="line.87">    {</a>
+<span class="sourceLineNo">088</span><a id="line.88">        this.aEntryField.setEditable( pOnOff ); // enable/disable</a>
+<span class="sourceLineNo">089</span><a id="line.89">        if ( ! pOnOff ) { // disable</a>
+<span class="sourceLineNo">090</span><a id="line.90">            this.aEntryField.getCaret().setBlinkRate( 0 ); // cursor won't blink</a>
+<span class="sourceLineNo">091</span><a id="line.91">            this.aEntryField.removeActionListener( this ); // won't react to entry</a>
+<span class="sourceLineNo">092</span><a id="line.92">        }</a>
+<span class="sourceLineNo">093</span><a id="line.93">    } // enable(.)</a>
+<span class="sourceLineNo">094</span><a id="line.94"></a>
+<span class="sourceLineNo">095</span><a id="line.95">    /**</a>
+<span class="sourceLineNo">096</span><a id="line.96">     * Set up graphical user interface.</a>
+<span class="sourceLineNo">097</span><a id="line.97">     */</a>
+<span class="sourceLineNo">098</span><a id="line.98">    private void createGUI()</a>
+<span class="sourceLineNo">099</span><a id="line.99">    {</a>
+<span class="sourceLineNo">100</span><a id="line.100">        this.aMyFrame = new JFrame( "Zork" ); // change the title</a>
+<span class="sourceLineNo">101</span><a id="line.101">        this.aEntryField = new JTextField( 34 );</a>
+<span class="sourceLineNo">102</span><a id="line.102"></a>
+<span class="sourceLineNo">103</span><a id="line.103">        this.aLog = new JTextArea();</a>
+<span class="sourceLineNo">104</span><a id="line.104">        this.aLog.setEditable( false );</a>
+<span class="sourceLineNo">105</span><a id="line.105">        JScrollPane vListScroller = new JScrollPane( this.aLog );</a>
+<span class="sourceLineNo">106</span><a id="line.106">        vListScroller.setPreferredSize( new Dimension(200, 200) );</a>
+<span class="sourceLineNo">107</span><a id="line.107">        vListScroller.setMinimumSize( new Dimension(100,100) );</a>
+<span class="sourceLineNo">108</span><a id="line.108"></a>
+<span class="sourceLineNo">109</span><a id="line.109">        JPanel vPanel1 = new JPanel();</a>
+<span class="sourceLineNo">110</span><a id="line.110">        JPanel vPanel2 = new JPanel();</a>
+<span class="sourceLineNo">111</span><a id="line.111"></a>
+<span class="sourceLineNo">112</span><a id="line.112">        this.aBCmdR = new JPanel(); </a>
+<span class="sourceLineNo">113</span><a id="line.113">        this.aBCmdR.setLayout( new GridLayout(2,1) );</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">        this.aBLook = new JButton( "Look" );</a>
+<span class="sourceLineNo">116</span><a id="line.116">        this.aBEat = new JButton( "Eat" );</a>
+<span class="sourceLineNo">117</span><a id="line.117"></a>
+<span class="sourceLineNo">118</span><a id="line.118">        this.aBCmdR.add( this.aBLook );</a>
+<span class="sourceLineNo">119</span><a id="line.119">        this.aBCmdR.add( this.aBEat );</a>
+<span class="sourceLineNo">120</span><a id="line.120"></a>
+<span class="sourceLineNo">121</span><a id="line.121">        this.aBCmdL = new JPanel(); </a>
+<span class="sourceLineNo">122</span><a id="line.122">        this.aBCmdL.setLayout( new GridLayout(2,1) );</a>
+<span class="sourceLineNo">123</span><a id="line.123"></a>
+<span class="sourceLineNo">124</span><a id="line.124">        this.aBHelp = new JButton( "Help" );</a>
+<span class="sourceLineNo">125</span><a id="line.125">        this.aBQuit = new JButton( "Quit" );</a>
+<span class="sourceLineNo">126</span><a id="line.126"></a>
+<span class="sourceLineNo">127</span><a id="line.127">        this.aBCmdL.add( this.aBHelp );</a>
+<span class="sourceLineNo">128</span><a id="line.128">        this.aBCmdL.add( this.aBQuit );</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">        </a>
+<span class="sourceLineNo">131</span><a id="line.131">        this.aBDrct = new JPanel(); </a>
+<span class="sourceLineNo">132</span><a id="line.132">        this.aBDrct.setLayout( new GridLayout(3,3) );</a>
+<span class="sourceLineNo">133</span><a id="line.133"></a>
+<span class="sourceLineNo">134</span><a id="line.134">        this.aBNorth = new JButton( "North" );</a>
+<span class="sourceLineNo">135</span><a id="line.135">        this.aBSouth = new JButton( "South" );</a>
+<span class="sourceLineNo">136</span><a id="line.136">        this.aBEast = new JButton( "East" );</a>
+<span class="sourceLineNo">137</span><a id="line.137">        this.aBWest = new JButton( "West" );</a>
+<span class="sourceLineNo">138</span><a id="line.138">        this.aBUp = new JButton( "Up" );</a>
+<span class="sourceLineNo">139</span><a id="line.139">        this.aBDown = new JButton( "Down" );</a>
+<span class="sourceLineNo">140</span><a id="line.140">        this.aBBack = new JButton( "Back");</a>
+<span class="sourceLineNo">141</span><a id="line.141">        this.aBTeleport = new JButton( "Teleportation" );</a>
+<span class="sourceLineNo">142</span><a id="line.142">        this.aBMemorize = new JButton( "Memorize" );</a>
+<span class="sourceLineNo">143</span><a id="line.143">        </a>
+<span class="sourceLineNo">144</span><a id="line.144">        this.aBDrct.add( this.aBUp );</a>
+<span class="sourceLineNo">145</span><a id="line.145">        this.aBDrct.add( this.aBNorth );</a>
+<span class="sourceLineNo">146</span><a id="line.146">        this.aBDrct.add( this.aBTeleport );</a>
+<span class="sourceLineNo">147</span><a id="line.147">        this.aBDrct.add( this.aBWest );</a>
+<span class="sourceLineNo">148</span><a id="line.148">        this.aBDrct.add( this.aBBack );</a>
+<span class="sourceLineNo">149</span><a id="line.149">        this.aBDrct.add( this.aBEast );</a>
+<span class="sourceLineNo">150</span><a id="line.150">        this.aBDrct.add( this.aBDown );</a>
+<span class="sourceLineNo">151</span><a id="line.151">        this.aBDrct.add( this.aBSouth );</a>
+<span class="sourceLineNo">152</span><a id="line.152">        this.aBDrct.add( this.aBMemorize );</a>
+<span class="sourceLineNo">153</span><a id="line.153">        </a>
+<span class="sourceLineNo">154</span><a id="line.154">        </a>
+<span class="sourceLineNo">155</span><a id="line.155">        this.aImage = new JLabel();</a>
+<span class="sourceLineNo">156</span><a id="line.156"></a>
+<span class="sourceLineNo">157</span><a id="line.157">        vPanel1.setLayout( new BorderLayout() ); // ==&gt; only five places</a>
+<span class="sourceLineNo">158</span><a id="line.158">        vPanel1.add( this.aImage, BorderLayout.NORTH );</a>
+<span class="sourceLineNo">159</span><a id="line.159">        vPanel1.add( vListScroller, BorderLayout.CENTER );</a>
+<span class="sourceLineNo">160</span><a id="line.160">        vPanel1.add( this.aEntryField, BorderLayout.SOUTH );</a>
+<span class="sourceLineNo">161</span><a id="line.161">        </a>
+<span class="sourceLineNo">162</span><a id="line.162">        vPanel2.setLayout( new BorderLayout() );</a>
+<span class="sourceLineNo">163</span><a id="line.163">        vPanel2.add( this.aBCmdL, BorderLayout.WEST );</a>
+<span class="sourceLineNo">164</span><a id="line.164">        vPanel2.add( this.aBDrct, BorderLayout.CENTER );</a>
+<span class="sourceLineNo">165</span><a id="line.165">        vPanel2.add( this.aBCmdR, BorderLayout.EAST );</a>
+<span class="sourceLineNo">166</span><a id="line.166"></a>
+<span class="sourceLineNo">167</span><a id="line.167">        this.aMyFrame.getContentPane().add( vPanel1, BorderLayout.CENTER );</a>
+<span class="sourceLineNo">168</span><a id="line.168">        this.aMyFrame.getContentPane().add( vPanel2, BorderLayout.SOUTH );</a>
+<span class="sourceLineNo">169</span><a id="line.169"></a>
+<span class="sourceLineNo">170</span><a id="line.170">        // add some event listeners to some components</a>
+<span class="sourceLineNo">171</span><a id="line.171">        this.aEntryField.addActionListener( this );</a>
+<span class="sourceLineNo">172</span><a id="line.172">            // aBCmdL</a>
+<span class="sourceLineNo">173</span><a id="line.173">        this.aBLook.addActionListener( this );</a>
+<span class="sourceLineNo">174</span><a id="line.174">        this.aBEat.addActionListener( this );</a>
+<span class="sourceLineNo">175</span><a id="line.175">            // aBCmdL</a>
+<span class="sourceLineNo">176</span><a id="line.176">        this.aBHelp.addActionListener( this );</a>
+<span class="sourceLineNo">177</span><a id="line.177">        this.aBQuit.addActionListener( this );</a>
+<span class="sourceLineNo">178</span><a id="line.178">            // aBDrct</a>
+<span class="sourceLineNo">179</span><a id="line.179">        this.aBNorth.addActionListener( this );</a>
+<span class="sourceLineNo">180</span><a id="line.180">        this.aBSouth.addActionListener( this );</a>
+<span class="sourceLineNo">181</span><a id="line.181">        this.aBEast.addActionListener( this );</a>
+<span class="sourceLineNo">182</span><a id="line.182">        this.aBWest.addActionListener( this );</a>
+<span class="sourceLineNo">183</span><a id="line.183">        this.aBUp.addActionListener( this );</a>
+<span class="sourceLineNo">184</span><a id="line.184">        this.aBDown.addActionListener( this );</a>
+<span class="sourceLineNo">185</span><a id="line.185">        this.aBBack.addActionListener( this );</a>
+<span class="sourceLineNo">186</span><a id="line.186">        this.aBMemorize.addActionListener( this );</a>
+<span class="sourceLineNo">187</span><a id="line.187">        this.aBTeleport.addActionListener( this );</a>
 <span class="sourceLineNo">188</span><a id="line.188">        </a>
 <span class="sourceLineNo">189</span><a id="line.189">        // to end program when window is closed</a>
 <span class="sourceLineNo">190</span><a id="line.190">        this.aMyFrame.addWindowListener( new WindowAdapter() {</a>
@@ -225,30 +225,34 @@
 <span class="sourceLineNo">216</span><a id="line.216">            this.aEngine.interpretCommand("go up");</a>
 <span class="sourceLineNo">217</span><a id="line.217">        else if ( pE.getSource() == this.aBDown ) </a>
 <span class="sourceLineNo">218</span><a id="line.218">            this.aEngine.interpretCommand("go down");</a>
-<span class="sourceLineNo">219</span><a id="line.219">        else if ( pE.getSource() == this.aBBack)</a>
-<span class="sourceLineNo">220</span><a id="line.220">            this.aEngine.interpretCommand("back");</a>
-<span class="sourceLineNo">221</span><a id="line.221">        else if ( pE.getSource() == this.aBLook ) </a>
-<span class="sourceLineNo">222</span><a id="line.222">            this.aEngine.interpretCommand("look");</a>
-<span class="sourceLineNo">223</span><a id="line.223">        else if ( pE.getSource() == this.aBEat ) </a>
-<span class="sourceLineNo">224</span><a id="line.224">            this.aEngine.interpretCommand("eat");</a>
-<span class="sourceLineNo">225</span><a id="line.225">        else if ( pE.getSource() == this.aBHelp ) </a>
-<span class="sourceLineNo">226</span><a id="line.226">            this.aEngine.interpretCommand("help");</a>
-<span class="sourceLineNo">227</span><a id="line.227">        else if ( pE.getSource() == this.aBQuit ) </a>
-<span class="sourceLineNo">228</span><a id="line.228">            this.aEngine.interpretCommand("quit");</a>
-<span class="sourceLineNo">229</span><a id="line.229">        else this.processCommand(); // never suppress this line</a>
-<span class="sourceLineNo">230</span><a id="line.230">    } // actionPerformed(.)</a>
-<span class="sourceLineNo">231</span><a id="line.231"></a>
-<span class="sourceLineNo">232</span><a id="line.232">    /**</a>
-<span class="sourceLineNo">233</span><a id="line.233">     * A command has been entered. Read the command and do whatever is </a>
-<span class="sourceLineNo">234</span><a id="line.234">     * necessary to process it.</a>
-<span class="sourceLineNo">235</span><a id="line.235">     */</a>
-<span class="sourceLineNo">236</span><a id="line.236">    private void processCommand()</a>
-<span class="sourceLineNo">237</span><a id="line.237">    {</a>
-<span class="sourceLineNo">238</span><a id="line.238">        String vInput = this.aEntryField.getText();</a>
-<span class="sourceLineNo">239</span><a id="line.239">        this.aEntryField.setText( "" );</a>
-<span class="sourceLineNo">240</span><a id="line.240">        this.aEngine.interpretCommand( vInput );</a>
-<span class="sourceLineNo">241</span><a id="line.241">    } // processCommand()</a>
-<span class="sourceLineNo">242</span><a id="line.242">} // UserInterface </a>
+<span class="sourceLineNo">219</span><a id="line.219">        else if ( pE.getSource() == this.aBMemorize ) </a>
+<span class="sourceLineNo">220</span><a id="line.220">            this.aEngine.interpretCommand("memorize");</a>
+<span class="sourceLineNo">221</span><a id="line.221">        else if ( pE.getSource() == this.aBTeleport ) </a>
+<span class="sourceLineNo">222</span><a id="line.222">            this.aEngine.interpretCommand("teleport");</a>
+<span class="sourceLineNo">223</span><a id="line.223">        else if ( pE.getSource() == this.aBBack)</a>
+<span class="sourceLineNo">224</span><a id="line.224">            this.aEngine.interpretCommand("back");</a>
+<span class="sourceLineNo">225</span><a id="line.225">        else if ( pE.getSource() == this.aBLook ) </a>
+<span class="sourceLineNo">226</span><a id="line.226">            this.aEngine.interpretCommand("look");</a>
+<span class="sourceLineNo">227</span><a id="line.227">        else if ( pE.getSource() == this.aBEat ) </a>
+<span class="sourceLineNo">228</span><a id="line.228">            this.aEngine.interpretCommand("eat");</a>
+<span class="sourceLineNo">229</span><a id="line.229">        else if ( pE.getSource() == this.aBHelp ) </a>
+<span class="sourceLineNo">230</span><a id="line.230">            this.aEngine.interpretCommand("help");</a>
+<span class="sourceLineNo">231</span><a id="line.231">        else if ( pE.getSource() == this.aBQuit ) </a>
+<span class="sourceLineNo">232</span><a id="line.232">            this.aEngine.interpretCommand("quit");</a>
+<span class="sourceLineNo">233</span><a id="line.233">        else this.processCommand(); // never suppress this line</a>
+<span class="sourceLineNo">234</span><a id="line.234">    } // actionPerformed(.)</a>
+<span class="sourceLineNo">235</span><a id="line.235"></a>
+<span class="sourceLineNo">236</span><a id="line.236">    /**</a>
+<span class="sourceLineNo">237</span><a id="line.237">     * A command has been entered. Read the command and do whatever is </a>
+<span class="sourceLineNo">238</span><a id="line.238">     * necessary to process it.</a>
+<span class="sourceLineNo">239</span><a id="line.239">     */</a>
+<span class="sourceLineNo">240</span><a id="line.240">    private void processCommand()</a>
+<span class="sourceLineNo">241</span><a id="line.241">    {</a>
+<span class="sourceLineNo">242</span><a id="line.242">        String vInput = this.aEntryField.getText();</a>
+<span class="sourceLineNo">243</span><a id="line.243">        this.aEntryField.setText( "" );</a>
+<span class="sourceLineNo">244</span><a id="line.244">        this.aEngine.interpretCommand( vInput );</a>
+<span class="sourceLineNo">245</span><a id="line.245">    } // processCommand()</a>
+<span class="sourceLineNo">246</span><a id="line.246">} // UserInterface </a>
 
 
 
