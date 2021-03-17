@@ -149,4 +149,16 @@ public class Room
     {
         return this.aItems.containsItem( pItemName );
     } // containsItem(.)
+
+    // Overriding equals() just in case it can be usefull later 
+    @Override
+    public boolean equals( final Object pObj )
+    {  
+        if ( pObj == this )
+            return true; 
+        if ( !( pObj instanceof Room ) )
+            return false; 
+        Room vRoom = (Room) pObj; 
+        return this.aDescription.equals(vRoom.getDescription() );
+    } // equals(.)
 } // Room

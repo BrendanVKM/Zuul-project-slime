@@ -153,23 +153,33 @@ public class Player {
      */
     public int goRoom( final String pDrct )
     {
-            Room vNextRoom = this.aCurrentRoom.getExit(pDrct);
-            Door vDoor = this.getCurrentRoom().getDoors(pDrct);
-            int vNumber = 2;
-            if ( vNextRoom == null ) 
-                vNumber = 0; 
-            else {
-                if ( vDoor != null && !vDoor.isOpen()){
-                    if ( !this.aInventory.containsItem("dragonSoul") ){
-                        return 1;
-                    }
-                    vDoor.setOpen(true);
+        Room vNextRoom = this.aCurrentRoom.getExit(pDrct);
+        Door vDoor = this.getCurrentRoom().getDoors(pDrct);
+        int vNumber = 2;
+        if ( vNextRoom == null ) 
+            vNumber = 0; 
+        else {
+            if ( vDoor != null && !vDoor.isOpen()){
+                if ( !this.aInventory.containsItem("dragonSoul") ){
+                    return 1;
                 }
-                this.setNextRoom( vNextRoom );
-                this.printLocationInfo();
+                vDoor.setOpen(true);
             }
-            return vNumber;
+            this.setNextRoom( vNextRoom );
+            this.printLocationInfo();
+        }
+        return vNumber;
     } // goRoom(.)
+
+    /**
+    * go method (for random access)
+    * @param pRoom the random room you end up
+    */
+    public void goRandom( final Room pRoom )
+    {
+        this.setNextRoom( pRoom );
+        this.printLocationInfo();
+   } // goRandom(.)
 
     /**
      * back method 
@@ -226,7 +236,7 @@ public class Player {
     {
         int vNumber = 2;
         if ( this.aInventory.containsItem(pSW) ){
-            if ( pSW.equals("dragonSoul") ){
+            if ( pSW.equals("stone") ){
                 this.MAX_WEIGHT *= 1e10;
                 vNumber = 0;
             }

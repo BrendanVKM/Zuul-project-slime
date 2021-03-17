@@ -1,4 +1,6 @@
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -63,11 +65,12 @@ public class GameEngine
         Room vGetOut = new Room( "opening the door.", "getOut" );
         Room vOutside = new Room( "finally outside.", "outside" );
         Room vMeetBeatrix = new Room( "finally back to Beatrix.", "meetBreeder" ); 
+        Room vSomewhere = new Room( "somewhere.", "somewhere" ); 
         
         Item vStone = new Item( "stone", "just a stone, what did you expect !?", 4.69);
         Item vMagistone = new Item( "magistone", "a magic stone, can it be useful somewhere? ", 35.82 );
         Item vFlower = new Item( "flower", "a beautiful flower", 0.026);
-        Item vDragonSoul = new Item( "dragonSoul", "the soul of Veldora", 10E-100);
+        Item vDragonSoul = new Item( "dragonSoul", "the soul of Veldora", 0);
         Item vTree = new Item( "tree", "just a tree and yes you can carry it you are a slime after all", 735);
         
         Beamer vBeamer = new Beamer();
@@ -81,20 +84,21 @@ public class GameEngine
         this.aRooms.put( "cave6", vCave6 );
         this.aRooms.put( "cave7", vCave7 );
         this.aRooms.put( "cave8", vCave8 );
-        this.aRooms.put( "up flower", vUpFlower );
+        this.aRooms.put( "upFlower", vUpFlower );
         this.aRooms.put( "flower2", vFlower2 );
-        this.aRooms.put( "flower trail", vFlowerTrail );
-        this.aRooms.put( "on magistone", vOnMagistone );
-        this.aRooms.put( "bottom of lake", vBottomOfLake );
-        this.aRooms.put( "surface of lake", vSurfaceOfLake );
+        this.aRooms.put( "flowerTrail", vFlowerTrail );
+        this.aRooms.put( "onMagistone", vOnMagistone );
+        this.aRooms.put( "bottomOfLake", vBottomOfLake );
+        this.aRooms.put( "surfaceOfLake", vSurfaceOfLake );
         this.aRooms.put( "lake", vLake );
-        this.aRooms.put( "jump to dragon", vJumpToDragon );
-        this.aRooms.put( "meet tempest", vMeetTempest );
-        this.aRooms.put( "see the door", vSeeTheDoor );
+        this.aRooms.put( "jumpToDragon", vJumpToDragon );
+        this.aRooms.put( "meetTempest", vMeetTempest );
+        this.aRooms.put( "seeTheDoor", vSeeTheDoor );
         this.aRooms.put( "door", vDoor );
-        this.aRooms.put( "get out", vGetOut );
+        this.aRooms.put( "getOut", vGetOut );
         this.aRooms.put( "outside", vOutside );
-        this.aRooms.put( "meet beatrix", vMeetBeatrix );
+        this.aRooms.put( "meetBeatrix", vMeetBeatrix );
+        this.aRooms.put( "somewhere", vSomewhere );
 
         vSpawn.setExit( "south", vCave2 );
         vSpawn.setItem( vStone );
@@ -169,6 +173,7 @@ public class GameEngine
         vOutside.setItem( vTree );
 
         vMeetBeatrix.setExit( "east", vOutside );
+        vMeetBeatrix.setExit( "west", vSomewhere );
 
         this.aPlayer = new Player();
         this.aPlayer.setCurrentRoom(vSpawn);
@@ -256,6 +261,12 @@ public class GameEngine
         if ( !pDep.hasSecondWord() )
             this.aGui.println( "Go where ?" );
         else {
+            if ( this.aPlayer.getCurrentRoom().equals( this.aRooms.get( "somewhere" ) ) ){
+                ArrayList<String> vArray = new ArrayList<String>( this.aRooms.keySet() );
+                String vRandomRoom = vArray.get( new Random().nextInt( vArray.size() ) );
+                this.aPlayer.goRandom( this.aRooms.get( vRandomRoom ) );
+                return;
+            }
             String vDrct = pDep.getSecondWord(); 
             int vNumber = this.aPlayer.goRoom(vDrct);
             if ( vNumber == 0 ) this.aGui.println( "There is no corridor !" );
@@ -277,8 +288,8 @@ public class GameEngine
             if ( this.aPlayer.getPreviousRoom().getImageName().equals( "" )) 
                 this.aGui.println( "You were" + this.aPlayer.getPreviousRoom().getDescription() );
             //if you are in the bottom of the lake you can't go back to the cave you have to go further
-            else if ( this.aPlayer.getCurrentRoom().getImageName().equals( "bottomOfLake" ) 
-                && this.aPlayer.getPreviousRoom().getImageName().equals( "cave7" ) ){
+            else if ( this.aPlayer.getCurrentRoom().equals( this.aRooms.get( "bottomOfLake" ) )
+                && this.aPlayer.getPreviousRoom().equals( this.aRooms.get( "cave7" ) ) ){
                     this.aPlayer.getPreviousRooms().clear();
                     this.aGui.println( "You were warned, you can't go back after jumping here." );
                 }
