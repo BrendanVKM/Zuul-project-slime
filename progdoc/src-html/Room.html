@@ -158,7 +158,19 @@
 <span class="sourceLineNo">149</span><a id="line.149">    {</a>
 <span class="sourceLineNo">150</span><a id="line.150">        return this.aItems.containsItem( pItemName );</a>
 <span class="sourceLineNo">151</span><a id="line.151">    } // containsItem(.)</a>
-<span class="sourceLineNo">152</span><a id="line.152">} // Room</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">    // Overriding equals() just in case it can be usefull later </a>
+<span class="sourceLineNo">154</span><a id="line.154">    @Override</a>
+<span class="sourceLineNo">155</span><a id="line.155">    public boolean equals( final Object pObj )</a>
+<span class="sourceLineNo">156</span><a id="line.156">    {  </a>
+<span class="sourceLineNo">157</span><a id="line.157">        if ( pObj == this )</a>
+<span class="sourceLineNo">158</span><a id="line.158">            return true; </a>
+<span class="sourceLineNo">159</span><a id="line.159">        if ( !( pObj instanceof Room ) )</a>
+<span class="sourceLineNo">160</span><a id="line.160">            return false; </a>
+<span class="sourceLineNo">161</span><a id="line.161">        Room vRoom = (Room) pObj; </a>
+<span class="sourceLineNo">162</span><a id="line.162">        return this.aDescription.equals(vRoom.getDescription() );</a>
+<span class="sourceLineNo">163</span><a id="line.163">    } // equals(.)</a>
+<span class="sourceLineNo">164</span><a id="line.164">} // Room</a>
 
 
 
