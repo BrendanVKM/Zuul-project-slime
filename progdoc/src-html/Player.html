@@ -159,157 +159,158 @@
 <span class="sourceLineNo">150</span><a id="line.150">    /**</a>
 <span class="sourceLineNo">151</span><a id="line.151">     * go method</a>
 <span class="sourceLineNo">152</span><a id="line.152">     * @param pDrct the direction</a>
-<span class="sourceLineNo">153</span><a id="line.153">     */</a>
-<span class="sourceLineNo">154</span><a id="line.154">    public int goRoom( final String pDrct )</a>
-<span class="sourceLineNo">155</span><a id="line.155">    {</a>
-<span class="sourceLineNo">156</span><a id="line.156">        Room vNextRoom = this.aCurrentRoom.getExit(pDrct);</a>
-<span class="sourceLineNo">157</span><a id="line.157">        Door vDoor = this.getCurrentRoom().getDoors(pDrct);</a>
-<span class="sourceLineNo">158</span><a id="line.158">        int vNumber = 2;</a>
-<span class="sourceLineNo">159</span><a id="line.159">        if ( vNextRoom == null ) </a>
-<span class="sourceLineNo">160</span><a id="line.160">            vNumber = 0; </a>
-<span class="sourceLineNo">161</span><a id="line.161">        else {</a>
-<span class="sourceLineNo">162</span><a id="line.162">            if ( vDoor != null &amp;&amp; !vDoor.isOpen()){</a>
-<span class="sourceLineNo">163</span><a id="line.163">                if ( !this.aInventory.containsItem("dragonSoul") ){</a>
-<span class="sourceLineNo">164</span><a id="line.164">                    return 1;</a>
-<span class="sourceLineNo">165</span><a id="line.165">                }</a>
-<span class="sourceLineNo">166</span><a id="line.166">                vDoor.setOpen(true);</a>
-<span class="sourceLineNo">167</span><a id="line.167">            }</a>
-<span class="sourceLineNo">168</span><a id="line.168">            this.setNextRoom( vNextRoom );</a>
-<span class="sourceLineNo">169</span><a id="line.169">            this.printLocationInfo();</a>
-<span class="sourceLineNo">170</span><a id="line.170">        }</a>
-<span class="sourceLineNo">171</span><a id="line.171">        return vNumber;</a>
-<span class="sourceLineNo">172</span><a id="line.172">    } // goRoom(.)</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">    /**</a>
-<span class="sourceLineNo">175</span><a id="line.175">    * go method (for random access)</a>
-<span class="sourceLineNo">176</span><a id="line.176">    * @param pRoom the random room you end up</a>
-<span class="sourceLineNo">177</span><a id="line.177">    */</a>
-<span class="sourceLineNo">178</span><a id="line.178">    public void goRandom( final Room pRoom )</a>
-<span class="sourceLineNo">179</span><a id="line.179">    {</a>
-<span class="sourceLineNo">180</span><a id="line.180">        this.setNextRoom( pRoom );</a>
-<span class="sourceLineNo">181</span><a id="line.181">        this.printLocationInfo();</a>
-<span class="sourceLineNo">182</span><a id="line.182">   } // goRandom(.)</a>
-<span class="sourceLineNo">183</span><a id="line.183"></a>
-<span class="sourceLineNo">184</span><a id="line.184">    /**</a>
-<span class="sourceLineNo">185</span><a id="line.185">     * back method </a>
-<span class="sourceLineNo">186</span><a id="line.186">     */</a>
-<span class="sourceLineNo">187</span><a id="line.187">    public void goBack()</a>
-<span class="sourceLineNo">188</span><a id="line.188">    {</a>
-<span class="sourceLineNo">189</span><a id="line.189">        this.setPreviousRooms();</a>
-<span class="sourceLineNo">190</span><a id="line.190">        this.printLocationInfo();</a>
-<span class="sourceLineNo">191</span><a id="line.191">    } // goBack(.)</a>
-<span class="sourceLineNo">192</span><a id="line.192"></a>
-<span class="sourceLineNo">193</span><a id="line.193">    /**</a>
-<span class="sourceLineNo">194</span><a id="line.194">     * memorize method </a>
-<span class="sourceLineNo">195</span><a id="line.195">     * @return true if the beamer has been used, false otherwise</a>
-<span class="sourceLineNo">196</span><a id="line.196">     */</a>
-<span class="sourceLineNo">197</span><a id="line.197">    public boolean memorize()</a>
-<span class="sourceLineNo">198</span><a id="line.198">    {</a>
-<span class="sourceLineNo">199</span><a id="line.199">        if ( this.aBeamer.isUsed() )</a>
-<span class="sourceLineNo">200</span><a id="line.200">            return true;</a>
-<span class="sourceLineNo">201</span><a id="line.201">        this.aBeamer.charge( this.aCurrentRoom );</a>
-<span class="sourceLineNo">202</span><a id="line.202">        return false;</a>
-<span class="sourceLineNo">203</span><a id="line.203">    } // memorize(.)</a>
-<span class="sourceLineNo">204</span><a id="line.204"></a>
-<span class="sourceLineNo">205</span><a id="line.205">    /**</a>
-<span class="sourceLineNo">206</span><a id="line.206">     * teleport the player to the memorized room</a>
-<span class="sourceLineNo">207</span><a id="line.207">     * @return true if the beamer is charged, false otherwise</a>
-<span class="sourceLineNo">208</span><a id="line.208">     */</a>
-<span class="sourceLineNo">209</span><a id="line.209">    public boolean teleport()</a>
-<span class="sourceLineNo">210</span><a id="line.210">    {</a>
-<span class="sourceLineNo">211</span><a id="line.211">        if ( this.aBeamer.isCharged() ){</a>
-<span class="sourceLineNo">212</span><a id="line.212">            this.aCurrentRoom = this.aBeamer.getMemorizedRoom();</a>
-<span class="sourceLineNo">213</span><a id="line.213">            this.aBeamer.fire();</a>
-<span class="sourceLineNo">214</span><a id="line.214">            this.printLocationInfo();</a>
-<span class="sourceLineNo">215</span><a id="line.215">            return true;</a>
-<span class="sourceLineNo">216</span><a id="line.216">        }</a>
-<span class="sourceLineNo">217</span><a id="line.217">        return false; </a>
-<span class="sourceLineNo">218</span><a id="line.218">    } // teleport(.)</a>
-<span class="sourceLineNo">219</span><a id="line.219"></a>
-<span class="sourceLineNo">220</span><a id="line.220">    /**</a>
-<span class="sourceLineNo">221</span><a id="line.221">     * look method</a>
-<span class="sourceLineNo">222</span><a id="line.222">     * @param pSW the name of the item</a>
-<span class="sourceLineNo">223</span><a id="line.223">     * @return true if the item is in the room, false otherwise</a>
-<span class="sourceLineNo">224</span><a id="line.224">     */</a>
-<span class="sourceLineNo">225</span><a id="line.225">    public boolean look( final String pSW )</a>
-<span class="sourceLineNo">226</span><a id="line.226">    {</a>
-<span class="sourceLineNo">227</span><a id="line.227">        return this.aCurrentRoom.containsItem(pSW);</a>
-<span class="sourceLineNo">228</span><a id="line.228">    } // look(.)</a>
-<span class="sourceLineNo">229</span><a id="line.229"></a>
-<span class="sourceLineNo">230</span><a id="line.230">    /**</a>
-<span class="sourceLineNo">231</span><a id="line.231">     * eat method</a>
-<span class="sourceLineNo">232</span><a id="line.232">     * @param pSW the name of the item</a>
-<span class="sourceLineNo">233</span><a id="line.233">     * @return 0, 1 or 2 depending on the situation </a>
-<span class="sourceLineNo">234</span><a id="line.234">     */</a>
-<span class="sourceLineNo">235</span><a id="line.235">    public int eat( final String pSW )</a>
-<span class="sourceLineNo">236</span><a id="line.236">    {</a>
-<span class="sourceLineNo">237</span><a id="line.237">        int vNumber = 2;</a>
-<span class="sourceLineNo">238</span><a id="line.238">        if ( this.aInventory.containsItem(pSW) ){</a>
-<span class="sourceLineNo">239</span><a id="line.239">            if ( pSW.equals("stone") ){</a>
-<span class="sourceLineNo">240</span><a id="line.240">                this.MAX_WEIGHT *= 1e10;</a>
-<span class="sourceLineNo">241</span><a id="line.241">                vNumber = 0;</a>
-<span class="sourceLineNo">242</span><a id="line.242">            }</a>
-<span class="sourceLineNo">243</span><a id="line.243">            else vNumber = 1;</a>
-<span class="sourceLineNo">244</span><a id="line.244">            this.MAX_WEIGHT -= aInventory.getItem(pSW).getWeight();</a>
-<span class="sourceLineNo">245</span><a id="line.245">            this.aInventory.removeItem(pSW);</a>
-<span class="sourceLineNo">246</span><a id="line.246">        }</a>
-<span class="sourceLineNo">247</span><a id="line.247">        return vNumber;</a>
-<span class="sourceLineNo">248</span><a id="line.248">    } // eat(.)</a>
-<span class="sourceLineNo">249</span><a id="line.249"></a>
-<span class="sourceLineNo">250</span><a id="line.250">    /**</a>
-<span class="sourceLineNo">251</span><a id="line.251">     * items method</a>
-<span class="sourceLineNo">252</span><a id="line.252">     * @return the inventory in string format</a>
-<span class="sourceLineNo">253</span><a id="line.253">     */</a>
-<span class="sourceLineNo">254</span><a id="line.254">    public String Items()</a>
-<span class="sourceLineNo">255</span><a id="line.255">    {</a>
-<span class="sourceLineNo">256</span><a id="line.256">        if ( this.aInventory.hasItem()){</a>
-<span class="sourceLineNo">257</span><a id="line.257">            StringBuilder vInventory = new StringBuilder( " " );</a>
-<span class="sourceLineNo">258</span><a id="line.258">            if (this.aInventory.hasItem() ){</a>
-<span class="sourceLineNo">259</span><a id="line.259">                vInventory.append( "Iventory:" );</a>
-<span class="sourceLineNo">260</span><a id="line.260">                for ( String vItem : this.aInventory.getIventory().keySet() )</a>
-<span class="sourceLineNo">261</span><a id="line.261">                    vInventory.append( " " + vItem + " (" + this.aInventory.getItem(vItem).getWeight() + ")" );</a>
-<span class="sourceLineNo">262</span><a id="line.262">                return vInventory.append( " for a total of "+ this.getWeightCarrying() + "kg" ).toString();</a>
-<span class="sourceLineNo">263</span><a id="line.263">            }</a>
-<span class="sourceLineNo">264</span><a id="line.264">            else vInventory.toString();</a>
-<span class="sourceLineNo">265</span><a id="line.265">        }</a>
-<span class="sourceLineNo">266</span><a id="line.266">        return "You aren't carrying anything.";</a>
-<span class="sourceLineNo">267</span><a id="line.267">    } // Items()</a>
-<span class="sourceLineNo">268</span><a id="line.268"></a>
-<span class="sourceLineNo">269</span><a id="line.269">    /**</a>
-<span class="sourceLineNo">270</span><a id="line.270">     * take method</a>
-<span class="sourceLineNo">271</span><a id="line.271">     * @param pSW the name of the item</a>
-<span class="sourceLineNo">272</span><a id="line.272">     * @return 0, 1 or 2 depending on the situation </a>
-<span class="sourceLineNo">273</span><a id="line.273">     */</a>
-<span class="sourceLineNo">274</span><a id="line.274">    public int take( final String pSW )</a>
-<span class="sourceLineNo">275</span><a id="line.275">    {</a>
-<span class="sourceLineNo">276</span><a id="line.276">            if ( this.aCurrentRoom.containsItem(pSW) ){</a>
-<span class="sourceLineNo">277</span><a id="line.277">                if ( this.getWeightCarrying() &lt; this.MAX_WEIGHT)</a>
-<span class="sourceLineNo">278</span><a id="line.278">                    if ( ( this.getWeightCarrying() + this.aCurrentRoom.getItems().getItem(pSW).getWeight() ) &gt; this.MAX_WEIGHT )</a>
-<span class="sourceLineNo">279</span><a id="line.279">                        return 0;</a>
-<span class="sourceLineNo">280</span><a id="line.280">                    else {</a>
-<span class="sourceLineNo">281</span><a id="line.281">                        this.aInventory.setItem( this.getCurrentRoom().getItems().getItem(pSW) );</a>
-<span class="sourceLineNo">282</span><a id="line.282">                        this.aCurrentRoom.getItems().removeItem(pSW);</a>
-<span class="sourceLineNo">283</span><a id="line.283">                        return 1;</a>
-<span class="sourceLineNo">284</span><a id="line.284">                    }</a>
-<span class="sourceLineNo">285</span><a id="line.285">            }</a>
-<span class="sourceLineNo">286</span><a id="line.286">            return 2;</a>
-<span class="sourceLineNo">287</span><a id="line.287">    } // take(.)</a>
-<span class="sourceLineNo">288</span><a id="line.288"></a>
-<span class="sourceLineNo">289</span><a id="line.289">    /**</a>
-<span class="sourceLineNo">290</span><a id="line.290">     * drop method </a>
-<span class="sourceLineNo">291</span><a id="line.291">     * @param pSW the name of the item</a>
-<span class="sourceLineNo">292</span><a id="line.292">     * @return true if the item is in the inventory of the player, false otherwise</a>
-<span class="sourceLineNo">293</span><a id="line.293">     */</a>
-<span class="sourceLineNo">294</span><a id="line.294">    public boolean drop( final String pSW )</a>
-<span class="sourceLineNo">295</span><a id="line.295">    {</a>
-<span class="sourceLineNo">296</span><a id="line.296">            if ( this.aInventory.containsItem(pSW) ){</a>
-<span class="sourceLineNo">297</span><a id="line.297">                this.aCurrentRoom.getItems().setItem( this.aInventory.getItem(pSW) );</a>
-<span class="sourceLineNo">298</span><a id="line.298">                this.aInventory.removeItem(pSW);</a>
-<span class="sourceLineNo">299</span><a id="line.299">                return true;</a>
-<span class="sourceLineNo">300</span><a id="line.300">            }</a>
-<span class="sourceLineNo">301</span><a id="line.301">            return false;</a>
-<span class="sourceLineNo">302</span><a id="line.302">    } // drop(.)</a>
-<span class="sourceLineNo">303</span><a id="line.303">} // Player</a>
+<span class="sourceLineNo">153</span><a id="line.153">     * @return 1, 2 or 3 depending on the direction</a>
+<span class="sourceLineNo">154</span><a id="line.154">     */</a>
+<span class="sourceLineNo">155</span><a id="line.155">    public int goRoom( final String pDrct )</a>
+<span class="sourceLineNo">156</span><a id="line.156">    {</a>
+<span class="sourceLineNo">157</span><a id="line.157">        Room vNextRoom = this.aCurrentRoom.getExit(pDrct);</a>
+<span class="sourceLineNo">158</span><a id="line.158">        Door vDoor = this.getCurrentRoom().getDoors(pDrct);</a>
+<span class="sourceLineNo">159</span><a id="line.159">        int vNumber = 2;</a>
+<span class="sourceLineNo">160</span><a id="line.160">        if ( vNextRoom == null ) </a>
+<span class="sourceLineNo">161</span><a id="line.161">            vNumber = 0; </a>
+<span class="sourceLineNo">162</span><a id="line.162">        else {</a>
+<span class="sourceLineNo">163</span><a id="line.163">            if ( vDoor != null &amp;&amp; !vDoor.isOpen()){</a>
+<span class="sourceLineNo">164</span><a id="line.164">                if ( !this.aInventory.containsItem("dragonSoul") ){</a>
+<span class="sourceLineNo">165</span><a id="line.165">                    return 1;</a>
+<span class="sourceLineNo">166</span><a id="line.166">                }</a>
+<span class="sourceLineNo">167</span><a id="line.167">                vDoor.setOpen(true);</a>
+<span class="sourceLineNo">168</span><a id="line.168">            }</a>
+<span class="sourceLineNo">169</span><a id="line.169">            this.setNextRoom( vNextRoom );</a>
+<span class="sourceLineNo">170</span><a id="line.170">            this.printLocationInfo();</a>
+<span class="sourceLineNo">171</span><a id="line.171">        }</a>
+<span class="sourceLineNo">172</span><a id="line.172">        return vNumber;</a>
+<span class="sourceLineNo">173</span><a id="line.173">    } // goRoom(.)</a>
+<span class="sourceLineNo">174</span><a id="line.174"></a>
+<span class="sourceLineNo">175</span><a id="line.175">    /**</a>
+<span class="sourceLineNo">176</span><a id="line.176">    * go method (for random access)</a>
+<span class="sourceLineNo">177</span><a id="line.177">    * @param pRoom the random room you end up</a>
+<span class="sourceLineNo">178</span><a id="line.178">    */</a>
+<span class="sourceLineNo">179</span><a id="line.179">    public void goRandom( final Room pRoom )</a>
+<span class="sourceLineNo">180</span><a id="line.180">    {</a>
+<span class="sourceLineNo">181</span><a id="line.181">        this.setNextRoom( pRoom );</a>
+<span class="sourceLineNo">182</span><a id="line.182">        this.printLocationInfo();</a>
+<span class="sourceLineNo">183</span><a id="line.183">   } // goRandom(.)</a>
+<span class="sourceLineNo">184</span><a id="line.184"></a>
+<span class="sourceLineNo">185</span><a id="line.185">    /**</a>
+<span class="sourceLineNo">186</span><a id="line.186">     * back method </a>
+<span class="sourceLineNo">187</span><a id="line.187">     */</a>
+<span class="sourceLineNo">188</span><a id="line.188">    public void goBack()</a>
+<span class="sourceLineNo">189</span><a id="line.189">    {</a>
+<span class="sourceLineNo">190</span><a id="line.190">        this.setPreviousRooms();</a>
+<span class="sourceLineNo">191</span><a id="line.191">        this.printLocationInfo();</a>
+<span class="sourceLineNo">192</span><a id="line.192">    } // goBack(.)</a>
+<span class="sourceLineNo">193</span><a id="line.193"></a>
+<span class="sourceLineNo">194</span><a id="line.194">    /**</a>
+<span class="sourceLineNo">195</span><a id="line.195">     * memorize method </a>
+<span class="sourceLineNo">196</span><a id="line.196">     * @return true if the beamer has been used, false otherwise</a>
+<span class="sourceLineNo">197</span><a id="line.197">     */</a>
+<span class="sourceLineNo">198</span><a id="line.198">    public boolean memorize()</a>
+<span class="sourceLineNo">199</span><a id="line.199">    {</a>
+<span class="sourceLineNo">200</span><a id="line.200">        if ( this.aBeamer.isUsed() )</a>
+<span class="sourceLineNo">201</span><a id="line.201">            return true;</a>
+<span class="sourceLineNo">202</span><a id="line.202">        this.aBeamer.charge( this.aCurrentRoom );</a>
+<span class="sourceLineNo">203</span><a id="line.203">        return false;</a>
+<span class="sourceLineNo">204</span><a id="line.204">    } // memorize(.)</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">    /**</a>
+<span class="sourceLineNo">207</span><a id="line.207">     * teleport the player to the memorized room</a>
+<span class="sourceLineNo">208</span><a id="line.208">     * @return true if the beamer is charged, false otherwise</a>
+<span class="sourceLineNo">209</span><a id="line.209">     */</a>
+<span class="sourceLineNo">210</span><a id="line.210">    public boolean teleport()</a>
+<span class="sourceLineNo">211</span><a id="line.211">    {</a>
+<span class="sourceLineNo">212</span><a id="line.212">        if ( this.aBeamer.isCharged() ){</a>
+<span class="sourceLineNo">213</span><a id="line.213">            this.aCurrentRoom = this.aBeamer.getMemorizedRoom();</a>
+<span class="sourceLineNo">214</span><a id="line.214">            this.aBeamer.fire();</a>
+<span class="sourceLineNo">215</span><a id="line.215">            this.printLocationInfo();</a>
+<span class="sourceLineNo">216</span><a id="line.216">            return true;</a>
+<span class="sourceLineNo">217</span><a id="line.217">        }</a>
+<span class="sourceLineNo">218</span><a id="line.218">        return false; </a>
+<span class="sourceLineNo">219</span><a id="line.219">    } // teleport(.)</a>
+<span class="sourceLineNo">220</span><a id="line.220"></a>
+<span class="sourceLineNo">221</span><a id="line.221">    /**</a>
+<span class="sourceLineNo">222</span><a id="line.222">     * look method</a>
+<span class="sourceLineNo">223</span><a id="line.223">     * @param pSW the name of the item</a>
+<span class="sourceLineNo">224</span><a id="line.224">     * @return true if the item is in the room, false otherwise</a>
+<span class="sourceLineNo">225</span><a id="line.225">     */</a>
+<span class="sourceLineNo">226</span><a id="line.226">    public boolean look( final String pSW )</a>
+<span class="sourceLineNo">227</span><a id="line.227">    {</a>
+<span class="sourceLineNo">228</span><a id="line.228">        return this.aCurrentRoom.containsItem(pSW);</a>
+<span class="sourceLineNo">229</span><a id="line.229">    } // look(.)</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">    /**</a>
+<span class="sourceLineNo">232</span><a id="line.232">     * eat method</a>
+<span class="sourceLineNo">233</span><a id="line.233">     * @param pSW the name of the item</a>
+<span class="sourceLineNo">234</span><a id="line.234">     * @return 0, 1 or 2 depending on the situation </a>
+<span class="sourceLineNo">235</span><a id="line.235">     */</a>
+<span class="sourceLineNo">236</span><a id="line.236">    public int eat( final String pSW )</a>
+<span class="sourceLineNo">237</span><a id="line.237">    {</a>
+<span class="sourceLineNo">238</span><a id="line.238">        int vNumber = 2;</a>
+<span class="sourceLineNo">239</span><a id="line.239">        if ( this.aInventory.containsItem(pSW) ){</a>
+<span class="sourceLineNo">240</span><a id="line.240">            if ( pSW.equals("stone") ){</a>
+<span class="sourceLineNo">241</span><a id="line.241">                this.MAX_WEIGHT *= 1e10;</a>
+<span class="sourceLineNo">242</span><a id="line.242">                vNumber = 0;</a>
+<span class="sourceLineNo">243</span><a id="line.243">            }</a>
+<span class="sourceLineNo">244</span><a id="line.244">            else vNumber = 1;</a>
+<span class="sourceLineNo">245</span><a id="line.245">            this.MAX_WEIGHT -= aInventory.getItem(pSW).getWeight();</a>
+<span class="sourceLineNo">246</span><a id="line.246">            this.aInventory.removeItem(pSW);</a>
+<span class="sourceLineNo">247</span><a id="line.247">        }</a>
+<span class="sourceLineNo">248</span><a id="line.248">        return vNumber;</a>
+<span class="sourceLineNo">249</span><a id="line.249">    } // eat(.)</a>
+<span class="sourceLineNo">250</span><a id="line.250"></a>
+<span class="sourceLineNo">251</span><a id="line.251">    /**</a>
+<span class="sourceLineNo">252</span><a id="line.252">     * items method</a>
+<span class="sourceLineNo">253</span><a id="line.253">     * @return the inventory in string format</a>
+<span class="sourceLineNo">254</span><a id="line.254">     */</a>
+<span class="sourceLineNo">255</span><a id="line.255">    public String Items()</a>
+<span class="sourceLineNo">256</span><a id="line.256">    {</a>
+<span class="sourceLineNo">257</span><a id="line.257">        if ( this.aInventory.hasItem()){</a>
+<span class="sourceLineNo">258</span><a id="line.258">            StringBuilder vInventory = new StringBuilder( " " );</a>
+<span class="sourceLineNo">259</span><a id="line.259">            if (this.aInventory.hasItem() ){</a>
+<span class="sourceLineNo">260</span><a id="line.260">                vInventory.append( "Iventory:" );</a>
+<span class="sourceLineNo">261</span><a id="line.261">                for ( String vItem : this.aInventory.getIventory().keySet() )</a>
+<span class="sourceLineNo">262</span><a id="line.262">                    vInventory.append( " " + vItem + " (" + this.aInventory.getItem(vItem).getWeight() + ")" );</a>
+<span class="sourceLineNo">263</span><a id="line.263">                return vInventory.append( " for a total of "+ this.getWeightCarrying() + "kg" ).toString();</a>
+<span class="sourceLineNo">264</span><a id="line.264">            }</a>
+<span class="sourceLineNo">265</span><a id="line.265">            else vInventory.toString();</a>
+<span class="sourceLineNo">266</span><a id="line.266">        }</a>
+<span class="sourceLineNo">267</span><a id="line.267">        return "You aren't carrying anything.";</a>
+<span class="sourceLineNo">268</span><a id="line.268">    } // Items()</a>
+<span class="sourceLineNo">269</span><a id="line.269"></a>
+<span class="sourceLineNo">270</span><a id="line.270">    /**</a>
+<span class="sourceLineNo">271</span><a id="line.271">     * take method</a>
+<span class="sourceLineNo">272</span><a id="line.272">     * @param pSW the name of the item</a>
+<span class="sourceLineNo">273</span><a id="line.273">     * @return 0, 1 or 2 depending on the situation </a>
+<span class="sourceLineNo">274</span><a id="line.274">     */</a>
+<span class="sourceLineNo">275</span><a id="line.275">    public int take( final String pSW )</a>
+<span class="sourceLineNo">276</span><a id="line.276">    {</a>
+<span class="sourceLineNo">277</span><a id="line.277">            if ( this.aCurrentRoom.containsItem(pSW) ){</a>
+<span class="sourceLineNo">278</span><a id="line.278">                if ( this.getWeightCarrying() &lt; this.MAX_WEIGHT)</a>
+<span class="sourceLineNo">279</span><a id="line.279">                    if ( ( this.getWeightCarrying() + this.aCurrentRoom.getItems().getItem(pSW).getWeight() ) &gt; this.MAX_WEIGHT )</a>
+<span class="sourceLineNo">280</span><a id="line.280">                        return 0;</a>
+<span class="sourceLineNo">281</span><a id="line.281">                    else {</a>
+<span class="sourceLineNo">282</span><a id="line.282">                        this.aInventory.setItem( this.getCurrentRoom().getItems().getItem(pSW) );</a>
+<span class="sourceLineNo">283</span><a id="line.283">                        this.aCurrentRoom.getItems().removeItem(pSW);</a>
+<span class="sourceLineNo">284</span><a id="line.284">                        return 1;</a>
+<span class="sourceLineNo">285</span><a id="line.285">                    }</a>
+<span class="sourceLineNo">286</span><a id="line.286">            }</a>
+<span class="sourceLineNo">287</span><a id="line.287">            return 2;</a>
+<span class="sourceLineNo">288</span><a id="line.288">    } // take(.)</a>
+<span class="sourceLineNo">289</span><a id="line.289"></a>
+<span class="sourceLineNo">290</span><a id="line.290">    /**</a>
+<span class="sourceLineNo">291</span><a id="line.291">     * drop method </a>
+<span class="sourceLineNo">292</span><a id="line.292">     * @param pSW the name of the item</a>
+<span class="sourceLineNo">293</span><a id="line.293">     * @return true if the item is in the inventory of the player, false otherwise</a>
+<span class="sourceLineNo">294</span><a id="line.294">     */</a>
+<span class="sourceLineNo">295</span><a id="line.295">    public boolean drop( final String pSW )</a>
+<span class="sourceLineNo">296</span><a id="line.296">    {</a>
+<span class="sourceLineNo">297</span><a id="line.297">            if ( this.aInventory.containsItem(pSW) ){</a>
+<span class="sourceLineNo">298</span><a id="line.298">                this.aCurrentRoom.getItems().setItem( this.aInventory.getItem(pSW) );</a>
+<span class="sourceLineNo">299</span><a id="line.299">                this.aInventory.removeItem(pSW);</a>
+<span class="sourceLineNo">300</span><a id="line.300">                return true;</a>
+<span class="sourceLineNo">301</span><a id="line.301">            }</a>
+<span class="sourceLineNo">302</span><a id="line.302">            return false;</a>
+<span class="sourceLineNo">303</span><a id="line.303">    } // drop(.)</a>
+<span class="sourceLineNo">304</span><a id="line.304">} // Player</a>
 
 
 

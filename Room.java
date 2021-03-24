@@ -81,6 +81,7 @@ public class Room
 
     /**
      * access to the description + the exits
+     * @return a string representation of the description
      */
     public String getLongDescription()
     {
