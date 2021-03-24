@@ -150,6 +150,7 @@ public class Player {
     /**
      * go method
      * @param pDrct the direction
+     * @return 1, 2 or 3 depending on the direction
      */
     public int goRoom( final String pDrct )
     {

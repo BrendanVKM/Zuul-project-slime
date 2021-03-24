@@ -19,7 +19,7 @@ public class Door {
     
     /**
      * acces to the status of the door (close or open)
-     * @return true if the door is open
+     * @return true if the door is open false otherwise 
      */
     public boolean isOpen()
     {
@@ -28,7 +28,7 @@ public class Door {
 
     /**
      * acces to the status of the door (close or open)
-     * @return true if the door is open
+     * @param pOpen true if the door is open false otherwise 
      */
     public void setOpen( final boolean pOpen )
     {

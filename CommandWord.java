@@ -15,7 +15,7 @@ public enum CommandWord {
 
     /**
       * Initialise with the corresponding command word.
-      * @param commandWord The command string.
+      * @param commandString The command string.
      */
     CommandWord(String commandString)
     {

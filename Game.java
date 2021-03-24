@@ -21,6 +21,7 @@ public class Game
 
     /**
      * launch the game with VS code
+     * @param args because it is mandatory
      */
     public static void main(String[] args) {
         System.out.print ( new Game() );

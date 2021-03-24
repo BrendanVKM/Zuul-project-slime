@@ -47,6 +47,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Print out some text into the text area.
+     * @param pText The string
      */
     public void print( final String pText )
     {
@@ -56,6 +57,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Print out some text into the text area, followed by a line break.
+     * @param pText The string
      */
     public void println( final String pText )
     {
