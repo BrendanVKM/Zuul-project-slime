@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Door
+comment0.text=\r\n\ set\ Door\ to\ room\r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.02.26\r\n
+comment1.params=pKey
+comment1.target=Door(pkg_item.Item)
+comment1.text=\r\n\ defalt\ constructor\r\n\ @param\ pKey\ the\ key\ that\ you\ need\ to\ open\ the\ door\r\n\ @param\ pOpen\ true\ if\ the\ door\ is\ open\ false\ otherwise\ \r\n
+comment2.params=
+comment2.target=pkg_item.Item\ getKey()
+comment2.text=\r\n\ acces\ to\ the\ key\r\n\ @return\ the\ key\r\n
+comment3.params=
+comment3.target=boolean\ isOpen()
+comment3.text=\r\n\ acces\ to\ the\ status\ of\ the\ door\ (close\ or\ open)\r\n\ @return\ true\ if\ the\ door\ is\ open\ false\ otherwise\ \r\n
+comment4.params=pOpen
+comment4.target=void\ setOpen(boolean)
+comment4.text=\r\n\ acces\ to\ the\ status\ of\ the\ door\ (close\ or\ open)\r\n\ @param\ pOpen\ true\ if\ the\ door\ is\ open\ false\ otherwise\ \r\n
+numComments=5

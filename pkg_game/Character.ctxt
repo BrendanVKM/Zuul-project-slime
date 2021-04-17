@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.target=Character
+comment1.params=pName
+comment1.target=Character(java.lang.String)
+comment1.text=\r\n\ Constructor\r\n\ @param\ pName\ name\ of\ the\ character\r\n
+comment2.params=pItem
+comment2.target=void\ setItem(pkg_item.Item)
+comment2.text=\r\n\ add\ item\ to\ a\ room\r\n\ @param\ pItem\ item\ you\ want\ to\ add\ in\ the\ room\r\n
+comment3.params=
+comment3.target=pkg_item.ItemList\ getItems()
+comment3.text=\r\n\ acces\ to\ items\ of\ the\ character\r\n\ @return\ items\ of\ the\ character\r\n
+comment4.params=
+comment4.target=java.lang.String\ getName()
+comment4.text=\r\n\ access\ to\ the\ name\ of\ the\ character\r\n\ @return\ name\ of\ the\ character\r\n
+comment5.params=
+comment5.target=java.lang.String\ PlayerEnterRoom()
+comment5.text=\r\n\ String\ prints\ when\ the\ player\ enters\ the\ room\ of\ this\ character\r\n\ @return\ String\ prints\ when\ the\ player\ enters\ the\ room\ of\ this\ character\r\n
+comment6.params=
+comment6.target=java.lang.String\ PlayerAbsorbCharacter()
+numComments=7
