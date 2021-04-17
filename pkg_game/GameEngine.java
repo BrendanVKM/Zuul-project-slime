@@ -304,7 +304,8 @@ public class GameEngine
     private void goBack( final Command pCom )
     {
         if ( !pCom.hasSecondWord() ){
-            if ( this.aPlayer.getPreviousRoom().getImageName().equals( "" )) 
+            if (this.aPlayer.getPreviousRoom() == null ) this.aGui.println( "You can't go back!" );
+            else if ( this.aPlayer.getPreviousRoom().getImageName().equals( "" )) 
                 this.aGui.println( "You were" + this.aPlayer.getPreviousRoom().getDescription() );
             //if you are in the bottom of the lake you can't go back to the cave you have to go further
             else if ( this.aPlayer.getCurrentRoom().equals( this.aRooms.get( "bottomOfLake" ) )

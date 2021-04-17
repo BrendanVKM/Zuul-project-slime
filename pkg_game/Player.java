@@ -52,7 +52,10 @@ public class Player {
      * access the previous room
      * @return Previous room
      */
-    public Room getPreviousRoom(){ return this.aPreviousRooms.peek(); } // getPreviousRoom()
+    public Room getPreviousRoom(){ 
+        if ( this.aPreviousRooms.empty() ) return null;
+        return this.aPreviousRooms.peek(); 
+    } // getPreviousRoom()
 
     /**
      * access stack of previous rooms 
