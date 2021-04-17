@@ -6,5 +6,5 @@ comment1.target=Game()
 comment1.text=\r\n\ launch\ the\ game\ with\ BlueJ\r\n
 comment2.params=args
 comment2.target=void\ main(java.lang.String[])
-comment2.text=\r\n\ launch\ the\ game\ with\ VS\ code\r\n
+comment2.text=\r\n\ launch\ the\ game\ with\ VS\ code\r\n\ @param\ args\ because\ it\ is\ mandatory\r\n
 numComments=3

@@ -1,4 +1,7 @@
 
+import pkg_game.GameEngine;
+import pkg_game.UserInterface;
+
 /**
  * launch the game
  * @author Brendan VICTOIRE
@@ -17,6 +20,14 @@ public class Game
         this.aGameEngine = new GameEngine();
         this.aGui = new UserInterface( this.aGameEngine );
         this.aGameEngine.setGUI( this.aGui );
+        //timer
+        long vStartTime = System.currentTimeMillis();
+        long vTimePast = 0;
+        while (vTimePast < 30*60*1000)
+            vTimePast = System.currentTimeMillis() - vStartTime;
+        if ( this.aGui.isDisabled() ) return;
+        this.aGui.println( "You have taken to much time!");
+        this.aGameEngine.interpretCommand("quit");
     } // Game()
 
     /**
