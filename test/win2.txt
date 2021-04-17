@@ -1,13 +1,14 @@
 go south
 go south
 go down
+absorb flower
 go up
 go west
 go south
 go south
 go west
 go south
-take dragonSoul
+absorb Veldora
 go north
 go east
 go east

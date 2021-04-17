@@ -7,7 +7,7 @@ go south
 go south
 go west
 go south
-take dragonSoul
+absorb Veldora
 go north
 go east
 go east

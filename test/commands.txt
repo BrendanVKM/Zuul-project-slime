@@ -8,17 +8,17 @@ look
 look a
 look stone
 items
-take
-take a
-take stone
-take teleportation
+absorb
+absorb a
+absorb stone
+absorb teleportation
 memorize
 memorize a
 items
 drop
 drop a
 drop stone
-take stone
+absorb stone
 eat
 eat a
 eat stone

@@ -1,3 +1,4 @@
+alea bottomOfLake
 go south
 go south
 go down
@@ -20,3 +21,5 @@ go west
 go west
 go west
 go west
+go west
+go east
