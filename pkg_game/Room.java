@@ -204,7 +204,9 @@ public class Room
 
     public boolean containsCharacter( final String pCharacter)
     {
-        return this.aCharacter.getName() == pCharacter;
+        if (this.aCharacter != null)
+            return this.aCharacter.getName() == pCharacter;
+        return false;
     }
 
     // Overriding equals() just in case it can be usefull later 

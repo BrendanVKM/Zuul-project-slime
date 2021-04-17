@@ -291,7 +291,7 @@ public class GameEngine
             else if ( vNumber == 1 ){
                 this.aGui.println( "You can't pass without the dragonSoul");
             }
-            if ( this.aPlayer.getCurrentRoom().equals(this.aRooms.get("meetTempest")))
+            if ( this.aPlayer.getCurrentRoom().containsCharacter("Veldora"))
                 this.aGui.println( this.aPlayer.getCurrentRoom().getCharacter().PlayerEnterRoom() );
         }
     } // goRoom(.)
@@ -523,14 +523,10 @@ public class GameEngine
     {
         if ( !this.aTestMode )
             this.aGui.println( "You need to be in the test mode!" );
-        else {
-            if ( !pCom.hasSecondWord() ){
+        else if ( !pCom.hasSecondWord() ){
                 this.aNotRandomRoom = null;
                 this.aGui.println( "the randomness of the transporter room has been reset." );
-            }
-            else {
-                this.aNotRandomRoom = pCom.getSecondWord();
         }
-    }
+        else this.aNotRandomRoom = pCom.getSecondWord();
     }
 }// GameEngine

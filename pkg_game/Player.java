@@ -18,7 +18,7 @@ public class Player {
     private ItemList aInventory;
     private UserInterface aGui;
     private Beamer aBeamer;
-    private int ENTERED_COMMAND = 25;
+    private int ENTERED_COMMAND = 35;
     private double MAX_WEIGHT = 1e10; // a slime can carry anything
 
     /**
@@ -142,7 +142,7 @@ public class Player {
         this.aGui.println( "You were " + this.getPreviousRoom().getDescription() );
         this.aGui.println( this.aCurrentRoom.getLongDescription() );
         if ( this.aInventory.hasItem() )
-            this.aGui.println( "" + this.aCurrentRoom.getItemsString() );
+            this.aGui.println( "" + this.getInventoryString() );
         if ( this.aCurrentRoom.getImageName() != "" )
             this.aGui.showImage( this.aCurrentRoom.getImageName() );
     } // printLocationInfo()
