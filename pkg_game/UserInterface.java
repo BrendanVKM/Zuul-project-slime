@@ -73,7 +73,7 @@ public class UserInterface implements ActionListener {
      * @param pImageName the name of the image file
      */
     public void showImage(final String pImageName) {
-        String vImagePath = "./Images/" + pImageName + ".jpg"; // to change the directory
+        String vImagePath = "Images/" + pImageName + ".jpg"; // to change the directory
         URL vImageURL = this.getClass().getClassLoader().getResource(vImagePath);
         if (vImageURL == null)
             System.out.println("Image not found : " + vImagePath);
