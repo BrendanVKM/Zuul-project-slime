@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=MovingCharacter
+comment0.text=\r\n\ create\ and\ modify\ a\ moving\ character\r\n\ \r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.02.23\ +\ 2021.02.25\ +2021.02.26\r\n
+comment1.params=pName\ pRoom
+comment1.target=MovingCharacter(java.lang.String,\ Room)
+comment1.text=\r\n\ Constructor\r\n\ \r\n\ @param\ pName\ name\ of\ the\ character\r\n\ @param\ pRoom\ room\ of\ the\ character\r\n
+comment2.params=pRoom
+comment2.target=void\ moveCharacter(Room)
+numComments=3
