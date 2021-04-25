@@ -1,2 +1,2 @@
-https://perso.esiee.fr/~victoirb/
+https://perso.esiee.fr/~victoirb/zuul/index.html
 Brendan Victoire
