@@ -379,7 +379,11 @@ public class GameEngine
                 this.aGui.print( "a " + this.aPlayer.getCurrentRoom().getItems().getItem(vSW).getItemString() + "\n" );
             else this.aGui.println( "... I don't know what you are looking at! Is this in here?" );
         }
-        else this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
+        else {
+            if ( this.aPlayer.getCurrentRoom().getImageName().equals( "cave6" ) )
+                this.aPlayer.changeImage( "lookAtTheCave" );
+            this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
+        }
     } // look(.)
 
     /**

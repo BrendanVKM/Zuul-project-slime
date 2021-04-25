@@ -1,8 +1,6 @@
 package pkg_game;
 
 import java.util.Stack;
-//import java.util.concurrent.TimeUnit;
-
 import pkg_game.pkg_item.ItemList;
 import pkg_game.pkg_item.Item;
 import pkg_game.pkg_item.Beamer;
@@ -235,6 +233,7 @@ public class Player {
      */
     public boolean look( final String pSW )
     {
+        
         return this.aCurrentRoom.containsItem(pSW);
     } // look(.)
 
@@ -278,6 +277,16 @@ public class Player {
     } // Items()
 
     /**
+     * change this image of the current room
+     * @param pImageName name of the new image
+     */
+    public void changeImage( final String pImageName )
+    {
+        this.aCurrentRoom.setImage( pImageName );
+        this.aGui.showImage( this.aCurrentRoom.getImageName() );
+    } // changeImage(.)
+
+    /**
      * take method
      * @param pSW the name of the item
      * @return 0, 1, 2 or 3 depending on the situation 
@@ -289,8 +298,7 @@ public class Player {
                 if ( this.getWeightCarrying() < this.MAX_WEIGHT){
                     if ( pSW.equals("Veldora") ){
                     this.aInventory.setItem( this.aCurrentRoom.getCharacter().getItems().getItem("dragonSoul") );
-                    this.aCurrentRoom.setImage("afterAbsorbTempest");
-                    this.aGui.showImage( this.aCurrentRoom.getImageName() );
+                    this.changeImage( "afterAbsorbTempest" );
                     vInt = 3;
                     }
                     else if ( ( this.getWeightCarrying() + this.aCurrentRoom.getItems().getItem(pSW).getWeight() ) > this.MAX_WEIGHT )
@@ -298,6 +306,8 @@ public class Player {
                     else if ( this.aCurrentRoom.containsItem(pSW) ) {
                         this.aInventory.setItem( this.getCurrentRoom().getItems().getItem(pSW) );
                         this.aCurrentRoom.getItems().removeItem(pSW);
+                        if ( pSW.equals("magistone") && this.aCurrentRoom.getImageName().equals("onMagistone"))
+                            this.changeImage( "takeMagistone" );
                         vInt = 1;
                     }
                 }
