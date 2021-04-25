@@ -16,6 +16,7 @@ public class Character {
      * Constructor
      * 
      * @param pName name of the character
+     * @param pRoom room of the character
      */
     public Character(final String pName, final Room pRoom) {
         this.aName = pName;
@@ -70,7 +71,7 @@ public class Character {
     } // PlayerEnterRoom()
 
     /**
-      * String prints when the player abvsorb Veldora
+     * String prints when the player abvsorb Veldora
      * 
      * @return String prints when the player abvsorb Veldora
      */

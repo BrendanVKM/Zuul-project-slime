@@ -12,6 +12,7 @@ public class MovingCharacter extends Character {
      * Constructor
      * 
      * @param pName name of the character
+     * @param pRoom room of the character
      */
     MovingCharacter(final String pName, final Room pRoom) {
         super(pName, pRoom);
