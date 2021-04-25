@@ -9,6 +9,7 @@ import pkg_game.pkg_item.Item;
 public class Character {
 
     private String aName;
+    protected Room aRoom;
     private ItemList aItemList;
 
     /**
@@ -16,8 +17,9 @@ public class Character {
      * 
      * @param pName name of the character
      */
-    public Character(final String pName) {
+    public Character(final String pName, final Room pRoom) {
         this.aName = pName;
+        this.aRoom = pRoom;
         this.aItemList = new ItemList();
     } // Character(.)
 
@@ -49,17 +51,34 @@ public class Character {
     } // getName()
 
     /**
-     * String prints when the player enters the room of this character
+     * access to the room of the character
      * 
-     * @return String prints when the player enters the room of this character
+     * @return the current room of the character
      */
-    public String PlayerEnterRoom() {
+    public Room getRoom() {
+        return this.aRoom;
+    } // getRoom()
+
+    /**
+     * String prints when the player enters the room of Veldora
+     * 
+     * @return String prints when the player enters the room of Veldora
+     */
+    public String VeldoraRoom() {
         return "Hello little one!\nI am " + this.aName
                 + ".\n I'm locked in here since ages.\n I would be grateful to you if you could absorb me";
     } // PlayerEnterRoom()
 
-    public String PlayerAbsorbCharacter() {
+    /**
+      * String prints when the player abvsorb Veldora
+     * 
+     * @return String prints when the player abvsorb Veldora
+     */
+    public String PlayerAbsorbVeldora() {
         return "Thank you for fulfilling my request!";
     } // PlayerAbsorbCharacter()
 
+    public String PlayerMeetSlimeWithBeatrix() {
+        return "Welcome back Rimuru!!!";
+    }
 } // Character

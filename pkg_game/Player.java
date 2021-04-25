@@ -308,7 +308,6 @@ public class Player {
         if (this.aCurrentRoom.containsItem(pSW) || pSW.equals("Veldora")) {
             if (this.getWeightCarrying() < this.MAX_WEIGHT) {
                 if (pSW.equals("Veldora")) {
-                    this.aInventory.setItem(this.aCurrentRoom.getCharacter().getItems().getItem("dragonSoul"));
                     this.changeImage("afterAbsorbTempest");
                     vInt = 3;
                 } else if ((this.getWeightCarrying()

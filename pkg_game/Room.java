@@ -17,7 +17,6 @@ public class Room {
     private HashMap<String, Door> aDoors;
     private String aImageName;
     private ItemList aItems;
-    private Character aCharacter;
 
     /**
      * Constructor
@@ -31,7 +30,6 @@ public class Room {
         this.aDoors = new HashMap<String, Door>();
         this.aItems = new ItemList();
         this.aImageName = pImage;
-        this.aCharacter = null;
     } // Room(.)
 
     /**
@@ -45,15 +43,6 @@ public class Room {
     } // setExits(.)
 
     /**
-     * add a character to the room
-     * 
-     * @param pName name of the character
-     */
-    public void setCharacter(final String pName) {
-        this.aCharacter = new Character(pName);
-    } // setCharacter(.)
-
-    /**
      * change the image
      * 
      * @param pImage name of the file
@@ -61,13 +50,6 @@ public class Room {
     public void setImage(final String pImage) {
         this.aImageName = pImage;
     } // setImage(.)
-
-    /**
-     * remove the caracter of the room
-     */
-    public void removeCharacter() {
-        this.aCharacter = null;
-    } // setCharacter(.)
 
     /**
      * add a door
@@ -86,15 +68,6 @@ public class Room {
      */
     public void setItem(final Item pItem) {
         this.aItems.setItem(pItem);
-    } // setItem(.)
-
-    /**
-     * add item to the character of the room
-     * 
-     * @param pItem item you want to add in the room
-     */
-    public void setCharacterItem(final Item pItem) {
-        this.aCharacter.setItem(pItem);
     } // setItem(.)
 
     /**
@@ -192,15 +165,6 @@ public class Room {
     } // getItemsString()
 
     /**
-     * acces to the character of the room
-     * 
-     * @return the character of the room
-     */
-    public Character getCharacter() {
-        return this.aCharacter;
-    } // getCharacter
-
-    /**
      * tells if the ItemList contains the item that we want
      * 
      * @param pItemName the name of the key that we want to check
@@ -209,12 +173,6 @@ public class Room {
     public boolean containsItem(final String pItemName) {
         return this.aItems.containsItem(pItemName);
     } // containsItem(.)
-
-    public boolean containsCharacter(final String pCharacter) {
-        if (this.aCharacter != null)
-            return this.aCharacter.getName() == pCharacter;
-        return false;
-    }
 
     // Overriding equals() just in case it can be usefull later
     @Override

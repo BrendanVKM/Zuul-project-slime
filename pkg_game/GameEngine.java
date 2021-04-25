@@ -25,8 +25,11 @@ public class GameEngine {
     private Parser aParser;
     private UserInterface aGui;
     private Player aPlayer;
+    private Character aVeldora;
+    private MovingCharacter aPinkSlime, aTabbySlime, aPhosphorSlime, aRockSlime;
     private boolean aTestMode;
     private String aNotRandomRoom;
+    private int aMeeting;
 
     /**
      * Default constructor
@@ -74,7 +77,7 @@ public class GameEngine {
         Room vGetOut = new Room("opening the door.", "getOut");
         Room vOutside = new Room("finally outside.", "outside");
         Room vMeetBeatrix = new Room(
-                "finally back to Beatrix. \nThanks for playing! \nYou can keep mooving around or leave the game as you please.",
+                "finally back to Beatrix. \nThanks for playing! \nYou can keep moving around or leave the game as you please.",
                 "meetBreeder");
         Room vSomewhere = new Room("somewhere.", "somewhere");
 
@@ -165,8 +168,8 @@ public class GameEngine {
         vJumpToDragon.setExit("east", vFlowerTrail);
 
         vMeetTempest.setExit("north", vJumpToDragon);
-        vMeetTempest.setCharacter("Veldora");
-        vMeetTempest.setCharacterItem(vDragonSoul);
+        this.aVeldora = new Character("Veldora", vMeetTempest);
+        aVeldora.setItem(vDragonSoul);
 
         vSeeTheDoor.setExit("north", vCave5);
         vSeeTheDoor.setExit("west", vDoor);
@@ -186,10 +189,16 @@ public class GameEngine {
 
         vMeetBeatrix.setExit("east", vOutside);
         vMeetBeatrix.setExit("west", vSomewhere);
+        this.aPinkSlime = new MovingCharacter("Pink_Slime", vMeetBeatrix);
+        this.aTabbySlime = new MovingCharacter("Tabby_Slime", vMeetBeatrix);
+        this.aPhosphorSlime = new MovingCharacter("Phosphor_Slime", vMeetBeatrix);
+        this.aRockSlime = new MovingCharacter("Rock_Slime", vMeetBeatrix);
 
         this.aPlayer = new Player();
         this.aPlayer.setCurrentRoom(vSpawn);
         this.aPlayer.getPreviousRooms().push(new Room("... Wait! Where are you?", ""));
+
+        this.aMeeting = 0;
     } // createRooms()
 
     /**
@@ -279,17 +288,25 @@ public class GameEngine {
                 if (this.aNotRandomRoom == null)
                     this.aNotRandomRoom = vArray.get(new Random().nextInt(vArray.size()));
                 this.aPlayer.goRandom(this.aRooms.get(this.aNotRandomRoom));
-                return;
+            } else {
+                String vDrct = pDep.getSecondWord();
+                int vNumber = this.aPlayer.goRoom(vDrct);
+                if (vNumber == 0)
+                    this.aGui.println("There is no corridor !");
+                else if (vNumber == 1) {
+                    this.aGui.println("You can't pass without the dragonSoul");
+                }
+                if (this.aVeldora != null)
+                    if (this.aPlayer.getCurrentRoom().equals(this.aVeldora.getRoom()))
+                        this.aGui.println(this.aVeldora.VeldoraRoom());
             }
-            String vDrct = pDep.getSecondWord();
-            int vNumber = this.aPlayer.goRoom(vDrct);
-            if (vNumber == 0)
-                this.aGui.println("There is no corridor !");
-            else if (vNumber == 1) {
-                this.aGui.println("You can't pass without the dragonSoul");
+
+            if (this.aPlayer.getCurrentRoom().equals(this.aRooms.get("meetBeatrix"))) {
+                this.aGui.println("\n" + this.aTabbySlime.PlayerMeetSlimeWithBeatrix());
+                this.aMeeting = 1;
             }
-            if (this.aPlayer.getCurrentRoom().containsCharacter("Veldora"))
-                this.aGui.println(this.aPlayer.getCurrentRoom().getCharacter().PlayerEnterRoom());
+            
+            this.slimeFollowing();
         }
     } // goRoom(.)
 
@@ -304,8 +321,6 @@ public class GameEngine {
                 this.aGui.println("You can't go back!");
             else if (this.aPlayer.getPreviousRoom().getImageName().equals(""))
                 this.aGui.println("You were" + this.aPlayer.getPreviousRoom().getDescription());
-            // if you are in the bottom of the lake you can't go back to the cave you have
-            // to go further
             else if (this.aPlayer.getCurrentRoom().equals(this.aRooms.get("bottomOfLake"))
                     && this.aPlayer.getPreviousRoom().equals(this.aRooms.get("cave7"))) {
                 this.aPlayer.getPreviousRooms().clear();
@@ -316,10 +331,31 @@ public class GameEngine {
                 this.aGui.println("You can't go back after falling here.");
             } else {
                 this.aPlayer.goBack();
+                this.slimeFollowing();
             }
         } else
             this.aGui.println("Back what ?!");
+
+        
     } // goBack(.)
+
+    /**
+     * get Tabby, Phosphor, Pink and Rock to follow the player
+     */
+    private void slimeFollowing() {
+        if (this.aMeeting == 1) {
+            this.aPinkSlime.moveCharacter(this.aPlayer.getCurrentRoom());
+            this.aTabbySlime.moveCharacter(this.aPlayer.getCurrentRoom());
+            this.aPhosphorSlime.moveCharacter(this.aPlayer.getCurrentRoom());
+            this.aRockSlime.moveCharacter(this.aPlayer.getCurrentRoom());
+            ArrayList<String> vFollowing = new ArrayList<String>();
+            vFollowing.add("Tabby and the others are following you ^_^ !!");
+            vFollowing.add("Phosphor and the others are right by your side!");
+            vFollowing.add("Pink and the others are just behind you (. ❛ ᴗ ❛.)");
+            vFollowing.add("Rock and the others are still there (⌐■_■)");
+            this.aGui.println(vFollowing.get(new Random().nextInt(vFollowing.size())));
+        }
+    } // slimeFollowing()
 
     /**
      * charged the beamer with the current room
@@ -440,9 +476,12 @@ public class GameEngine {
                 this.aGui.println("You absorb " + vSW + "\n" + this.aPlayer.getCurrentRoom().getItemsString() + "\n"
                         + this.aPlayer.getInventoryString());
             } else if (vNumber == 3) {
-                this.aGui.println(this.aPlayer.getCurrentRoom().getCharacter().PlayerAbsorbCharacter()
-                        + "\n You have acquired the sould of Veldora.");
-                this.aPlayer.getCurrentRoom().removeCharacter();
+                if (this.aVeldora != null) {
+                    this.aPlayer.getInventory().setItem(this.aVeldora.getItems().getItem("dragonSoul"));
+                    this.aGui.println(
+                            this.aVeldora.PlayerAbsorbVeldora() + "\n You have acquired the sould of Veldora.");
+                    this.aVeldora = null;
+                }
             } else
                 this.aGui.println("What is this ? Is it there ?");
         }
