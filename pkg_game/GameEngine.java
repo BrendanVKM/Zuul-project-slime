@@ -76,7 +76,7 @@ public class GameEngine
         Room vDoor = new Room( "looking at the door.", "door" );
         Room vGetOut = new Room( "opening the door.", "getOut" );
         Room vOutside = new Room( "finally outside.", "outside" );
-        Room vMeetBeatrix = new Room( "finally back to Beatrix.", "meetBreeder" ); 
+        Room vMeetBeatrix = new Room( "finally back to Beatrix. \nThanks for playing! \nYou can keep mooving around or leave the game as you please.", "meetBreeder" ); 
         Room vSomewhere = new Room( "somewhere.", "somewhere" ); 
         
         Item vStone = new Item( "stone", "just a stone, what did you expect !?", 4.69);
