@@ -219,48 +219,48 @@ public class GameEngine {
             }
 
         switch (vCW) {
-        case UNKNOWN:
-            this.aGui.println("I don't know what you mean...");
-            break;
-        case GO:
-            this.goRoom(vCom);
-            break;
-        case BACK:
-            this.goBack(vCom);
-            break;
-        case MEMORIZE:
-            this.memorize(vCom);
-            break;
-        case TELEPORT:
-            this.teleport(vCom);
-            break;
-        case LOOK:
-            this.look(vCom);
-            break;
-        case EAT:
-            this.eat(vCom);
-            break;
-        case ITEMS:
-            this.Items(vCom);
-            break;
-        case TAKE:
-            this.take(vCom);
-            break;
-        case DROP:
-            this.drop(vCom);
-            break;
-        case HELP:
-            this.printHelp();
-            break;
-        case QUIT:
-            this.quit(vCom);
-            break;
-        case TEST:
-            this.test(vCom);
-            break;
-        case ALEA:
-            this.alea(vCom);
-            break;
+            case UNKNOWN:
+                this.aGui.println("I don't know what you mean...");
+                break;
+            case GO:
+                this.goRoom(vCom);
+                break;
+            case BACK:
+                this.goBack(vCom);
+                break;
+            case MEMORIZE:
+                this.memorize(vCom);
+                break;
+            case TELEPORT:
+                this.teleport(vCom);
+                break;
+            case LOOK:
+                this.look(vCom);
+                break;
+            case EAT:
+                this.eat(vCom);
+                break;
+            case ITEMS:
+                this.Items(vCom);
+                break;
+            case TAKE:
+                this.take(vCom);
+                break;
+            case DROP:
+                this.drop(vCom);
+                break;
+            case HELP:
+                this.printHelp();
+                break;
+            case QUIT:
+                this.quit(vCom);
+                break;
+            case TEST:
+                this.test(vCom);
+                break;
+            case ALEA:
+                this.alea(vCom);
+                break;
         }
     } // interpretCommand(.)
 
@@ -285,9 +285,10 @@ public class GameEngine {
         else {
             if (this.aPlayer.getCurrentRoom().equals(this.aRooms.get("somewhere"))) {
                 ArrayList<String> vArray = new ArrayList<String>(this.aRooms.keySet());
-                if (this.aNotRandomRoom == null)
-                    this.aNotRandomRoom = vArray.get(new Random().nextInt(vArray.size()));
-                this.aPlayer.goRandom(this.aRooms.get(this.aNotRandomRoom));
+                String vRR = this.aNotRandomRoom;
+                if (vRR == null)
+                    vRR = vArray.get(new Random().nextInt(vArray.size()));
+                this.aPlayer.goRandom(this.aRooms.get(vRR));
             } else {
                 String vDrct = pDep.getSecondWord();
                 int vNumber = this.aPlayer.goRoom(vDrct);
@@ -305,7 +306,7 @@ public class GameEngine {
                 this.aGui.println("\n" + this.aTabbySlime.PlayerMeetSlimeWithBeatrix());
                 this.aMeeting = 1;
             }
-            
+
             this.slimeFollowing();
         }
     } // goRoom(.)
@@ -336,7 +337,6 @@ public class GameEngine {
         } else
             this.aGui.println("Back what ?!");
 
-        
     } // goBack(.)
 
     /**
