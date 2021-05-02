@@ -13,7 +13,7 @@ public class Game {
     private GameEngine aGameEngine;
 
     /**
-     * launch the game with BlueJ
+     * launches the game with BlueJ
      */
     public Game() {
         this.aGameEngine = new GameEngine();
@@ -31,7 +31,7 @@ public class Game {
     } // Game()
 
     /**
-     * launch the game with VS code
+     * launches the game
      * 
      * @param args because it is mandatory
      */
