@@ -50,8 +50,9 @@ public class Parser {
                 // note: we just ignore the rest of the input line.
             }
         }
-
-        return new Command(this.aCW.getCommandWord(vWord1), vWord2);
+        Command vCommand = this.aCW.getCommandWord(vWord1);
+        vCommand.setSecondWord(vWord2);
+        return vCommand;
     } // getCommand(.)
 
     /**

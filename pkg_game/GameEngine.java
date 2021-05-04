@@ -3,13 +3,8 @@ package pkg_game;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 
-import pkg_game.pkg_command.Parser;
-import pkg_game.pkg_command.Command;
-import pkg_game.pkg_command.CommandWord;
+import pkg_game.pkg_command.*;
 import pkg_game.pkg_item.Item;
 import pkg_game.pkg_item.Beamer;
 
@@ -40,17 +35,6 @@ public class GameEngine {
         this.createRooms();
         this.aTestMode = false;
     } // GameEngine()
-
-    /**
-     * set the GUI
-     * 
-     * @param pUserInterface the user interface
-     */
-    public void setGUI(final UserInterface pUserInterface) {
-        this.aGui = pUserInterface;
-        this.aPlayer.setGUI(this.aGui);
-        this.printWelcome();
-    } // setGUI(.)
 
     /**
      * create and declare Rooms and Items
@@ -209,59 +193,33 @@ public class GameEngine {
     public void interpretCommand(final String pCom) {
         this.aGui.println("\n" + "> " + pCom);
         Command vCom = this.aParser.getCommand(pCom);
-        CommandWord vCW = vCom.getCommandWord();
 
         if (!this.aTestMode)
             if (this.aPlayer.commandCounter()) {
                 this.aGui.println("You are too tired to continue.");
-                this.quit(new Command(CommandWord.QUIT, null));
+                vCom = new QuitCommand();
+                vCom.execute(vCom, this);
                 return;
             }
 
-        switch (vCW) {
-            case UNKNOWN:
-                this.aGui.println("I don't know what you mean...");
-                break;
-            case GO:
-                this.goRoom(vCom);
-                break;
-            case BACK:
-                this.goBack(vCom);
-                break;
-            case MEMORIZE:
-                this.memorize(vCom);
-                break;
-            case TELEPORT:
-                this.teleport(vCom);
-                break;
-            case LOOK:
-                this.look(vCom);
-                break;
-            case EAT:
-                this.eat(vCom);
-                break;
-            case ITEMS:
-                this.Items(vCom);
-                break;
-            case TAKE:
-                this.take(vCom);
-                break;
-            case DROP:
-                this.drop(vCom);
-                break;
-            case HELP:
-                this.printHelp();
-                break;
-            case QUIT:
-                this.quit(vCom);
-                break;
-            case TEST:
-                this.test(vCom);
-                break;
-            case ALEA:
-                this.alea(vCom);
-                break;
+        if (vCom == null) {
+            aGui.println("What ?");
+            return;
+        } else {
+            vCom.execute(vCom, this);
+            this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());
         }
+        /*
+         * switch (vCW) { case UNKNOWN:
+         * this.aGui.println("I don't know what you mean..."); break; case GO:
+         * this.goRoom(vCom); break; case BACK: this.goBack(vCom); break; case MEMORIZE:
+         * this.memorize(vCom); break; case TELEPORT: this.teleport(vCom); break; case
+         * LOOK: this.look(vCom); break; case EAT: this.eat(vCom); break; case ITEMS:
+         * this.Items(vCom); break; case TAKE: this.take(vCom); break; case DROP:
+         * this.drop(vCom); break; case HELP: this.printHelp(); break; case QUIT:
+         * this.quit(vCom); break; case TEST: this.test(vCom); break; case ALEA:
+         * this.alea(vCom); break; }
+         */
     } // interpretCommand(.)
 
     /**
@@ -275,74 +233,145 @@ public class GameEngine {
     } // printWelcome()
 
     /**
-     * method executed with the command word "go" let you go forward
+     * access to the player
      * 
-     * @param pDep command to move to the next
+     * @return the player
      */
-    private void goRoom(final Command pDep) {
-        if (!pDep.hasSecondWord())
-            this.aGui.println("Go where ?");
-        else {
-            if (this.aPlayer.getCurrentRoom().equals(this.aRooms.get("somewhere"))) {
-                ArrayList<String> vArray = new ArrayList<String>(this.aRooms.keySet());
-                String vRR = this.aNotRandomRoom;
-                if (vRR == null)
-                    vRR = vArray.get(new Random().nextInt(vArray.size()));
-                this.aPlayer.goRandom(this.aRooms.get(vRR));
-            } else {
-                String vDrct = pDep.getSecondWord();
-                int vNumber = this.aPlayer.goRoom(vDrct);
-                if (vNumber == 0)
-                    this.aGui.println("There is no corridor !");
-                else if (vNumber == 1) {
-                    this.aGui.println("You can't pass without the dragonSoul");
-                }
-                if (this.aVeldora != null)
-                    if (this.aPlayer.getCurrentRoom().equals(this.aVeldora.getRoom()))
-                        this.aGui.println(this.aVeldora.VeldoraRoom());
-            }
-
-            if (this.aPlayer.getCurrentRoom().equals(this.aRooms.get("meetBeatrix"))) {
-                this.aGui.println("\n" + this.aTabbySlime.PlayerMeetSlimeWithBeatrix());
-                this.aMeeting = 1;
-            }
-
-            this.slimeFollowing();
-        }
-    } // goRoom(.)
+    public Player getPlayer() {
+        return this.aPlayer;
+    } // getPlayer()
 
     /**
-     * method executed with the command word "back" let you go backward
+     * access to the Room define by alea
      * 
-     * @param pCom a command
+     * @return the Room define by alea
      */
-    private void goBack(final Command pCom) {
-        if (!pCom.hasSecondWord()) {
-            if (this.aPlayer.getPreviousRoom() == null)
-                this.aGui.println("You can't go back!");
-            else if (this.aPlayer.getPreviousRoom().getImageName().equals(""))
-                this.aGui.println("You were" + this.aPlayer.getPreviousRoom().getDescription());
-            else if (this.aPlayer.getCurrentRoom().equals(this.aRooms.get("bottomOfLake"))
-                    && this.aPlayer.getPreviousRoom().equals(this.aRooms.get("cave7"))) {
-                this.aPlayer.getPreviousRooms().clear();
-                this.aGui.println("You were warned, you can't go back after jumping here.");
-            } else if (this.aPlayer.getCurrentRoom().equals(this.aRooms.get("cave5"))
-                    && this.aPlayer.getPreviousRoom().equals(this.aRooms.get("cave8"))) {
-                this.aPlayer.getPreviousRooms().clear();
-                this.aGui.println("You can't go back after falling here.");
-            } else {
-                this.aPlayer.goBack();
-                this.slimeFollowing();
-            }
-        } else
-            this.aGui.println("Back what ?!");
+    public String getNotRandomRoom() {
+        return this.aNotRandomRoom;
+    } // getNotRandom
 
-    } // goBack(.)
+    /**
+     * set the Room define by alea
+     * 
+     * @param pRoom room define by alea
+     */
+    public void setNotRandomRoom(final String pRoom) {
+        this.aNotRandomRoom = pRoom;
+    } // setNotRandom
+
+    /**
+     * acces to veldora
+     * 
+     * @return veldora
+     */
+    public Character getVeldora() {
+        return this.aVeldora;
+    } // getVeldora()
+
+    /**
+     * nullify veldora
+     */
+    public void nullVeldora() {
+        this.aVeldora = null;
+    } // nullVeldora()
+
+    /**
+     * access to a moving character
+     * 
+     * @param pName name of the moving character
+     * @return a moving character
+     */
+    public MovingCharacter getMovingCharacter(final String pName) {
+        switch (pName) {
+            case "PhosphorSlime":
+                return this.aPhosphorSlime;
+            case "PinkSlime":
+                return this.aPinkSlime;
+            case "RockSlime":
+                return this.aRockSlime;
+            case "TabbySlime":
+                return this.aTabbySlime;
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * access to the number of meeting
+     * 
+     * @return the number of meeting
+     */
+    public int getNumberOfMeeting() {
+        return this.aMeeting;
+    } // getNumberOfMeeting()
+
+    /**
+     * add one to the number of meeting
+     */
+    public void setNumberOfMeeting() {
+        this.aMeeting++;
+    } // setNumberOfMeeting()
+
+    /**
+     * acces to all the rooms
+     * 
+     * @return all the rooms
+     */
+    public HashMap<String, Room> getRooms() {
+        return this.aRooms;
+    } // getRooms()
+
+    /**
+     * access to the user interface
+     * 
+     * @return user interface
+     */
+    public UserInterface getGui() {
+        return this.aGui;
+    } // getGui()
+
+    /**
+     * set the GUI
+     * 
+     * @param pUserInterface the user interface
+     */
+    public void setGUI(final UserInterface pUserInterface) {
+        this.aGui = pUserInterface;
+        this.aPlayer.setGUI(this.aGui);
+        this.printWelcome();
+    } // setGUI(.)
+
+    /**
+     * access to parsers
+     * 
+     * @return parsers
+     */
+    public Parser getParser() {
+        return this.aParser;
+    } // getParser()
+
+    /**
+     * know if test mode is enabled
+     * 
+     * @return true iif test mode is enabled
+     */
+    public boolean getTestMode() {
+        return this.aTestMode;
+    } // getTestMode(.)
+
+    /**
+     * set test mode
+     * 
+     * @param pTestMode true if test mode is enabled, false otherwise
+     */
+    public void setTestMode(boolean pTestMode) {
+        this.aTestMode = pTestMode;
+    } // setTestMode(.)
 
     /**
      * get Tabby, Phosphor, Pink and Rock to follow the player
      */
-    private void slimeFollowing() {
+    public void slimeFollowing() {
         if (this.aMeeting == 1) {
             this.aPinkSlime.moveCharacter(this.aPlayer.getCurrentRoom());
             this.aTabbySlime.moveCharacter(this.aPlayer.getCurrentRoom());
@@ -356,212 +385,4 @@ public class GameEngine {
             this.aGui.println(vFollowing.get(new Random().nextInt(vFollowing.size())));
         }
     } // slimeFollowing()
-
-    /**
-     * charged the beamer with the current room
-     * 
-     * @param pCom a command
-     */
-    private void memorize(final Command pCom) {
-        if (this.aPlayer.getInventory().containsItem("teleportation"))
-            if (!pCom.hasSecondWord()) {
-                if (this.aPlayer.memorize())
-                    this.aGui.println("You already used teleport!");
-                else {
-                    this.aPlayer.memorize();
-                    this.aGui.println("Room memorized.");
-                }
-            } else
-                this.aGui.println("You can only memorize your current room");
-        else
-            this.aGui.println("You cannot use that at the moment");
-    } // memorize(.)
-
-    /**
-     * teleport the player to the memorized room
-     * 
-     * @param pCom a command
-     */
-    private void teleport(final Command pCom) {
-        if (this.aPlayer.getInventory().containsItem("teleportation")) {
-            if (!pCom.hasSecondWord()) {
-                if (this.aPlayer.getBeamer().isUsed())
-                    this.aGui.println("You already used it");
-                else {
-                    if (this.aPlayer.teleport())
-                        this.aPlayer.teleport();
-                    else
-                        this.aGui.println("You need to memorize a room");
-                }
-            } else
-                this.aGui.println("You can only teleport to your memorized room");
-        } else
-            this.aGui.println("You cannot use that at the moment");
-    } // teleport(.)
-
-    /**
-     * method executed with the command word "look" print all the information of the
-     * room or the item that you are looking at
-     * 
-     * @param pCom a command
-     */
-    private void look(final Command pCom) {
-        if (pCom.hasSecondWord()) {
-            String vSW = pCom.getSecondWord();
-            this.aGui.print("You are looking at ");
-            if (this.aPlayer.look(vSW))
-                this.aGui.print("a " + this.aPlayer.getCurrentRoom().getItems().getItem(vSW).getItemString() + "\n");
-            else
-                this.aGui.println("... I don't know what you are looking at! Is this in here?");
-        } else {
-            if (this.aPlayer.getCurrentRoom().getImageName().equals("cave6"))
-                this.aPlayer.changeImage("lookAtTheCave");
-            this.aGui.println(this.aPlayer.getCurrentRoom().getLongDescription());
-        }
-    } // look(.)
-
-    /**
-     * method executed with the command word "eat" if possible eat an item from your
-     * inventory
-     * 
-     * @param pCom a command
-     */
-    private void eat(final Command pCom) {
-        if (!pCom.hasSecondWord())
-            this.aGui.println("What do you want to eat ?");
-        else {
-            String vSW = pCom.getSecondWord();
-            int vNumber = this.aPlayer.eat(vSW);
-            if (vNumber == 0)
-                this.aGui.println("You have eaten the Stone. Now you can carry more items.");
-            else if (vNumber == 1)
-                this.aGui.println("You have eaten now and you are not hungry any more.");
-            else
-                this.aGui.println("You don't carry this... if this exist.");
-        }
-    } // eat(.)
-
-    /**
-     * method executed with the command word "items" print a list of the item
-     * carried by the player
-     * 
-     * @param pCom a command
-     */
-    private void Items(final Command pCom) {
-        if (pCom.hasSecondWord())
-            this.aGui.println("Items what?");
-        else
-            this.aGui.println(this.aPlayer.Items());
-    } // Items()
-
-    /**
-     * method executed with the command word "take" if possible take an item and put
-     * it in the inventory of the player
-     * 
-     * @param pCom a command
-     */
-    private void take(final Command pCom) {
-        if (!pCom.hasSecondWord())
-            this.aGui.println("Absorb what ?");
-        else {
-            String vSW = pCom.getSecondWord();
-            int vNumber = this.aPlayer.take(vSW);
-            if (vNumber == 0)
-                this.aGui.println("You don't have enough space to absorb this.");
-            else if (vNumber == 1) {
-                if (this.aPlayer.getCurrentRoom().equals(this.aRooms.get("onMagistone")) && vSW.equals("magistone")) {
-                    this.aPlayer.getCurrentRoom().setImage("takeMagistone");
-                    this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());
-                }
-                this.aGui.println("You absorb " + vSW + "\n" + this.aPlayer.getCurrentRoom().getItemsString() + "\n"
-                        + this.aPlayer.getInventoryString());
-            } else if (vNumber == 3) {
-                if (this.aVeldora != null) {
-                    this.aPlayer.getInventory().setItem(this.aVeldora.getItems().getItem("dragonSoul"));
-                    this.aGui.println(
-                            this.aVeldora.PlayerAbsorbVeldora() + "\n You have acquired the sould of Veldora.");
-                    this.aVeldora = null;
-                }
-            } else
-                this.aGui.println("What is this ? Is it there ?");
-        }
-    } // take(.)
-
-    /**
-     * method executed with the command word "drop" if possible drop an item on the
-     * floor of the room
-     * 
-     * @param pCom a command
-     */
-    private void drop(final Command pCom) {
-        if (!pCom.hasSecondWord())
-            this.aGui.println("Drop what ?");
-        else {
-            String vSW = pCom.getSecondWord();
-            if (this.aPlayer.drop(vSW)) {
-                this.aPlayer.drop(vSW);
-                this.aGui.println("You droped " + vSW + "\n" + this.aPlayer.getCurrentRoom().getItemsString() + "\n"
-                        + this.aPlayer.getInventoryString());
-            } else
-                this.aGui.println("What is this ? Do you even have this ?");
-        }
-    } // drop(.)
-
-    /**
-     * method executed with the command word "help" print help message
-     */
-    private void printHelp() {
-        this.aGui.println("You are lost. You are alone.");
-        this.aGui.println("You wander around at the cave.\n");
-        this.aGui.println("Your command words are:");
-        this.aGui.println(this.aParser.getCommandString());
-    } // printHelp()
-
-    /**
-     * method executed with the command word "quit" if right executed quit the game
-     * 
-     * @param pCom a command
-     */
-    private void quit(final Command pCom) {
-        if (pCom.hasSecondWord())
-            this.aGui.println("Quit what?");
-        else {
-            this.aGui.println("Thank you for playing. Good bye.");
-            this.aGui.enable(false);
-        }
-    } // quit(.)
-
-    /**
-     * Execute test
-     * 
-     * @param pCom a command
-     */
-    private void test(final Command pCom) {
-        if (!pCom.hasSecondWord()) {
-            this.aGui.println("Test What !?");
-            return;
-        }
-        Scanner vScanner;
-        try {
-            vScanner = new Scanner(new File("./test/" + pCom.getSecondWord() + ".txt"));
-            this.aTestMode = true;
-            while (vScanner.hasNextLine()) {
-                String vLigne = vScanner.nextLine();
-                this.interpretCommand(vLigne);
-            }
-            this.aTestMode = false;
-        } catch (final FileNotFoundException pFNFE) {
-            this.aGui.println("File not found.");
-        }
-    } // test(.)
-
-    private void alea(final Command pCom) {
-        if (!this.aTestMode)
-            this.aGui.println("You need to be in the test mode!");
-        else if (!pCom.hasSecondWord()) {
-            this.aNotRandomRoom = null;
-            this.aGui.println("the randomness of the transporter room has been reset.");
-        } else
-            this.aNotRandomRoom = pCom.getSecondWord();
-    }
 }// GameEngine

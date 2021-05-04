@@ -29,17 +29,15 @@ public class CommandWords {
     /**
      * Find the CommandWord associated with a command word.
      * 
-     * @param commandWord The word to look up.
+     * @param pCommandWord The word to look up.
      * @return The CommandWord correspondng to commandWord, or UNKNOWN if it is not
      *         a valid command word.
      */
-    public CommandWord getCommandWord(final String commandWord) {
-        CommandWord command = this.aValidCommands.get(commandWord);
-        if (command != null) {
-            return command;
-        } else {
-            return CommandWord.UNKNOWN;
-        }
+    public Command getCommandWord(final String pCommandWord) {
+        if (this.aValidCommands.get(pCommandWord) != null)
+            return (Command) this.aValidCommands.get(pCommandWord).getCommand();
+        else
+            return null;
     } // getCommandWord(.)
 
     /**

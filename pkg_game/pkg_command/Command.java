@@ -1,5 +1,7 @@
 package pkg_game.pkg_command;
 
+import pkg_game.GameEngine;
+
 /**
  * This class is part of the "World of Zuul" application. "World of Zuul" is a
  * very simple, text based adventure game.
@@ -19,21 +21,17 @@ package pkg_game.pkg_command;
  * @version 2006.03.30
  */
 
-public class Command {
-    private CommandWord commandWord;
-    private String secondWord;
+public abstract class Command {
+    private CommandWord aCommandWord;
+    private String aSecondWord;
 
     /**
      * Create a command object. First and second words must be supplied, but the
      * second may be null.
-     * 
-     * @param commandWord The CommandWord. UNKNOWN if the command word was not
-     *                    recognised.
-     * @param secondWord  The second word of the command. May be null.
      */
-    public Command(CommandWord commandWord, String secondWord) {
-        this.commandWord = commandWord;
-        this.secondWord = secondWord;
+    public Command() {
+        this.aCommandWord = null;
+        this.aSecondWord = null;
     } // Command(.)
 
     /**
@@ -42,7 +40,7 @@ public class Command {
      * @return The command word.
      */
     public CommandWord getCommandWord() {
-        return commandWord;
+        return aCommandWord;
     } // getCommandWord()
 
     /**
@@ -50,20 +48,37 @@ public class Command {
      *         word.
      */
     public String getSecondWord() {
-        return secondWord;
+        return aSecondWord;
     } // getSecondWord()
+
+    /**
+     * Set the second word of this command.
+     * 
+     * @param pSecondWord second word of this command.
+     */
+    public void setSecondWord(String pSecondWord) {
+        this.aSecondWord = pSecondWord;
+    } // setSecondWord(.)
 
     /**
      * @return true if this command was not understood.
      */
     public boolean isUnknown() {
-        return (commandWord == CommandWord.UNKNOWN);
+        return (aCommandWord == CommandWord.UNKNOWN);
     } // isUnknown()
 
     /**
      * @return true if the command has a second word.
      */
     public boolean hasSecondWord() {
-        return (secondWord != null);
+        return (aSecondWord != null);
     } // hasSecondWord()
+
+    /**
+     * Define the execution of the command.
+     * 
+     * @param pCom the command to execute
+     * @param pGameEngine game engine
+     */
+    public abstract void execute(final Command pCom, final GameEngine pGameEngine);
 }
