@@ -380,8 +380,8 @@ public class GameEngine {
             ArrayList<String> vFollowing = new ArrayList<String>();
             vFollowing.add("Tabby and the others are following you ^_^ !!");
             vFollowing.add("Phosphor and the others are right by your side!");
-            vFollowing.add("Pink and the others are just behind you (. ❛ ᴗ ❛.)");
-            vFollowing.add("Rock and the others are still there (⌐■_■)");
+            vFollowing.add("Pink and the others are just behind you.");
+            vFollowing.add("Rock and the others are still there.");
             this.aGui.println(vFollowing.get(new Random().nextInt(vFollowing.size())));
         }
     } // slimeFollowing()

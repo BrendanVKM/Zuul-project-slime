@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=GoCommand
+comment0.text=\r\n\ Classe\ GoCom\r\n\r\n\ VICTOIRE\ Brendan\ 04.05.2021\r\n
+comment1.params=
+comment1.target=GoCommand()
+comment1.text=\r\n\ Constructor\r\n
+comment2.params=pCom\ pGameEngine
+comment2.target=void\ execute(Command,\ pkg_game.GameEngine)
+comment2.text=\r\n\ Execution\ of\ the\ Go\ command\r\n
+numComments=3

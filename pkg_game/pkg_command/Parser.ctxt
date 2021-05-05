@@ -1,13 +1,13 @@
 #BlueJ class context
 comment0.target=Parser
-comment0.text=\r\n\ This\ class\ is\ part\ of\ "World\ of\ Zuul".\ "World\ of\ Zuul"\ is\ a\ simple,\ \r\n\ text\ based\ adventure\ game.\r\n\r\n\ This\ parser\ takes\ user\ input\ and\ tries\ to\ interpret\ it\ as\ a\ "Zuul"\r\n\ command.\ Every\ time\ it\ is\ called\ it\ takes\ a\ line\ as\ a\ String\ and\r\n\ tries\ to\ interpret\ the\ line\ as\ a\ two\ word\ command.\ It\ returns\ the\ command\r\n\ as\ an\ object\ of\ class\ Command.\r\n\r\n\ The\ parser\ has\ a\ set\ of\ known\ command\ words.\ It\ checks\ user\ input\ against\r\n\ the\ known\ commands,\ and\ if\ the\ input\ is\ not\ one\ of\ the\ known\ commands,\ it\r\n\ returns\ a\ command\ object\ that\ is\ marked\ as\ an\ unknown\ command.\r\n\ \r\n\ @author\ \ Michael\ Kolling\ and\ David\ J.\ Barnes\r\n\ @version\ 2.0\ (Jan\ 2003)\ DB\ edited\ (2019)\ +\ BV\ (feb\ 2021)\r\n
+comment0.text=\r\n\ This\ class\ is\ part\ of\ "World\ of\ Zuul".\ "World\ of\ Zuul"\ is\ a\ simple,\ text\r\n\ based\ adventure\ game.\r\n\r\n\ This\ parser\ takes\ user\ input\ and\ tries\ to\ interpret\ it\ as\ a\ "Zuul"\ command.\r\n\ Every\ time\ it\ is\ called\ it\ takes\ a\ line\ as\ a\ String\ and\ tries\ to\ interpret\r\n\ the\ line\ as\ a\ two\ word\ command.\ It\ returns\ the\ command\ as\ an\ object\ of\ class\r\n\ Command.\r\n\r\n\ The\ parser\ has\ a\ set\ of\ known\ command\ words.\ It\ checks\ user\ input\ against\ the\r\n\ known\ commands,\ and\ if\ the\ input\ is\ not\ one\ of\ the\ known\ commands,\ it\ returns\r\n\ a\ command\ object\ that\ is\ marked\ as\ an\ unknown\ command.\r\n\ \r\n\ @author\ Michael\ Kolling\ and\ David\ J.\ Barnes\r\n\ @version\ 2.0\ (Jan\ 2003)\ DB\ edited\ (2019)\ +\ BV\ (feb\ 2021)\r\n
 comment1.params=
 comment1.target=Parser()
 comment1.text=\r\n\ Create\ a\ new\ Parser.\r\n
 comment2.params=pInputLine
-comment2.target=pkg_command.Command\ getCommand(java.lang.String)
-comment2.text=\r\n\ Get\ a\ new\ command\ from\ the\ user.\ The\ command\ is\ read\ by\r\n\ parsing\ the\ 'inputLine'.\r\n\ @param\ pInputLine\ the\ input\ line\ in\ a\ string\ format\r\n\ @return\ the\ command\ if\ there\ is\ one\ available\r\n
+comment2.target=Command\ getCommand(java.lang.String)
+comment2.text=\r\n\ Get\ a\ new\ command\ from\ the\ user.\ The\ command\ is\ read\ by\ parsing\ the\r\n\ 'inputLine'.\r\n\ \r\n\ @param\ pInputLine\ the\ input\ line\ in\ a\ string\ format\r\n\ @return\ the\ command\ if\ there\ is\ one\ available\r\n
 comment3.params=
 comment3.target=java.lang.String\ getCommandString()
-comment3.text=\r\n\ access\ to\ all\ possible\ command\ words\r\n\ @return\ all\ possible\ command\ words\r\n
+comment3.text=\r\n\ access\ to\ all\ possible\ command\ words\r\n\ \r\n\ @return\ all\ possible\ command\ words\r\n
 numComments=4

@@ -1,10 +1,13 @@
 #BlueJ class context
 comment0.target=CommandWord
-comment0.text=\r\n\ Representations\ for\ all\ the\ valid\ command\ words\r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.02.25\r\n
-comment1.params=commandString
-comment1.target=CommandWord(java.lang.String)
-comment1.text=\r\n\ Initialise\ with\ the\ corresponding\ command\ word.\r\n\ @param\ commandString\ The\ command\ string.\r\n
+comment0.text=\r\n\ Representations\ for\ all\ the\ valid\ command\ words\r\n\ \r\n\ @author\ Brendan\ VICTOIRE\r\n\ @version\ 2021.02.25\r\n
+comment1.params=pCommandString\ pCommand
+comment1.target=CommandWord(java.lang.String,\ Command)
+comment1.text=\r\n\ Initialise\ with\ the\ corresponding\ command\ word.\r\n\ \r\n\ @param\ pCommandString\ The\ command\ string.\r\n\ @param\ pCommand\ the\ command\ \r\n
 comment2.params=
-comment2.target=java.lang.String\ toString()
-comment2.text=\r\n\ @return\ The\ command\ word\ as\ a\ string.\r\n
-numComments=3
+comment2.target=Command\ getCommand()
+comment2.text=\r\n\ access\ to\ the\ command\r\n\ \r\n\ @return\ the\ command\r\n
+comment3.params=
+comment3.target=java.lang.String\ toString()
+comment3.text=\r\n\ @return\ The\ command\ word\ as\ a\ string.\r\n
+numComments=4

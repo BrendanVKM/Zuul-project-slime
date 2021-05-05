@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=TestCommand
+comment1.params=pCom\ pGameEngine
+comment1.target=void\ execute(Command,\ pkg_game.GameEngine)
+comment1.text=\r\n\ Execution\ of\ the\ Memorize\ command\r\n
+numComments=2
