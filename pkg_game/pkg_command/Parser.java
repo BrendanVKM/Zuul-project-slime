@@ -51,6 +51,11 @@ public class Parser {
             }
         }
         Command vCommand = this.aCW.getCommandWord(vWord1);
+        System.out.println(vCommand);
+        if ( vCommand == null){
+            return null;
+        };
+        
         vCommand.setSecondWord(vWord2);
         return vCommand;
     } // getCommand(.)

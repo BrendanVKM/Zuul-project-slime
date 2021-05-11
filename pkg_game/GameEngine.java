@@ -70,7 +70,7 @@ public class GameEngine {
         Item vFlower = new Item("flower", "a beautiful flower", 0.026);
         Item vDragonSoul = new Item("dragonSoul", "the soul of Veldora", 0);
         Item vTree = new Item("tree", "just a tree and yes you can carry it you are a slime after all", 735);
-
+        
         Beamer vBeamer = new Beamer();
 
         Door vSecretPassage = new Door(vFlower);
@@ -101,7 +101,7 @@ public class GameEngine {
         vSpawn.setExit("south", vCave2);
         vSpawn.setItem(vStone);
         vSpawn.setItem(vBeamer);
-
+        
         vCave2.setExit("north", vSpawn);
         vCave2.setExit("south", vUpFlower);
         vCave2.setItem(vMagistone);

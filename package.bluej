@@ -1,6 +1,6 @@
 #BlueJ package file
-editor.fx.0.height=739
-editor.fx.0.width=816
+editor.fx.0.height=692
+editor.fx.0.width=1218
 editor.fx.0.x=552
 editor.fx.0.y=100
 objectbench.height=93
@@ -35,4 +35,4 @@ target2.name=pkg_game
 target2.type=PackageTarget
 target2.width=80
 target2.x=90
-target2.y=10
+target2.y=0
