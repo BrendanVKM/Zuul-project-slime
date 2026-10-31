@@ -1,0 +1,11 @@
+# Java / BlueJ
+*.class
+*.ctxt
+
+# Éditeurs
+.vs/
+.vscode/
+
+# Système
+.DS_Store
+Thumbs.db
